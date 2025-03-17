@@ -13,7 +13,7 @@ app.use(express.json());
 
 // Sample Route (Test if backend works)
 app.get("/", (req, res) => {
-    res.send("API is running...");
+    res.send("API is running..");
 });
 
 // Server Port
