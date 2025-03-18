@@ -12,10 +12,10 @@ const registerUser = async (req, res) => {
 
     const hashedPassword = await bcrypt.hash(password, 10);
 
-     // 🔒 Restrict admin registration to specific emails
+     //  Restrict admin registration to specific emails
      const allowedAdminEmails = ["chamutharu482@gmail.com"];
      if (role === "admin" && !allowedAdminEmails.includes(email)) {
-       return res.status(403).json({ message: "❌ You are not allowed to register as an admin!" });
+       return res.status(403).json({ message: " You are not allowed to register as an admin!" });
      }
 
 
@@ -48,7 +48,7 @@ const registerUser = async (req, res) => {
       await user.save();
 
       return res.status(201).json({
-        message: "✅ Registration successful! Admin account created.",
+        message: " Registration successful! Admin account created.",
         user: {
           _id: user._id,
           fullName: user.fullName,
@@ -81,28 +81,28 @@ const loginUser = async (req, res) => {
   const { email, password } = req.body;
   try {
     const user = await User.findOne({ email });
-    if (!user) return res.status(400).json({ message: '❌ User not found' });
+    if (!user) return res.status(400).json({ message: ' User not found' });
 
     if (user.role === 'service_provider' && !user.approvalStatus) {
-      return res.status(403).json({ message: '❌ Service provider not approved yet' });
+      return res.status(403).json({ message: ' Service provider not approved yet' });
     }
 
     const isMatch = await bcrypt.compare(password, user.password);
-    if (!isMatch) return res.status(400).json({ message: '❌ Invalid credentials' });
+    if (!isMatch) return res.status(400).json({ message: ' Invalid credentials' });
 
     if (user.mfaPreference) {
       const otp = generateOTP();
       const otpExpires = new Date(Date.now() + 10 * 60 * 1000);
       await User.updateOne({ email }, { otp, otpExpires });
       await sendOTPEmail(email, otp);
-      return res.status(200).json({ message: '✅ OTP sent to email' });
+      return res.status(200).json({ message: ' OTP sent to email' });
     }
 
     const token = jwt.sign({ id: user._id, role: user.role }, process.env.JWT_SECRET, { expiresIn: '1h' });
     res.status(200).json({ token });
   } catch (error) {
-    console.error('❌ Error in login:', error);
-    res.status(500).json({ message: '❌ Server error' });
+    console.error(' Error in login:', error);
+    res.status(500).json({ message: ' Server error' });
   }
 };
 
@@ -112,7 +112,7 @@ const verifyOTP = async (req, res) => {
     const user = await User.findOne({ email });
 
     if (!user || user.otp !== otp || user.otpExpires < new Date()) {
-      return res.status(400).json({ message: '❌ Invalid or expired OTP' });
+      return res.status(400).json({ message: ' Invalid or expired OTP' });
     }
 
     await User.updateOne({ email }, { $unset: { otp: '', otpExpires: '' } });
@@ -120,8 +120,8 @@ const verifyOTP = async (req, res) => {
     const token = jwt.sign({ id: user._id, role: user.role }, process.env.JWT_SECRET, { expiresIn: '1h' });
     res.status(200).json({ token });
   } catch (error) {
-    console.error('❌ Error in OTP verification:', error);
-    res.status(500).json({ message: '❌ Server error' });
+    console.error(' Error in OTP verification:', error);
+    res.status(500).json({ message: ' Server error' });
   }
 };
 

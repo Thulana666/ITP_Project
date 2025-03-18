@@ -19,7 +19,7 @@ const generateUserReport = async (res) => {
     
     doc.end();
   } catch (error) {
-    console.error('❌ Error generating report:', error);
+    console.error(' Error generating report:', error);
     res.status(500).json({ message: 'Error generating report' });
   }
 };

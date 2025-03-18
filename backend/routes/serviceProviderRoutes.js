@@ -1,7 +1,7 @@
 // In your routes/serviceProviderRoutes.js
 const express = require('express');
 const roleMiddleware = require('../middleware/roleMiddleware');
-const verifyToken = require('../middleware/authMiddleware'); // 🔥 Import
+const verifyToken = require('../middleware/authMiddleware'); //  Import
 
 const router = express.Router();
 
