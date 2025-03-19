@@ -1,66 +1,81 @@
-require('dotenv').config();
-const express = require('express');
-const mongoose = require('mongoose');
-const cors = require('cors');
+const express = require("express");
+const dotenv = require("dotenv");
+const mongoose = require("mongoose");
+const cors = require("cors");
+const connectDB = require("./config/db");
 
+// Import all routes
+const authRoutes = require("./routes/authRoutes");
+const serviceProviderRoutes = require("./routes/serviceProviderRoutes");
+const adminRoutes = require('./routes/adminRoutes');
+const reviewRoutes = require("./routes/ReviewRoutes");
+const packageRoutes = require('./routes/packageRoutes');
 
+// Load environment variables
+dotenv.config();
 
 const app = express();
 
 // Middleware
-
-app.use(express.json());
 app.use(cors());
+app.use(express.json());
 
-mongoose.connect(process.env.MONGO_URI, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true
-})
+// Debugging: Check if MONGO_URI is loaded
+console.log("Loaded MONGO_URI:", process.env.MONGO_URI);
 
+// Check if MONGO_URI is set in the environment
+if (!process.env.MONGO_URI) {
+    console.error("Error: MONGO_URI is undefined. Check your .env file!");
+    process.exit(1); // Stop the server if MONGO_URI is missing
+}
 
-//mongodb+srv://serviceProvider:26X3W1NGEvE6RbgW@cluster1.w9s7l.mongodb.net/",
-.then(() => {
-    console.log('MongoDB Connected');
-})
-.catch(err => {
-    console.error('MongoDB Connection Error:', err.message);
-    process.exit(1); // Exit if MongoDB connection fails
-});
+// Connect to the database using the centralized connection function
+connectDB();
 
-// Import Routes
-const packageRoutes = require('./routes/packageRoutes');
-
-// Use Routes
-app.use('/api/packages', packageRoutes);
-
-//Test routes
-app.get('/',(req, res) => {
+// Routes
+app.get("/", (req, res) => {
     res.send("The server is working!");
 });
 
-console.log("\nRegistered Routes:");
-app._router.stack.forEach((middleware) => {
-    if (middleware.route) {
-        console.log(`${Object.keys(middleware.route.methods).join(", ").toUpperCase()} ${middleware.route.path}`);
-    } else if (middleware.name === 'router') {
-        middleware.handle.stack.forEach((route) => {
-            if (route.route) {
-                console.log(`${Object.keys(route.route.methods).join(", ").toUpperCase()} ${route.route.path}`);
-            }
-        });
-    }
-});
-console.log("\n");
+// Use all routes
+app.use("/api/auth", authRoutes);
+app.use("/api/service-provider", serviceProviderRoutes);
+app.use('/api/admin', adminRoutes);
+app.use("/api/reviews", reviewRoutes);
+app.use('/api/packages', packageRoutes);
 
+// Print registered routes in development
+if (process.env.NODE_ENV !== 'production') {
+    console.log("\nRegistered Routes:");
+    app._router.stack.forEach((middleware) => {
+        if (middleware.route) {
+            console.log(`${Object.keys(middleware.route.methods).join(", ").toUpperCase()} ${middleware.route.path}`);
+        } else if (middleware.name === 'router') {
+            middleware.handle.stack.forEach((route) => {
+                if (route.route) {
+                    console.log(`${Object.keys(route.route.methods).join(", ").toUpperCase()} ${route.route.path}`);
+                }
+            });
+        }
+    });
+    console.log("\n");
+}
 
-// Start Server with error handling
-const PORT = process.env.PORT || 5000; 
-app.listen(PORT, () => {
-    console.log(`Server running on port ${PORT}`);
+// Error Handling Middleware
+app.use((err, req, res, next) => {
+    console.error(err.stack);
+    res.status(500).json({ message: "Something went wrong!" });
 });
+
+// Server Port
+const PORT = process.env.PORT || 5000;
+app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
 
 // Handle unhandled promise rejections to prevent crashes
 process.on('unhandledRejection', (err) => {
     console.error('Unhandled Rejection:', err.message);
-    process.exit(1);
+    // Don't exit in production
+    if (process.env.NODE_ENV !== 'production') {
+        process.exit(1);
+    }
 });
