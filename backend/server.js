@@ -8,8 +8,6 @@ const serviceProviderRoutes = require("./routes/serviceProviderRoutes");
 const adminRoutes = require('./routes/adminRoutes');
 const reviewRoutes = require("./routes/ReviewRoutes");
 
-
-
 // Load environment variables
 dotenv.config();
 
