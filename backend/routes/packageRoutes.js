@@ -1,3 +1,4 @@
+//packageRoutes.js
 const express = require('express');
 const router = express.Router();
 const packageController = require('../controllers/packageController'); // Ensure correct path

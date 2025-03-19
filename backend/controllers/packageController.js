@@ -1,3 +1,4 @@
+//packageController.js
 const Package = require('../models/Package');
 
 // Function to calculate total price with discount

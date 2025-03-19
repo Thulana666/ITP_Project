@@ -1,3 +1,4 @@
+//Package.js
 const mongoose = require('mongoose');
 
 const PackageSchema = new mongoose.Schema({
