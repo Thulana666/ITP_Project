@@ -1,7 +1,8 @@
 {
   "name": "itp_project",
   "version": "1.0.0",
-  "main": "index.js",
+  "description": "Backend for the MERN application",
+  "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node server.js",
@@ -18,7 +19,6 @@
     "url": "https://github.com/ThisulaLewhan/ITP_Project/issues"
   },
   "homepage": "https://github.com/ThisulaLewhan/ITP_Project#readme",
-  "description": "",
   "dependencies": {
     "bcryptjs": "^3.0.2",
     "cors": "^2.8.5",
