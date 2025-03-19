@@ -17,6 +17,27 @@ exports.createReview = async(req, res) => {
             return res.status(400).json({ message: "Rating must be a number between 1 and 5." });
         }
 
+        // Comment length validation
+        if (comment.length < 10) {
+            return res.status(400).json({ message: "Comment must be at least 10 characters long." });
+        }
+        
+        if (comment.length > 500) {
+            return res.status(400).json({ message: "Comment cannot exceed 500 characters." });
+        }
+        
+        // Content filtering for inappropriate language (basic example)
+        const inappropriateWords = ['badword1', 'badword2', 'badword3']; // Add actual words to filter
+        const containsInappropriate = inappropriateWords.some(word => 
+            comment.toLowerCase().includes(word.toLowerCase())
+        );
+        
+        if (containsInappropriate) {
+            return res.status(400).json({ 
+                message: "Your comment contains inappropriate language. Please revise your comment." 
+            });
+        }
+
         // Ensure `req.user` exists
         if (!req.user || !req.user.id) {
             return res.status(401).json({ message: "Unauthorized. User ID is missing." });
@@ -34,7 +55,7 @@ exports.createReview = async(req, res) => {
         const newReview = new Review({
             serviceId,
             userId: req.user.id,
-            userName: userName, // ✅ Fetch automatically from DB
+            userName: userName,
             comment,
             rating,
             images,
@@ -107,9 +128,39 @@ exports.updateReview = async(req, res) => {
             return res.status(403).json({ message: "Unauthorized action" });
         }
 
-        // Update only the provided fields
-        if (comment) review.comment = comment;
-        if (rating) review.rating = rating;
+        // Validate comment if it's being updated
+        if (comment) {
+            if (comment.length < 10) {
+                return res.status(400).json({ message: "Comment must be at least 10 characters long." });
+            }
+            
+            if (comment.length > 500) {
+                return res.status(400).json({ message: "Comment cannot exceed 500 characters." });
+            }
+            
+            // Content filtering for inappropriate language
+            const inappropriateWords = ['badword1', 'badword2', 'badword3']; // Add actual words to filter
+            const containsInappropriate = inappropriateWords.some(word => 
+                comment.toLowerCase().includes(word.toLowerCase())
+            );
+            
+            if (containsInappropriate) {
+                return res.status(400).json({ 
+                    message: "Your comment contains inappropriate language. Please revise your comment." 
+                });
+            }
+            
+            review.comment = comment;
+        }
+
+        // Update other fields if provided
+        if (rating) {
+            if (typeof rating !== "number" || rating < 1 || rating > 5) {
+                return res.status(400).json({ message: "Rating must be a number between 1 and 5." });
+            }
+            review.rating = rating;
+        }
+        
         if (images) review.images = images;
 
         await review.save();
