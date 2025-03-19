@@ -15,6 +15,6 @@ router.get("/:serviceId", getReviews);
 router.put("/:reviewId", verifyToken, updateReview);
 
 // Delete a review (Only Admins or the User who created it)
-router.delete("/:reviewId", verifyToken, roleMiddleware(["admin", "customer"]), deleteReview);
+router.delete("/:reviewId", verifyToken, deleteReview);
 
 module.exports = router;
