@@ -7,10 +7,7 @@ const router = express.Router();
 
 // Service Provider Dashboard (Protected Route)
 router.get('/dashboard', verifyToken, roleMiddleware(['service_provider']), (req, res) => {
-  res.status(200).json({ message: 'Welcome, Service Provider!' });
+    res.status(200).json({ message: 'Welcome, Service Provider!' });
 });
 
 module.exports = router;
-
-
-
