@@ -1,7 +1,12 @@
-//PaymentModel.js
+// PaymentModel.js
 const mongoose = require("mongoose");
 
 const PaymentSchema = new mongoose.Schema({
+    userId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User',
+        required: [true, "User ID is required"]
+    },
     firstName: {
         type: String,
         required: [true, "First name is required"],
@@ -33,6 +38,11 @@ const PaymentSchema = new mongoose.Schema({
         type: String,
         enum: ["Cash", "Bank Transfer"],
         required: [true, "Payment method is required"]
+    },
+    amount: {
+        type: Number,
+        required: [true, "Amount is required"],
+        min: [0.01, "Amount must be greater than 0"]
     },
     paymentSlip: {
         type: String,
