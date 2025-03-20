@@ -1,6 +1,6 @@
 // PaymentControllers.js
 const { validationResult } = require("express-validator");
-const Payment = require("../Model/PaymentModel");
+const Payment = require("../models/PaymentModel");
 
 // Create a Payment
 exports.createPayment = async (req, res) => {
