@@ -11,7 +11,9 @@ const serviceProviderRoutes = require("./routes/serviceProviderRoutes");
 const adminRoutes = require('./routes/adminRoutes');
 const reviewRoutes = require("./routes/ReviewRoutes");
 const packageRoutes = require('./routes/packageRoutes');
+
 const paymentRoutes = require("./routes/PaymentRoutes");
+const bookingRoutes = require("./routes/bookingRoutes"); 
 
 // Connect to MongoDB with improved error handling
 connectDB().then(() => {
@@ -42,6 +44,7 @@ app.use('/api/admin', adminRoutes);
 app.use("/api/reviews", reviewRoutes);
 app.use('/api/packages', packageRoutes);
 app.use("/api/payments", paymentRoutes);
+app.use("/api/bookings", bookingRoutes); // New route integration
 
 // API health check route
 app.get("/api/health", (req, res) => {

@@ -1,0 +1,145 @@
+/* Booking Form Container */
+.booking-form-container {
+    min-width: 350px;
+    max-width: 500px;
+    background-color: #f8f9fa;
+    border-radius: 10px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.15);
+    width: 450px;
+    height: 390px;
+    padding: 20px;
+}
+
+/* Heading */
+.booking-container h2 {
+    text-align: center;
+    font-size: 40px;
+    font-weight: bold;
+    margin-bottom: 20px;
+    color: white;
+}
+
+/* Parent Container */
+.booking-container {
+    width: 100%;
+    padding: 20px;
+    max-width: 1000px;
+    margin: auto;
+    margin-bottom: 50px;
+}
+
+.booking-content {
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+    justify-content: center;
+    background-color: #ffffffd0;
+    padding: 30px;
+    border-radius: 20px;
+    width: 1000px;
+}
+
+/* Calendar Styling */
+.calendar-container {
+    flex: 1; /* Take available space */
+    min-width: 500px;
+}
+
+/* Form Elements */
+.booking-form-container label {
+    font-weight: bold;
+    margin-bottom: 5px;
+    display: block;
+}
+
+.booking-form-container select,
+.booking-form-container input[type="text"],
+.booking-form-container input[type="number"] {
+    width: 100%;
+    padding: 10px;
+    margin-top: 5px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 14px;
+}
+
+/* Checkboxes */
+.checkbox-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.checkbox-group label {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 14px;
+}
+
+/* Checkbox Custom Styling */
+.checkbox-group input[type="checkbox"] {
+    width: 16px;
+    height: 16px;
+    cursor: pointer;
+}
+
+/* Error Messages */
+.error-message {
+    color: red;
+    font-size: 13px;
+    margin-top: -10px;
+    margin-bottom: 10px;
+}
+
+/* Submit Button */
+.booking-button {
+    width: 100%;
+    background-color:  #1c1c25;
+    color: white;
+    padding: 12px;
+    font-size: 16px;
+    font-weight: bold;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-top: 20px;
+}
+
+.booking-button:hover {
+    background-color:  #2d334a;
+}
+
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+    .booking-content {
+        flex-direction: column; /* Stack items on smaller screens */
+        align-items: center;
+        gap: 30px;
+        max-width: 500px;
+        display: flex;
+        justify-content: center;
+    }
+
+    .booking-form-container {
+        max-width: 100%; /* Form takes full width */
+        width: 460px;
+    }
+
+    .calendar-container {
+        max-width: 100%; /* Calendar takes full width */
+        display: flex;
+        justify-content: center;
+    }
+
+    .booking-container {
+       display: grid;
+       justify-content: center;
+    }
+}
+
+
+
