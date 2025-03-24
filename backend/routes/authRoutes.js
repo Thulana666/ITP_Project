@@ -12,7 +12,7 @@ const { getUserProfile } = require('../controllers/userController');
 const verifyToken = require('../middleware/authMiddleware');
 const { generateUserReport } = require('../utils/reportGenerator');
 
-// Auth endpoints
+//Auth end points
 router.post('/register', registerUser);
 router.post('/login', loginUser);
 router.post('/verify-otp', verifyOTP);

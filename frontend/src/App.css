@@ -4,17 +4,17 @@ body {
     margin: 0;
     padding: 0;
     background-color: #f4f4f4;
-  }
-  .container {
+}
+.container {
     width: 80%;
     margin: auto;
     padding: 20px;
-  }
-  h1 {
+}
+h1 {
     text-align: center;
-  }
-  
-  /* src/App.css */
+}
+
+/* src/App.css */
 /* Reset and base styles */
 * {
   box-sizing: border-box;
@@ -63,6 +63,12 @@ button {
   position: sticky;
   top: 0;
   z-index: 1000;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 20px;
+  background: #444;
+  color: white;
 }
 
 .navbar-container {
@@ -101,6 +107,29 @@ button {
 .navbar-nav li.active a {
   color: #0066cc;
   border-bottom: 2px solid #0066cc;
+}
+
+.navbar ul {
+  list-style: none;
+  display: flex;
+  gap: 15px;
+}
+
+.navbar ul li {
+  display: inline;
+}
+
+.navbar ul li a {
+  text-decoration: none;
+  color: white;
+  font-weight: bold;
+  padding: 5px 10px;
+  transition: 0.3s;
+}
+
+.navbar ul li a:hover {
+  background: #666;
+  border-radius: 5px;
 }
 
 .navbar-auth {
@@ -165,6 +194,15 @@ button {
 
 .btn-logout:hover {
   background-color: #eee;
+}
+
+/* App Container */
+.app-container {
+  font-family: Arial, sans-serif;
+  text-align: center;
+  margin-top: 25px;
+  color: #666;
+  font-size: 14px;
 }
 
 /* Auth Forms */
