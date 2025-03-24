@@ -57,26 +57,26 @@ exports.deletePackage = async (req, res) => {
 };
 
 // Seed sample packages into the database
-exports.seedPackages = async (req, res) => {
-    try {
-        const samplePackages = [
-            { serviceProvider: "Photographer", packageName: "Basic", price: 400000, description: "4-hour event shoot, 50 edited photos", discount: 0 },
-            { serviceProvider: "Photographer", packageName: "Premium", price: 600000, description: "Full-day coverage, 150 edited photos, Video", discount: 0 },
-            { serviceProvider: "Hotel", packageName: "Standard", price: 800000, description: "Venue, Basic decorations, With catering, Seating for 150 guests", discount: 0 },
-            { serviceProvider: "Hotel", packageName: "Luxury", price: 1500000, description: "Venue, Premium decorations, With catering, Seating for 400 guests", discount: 0 },
-            { serviceProvider: "Music Band", packageName: "Basic", price: 300000, description: "5-member band, 4 hours", discount: 0 },
-            { serviceProvider: "Music Band", packageName: "Deluxe", price: 800000, description: "8 members, Full event coverage, Sound systems", discount: 0 }
-        ];
+// exports.seedPackages = async (req, res) => {
+//     try {
+//         const samplePackages = [
+//             { serviceProvider: "Photographer", packageName: "Basic", price: 400000, description: "4-hour event shoot, 50 edited photos", discount: 0 },
+//             { serviceProvider: "Photographer", packageName: "Premium", price: 600000, description: "Full-day coverage, 150 edited photos, Video", discount: 0 },
+//             { serviceProvider: "Hotel", packageName: "Standard", price: 800000, description: "Venue, Basic decorations, With catering, Seating for 150 guests", discount: 0 },
+//             { serviceProvider: "Hotel", packageName: "Luxury", price: 1500000, description: "Venue, Premium decorations, With catering, Seating for 400 guests", discount: 0 },
+//             { serviceProvider: "Music Band", packageName: "Basic", price: 300000, description: "5-member band, 4 hours", discount: 0 },
+//             { serviceProvider: "Music Band", packageName: "Deluxe", price: 800000, description: "8 members, Full event coverage, Sound systems", discount: 0 }
+//         ];
 
-        // Clear existing packages before seeding new ones
-        await Package.deleteMany();
-        await Package.insertMany(samplePackages);
+//         // Clear existing packages before seeding new ones
+//         await Package.deleteMany();
+//         await Package.insertMany(samplePackages);
 
-        res.json({ message: "Sample packages added successfully!" });
-    } catch (error) {
-        res.status(500).json({ message: "Error seeding packages: " + error.message });
-    }
-};
+//         res.json({ message: "Sample packages added successfully!" });
+//     } catch (error) {
+//         res.status(500).json({ message: "Error seeding packages: " + error.message });
+//     }
+// };
 
 /**
  * Generate a report after applying discount
