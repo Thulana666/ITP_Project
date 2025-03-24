@@ -1,6 +1,7 @@
 const express = require('express');
 const roleMiddleware = require('../middleware/roleMiddleware');
 const verifyToken = require('../middleware/authMiddleware');
+const User = require('../models/User'); // Fix import statement
 
 const router = express.Router();
 

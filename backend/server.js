@@ -11,7 +11,7 @@ const serviceProviderRoutes = require("./routes/serviceProviderRoutes");
 const adminRoutes = require('./routes/adminRoutes');
 const reviewRoutes = require("./routes/ReviewRoutes");
 const packageRoutes = require('./routes/packageRoutes');
-const paymentRoutes = require("./Routes/PaymentRoutes");
+const paymentRoutes = require("./routes/PaymentRoutes");
 
 // Connect to MongoDB with improved error handling
 connectDB().then(() => {

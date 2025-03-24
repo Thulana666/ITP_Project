@@ -5,9 +5,7 @@ const { generateUserReport } = require('../utils/reportGenerator');
 const { registerUser, loginUser, verifyOTP } = require('../controllers/authController');
 router.get('/report', async (req, res) => {
     await generateUserReport(res);
-  });
-  
-
+});
 
 router.post('/register', registerUser);
 router.post('/login', loginUser);
