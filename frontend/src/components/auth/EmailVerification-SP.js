@@ -140,7 +140,7 @@ const EmailVerification = () => {
       }, 2000);
       
     } catch (err) {
-      setError(err.response?.data?.message || 'Failed to verify email. Please try again.');
+      setError(err.response?.data?.message || 'Failed to verify email. Please try again..');
     } finally {
       setLoading(false);
     }
