@@ -1,0 +1,213 @@
+/* ViewPaymentsPage.css */
+.payments-container {
+  max-width: 1100px;
+  margin: 30px auto;
+  padding: 25px;
+  background: #e0e0e0;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+h2 {
+  font-size: 24px;
+  margin-bottom: 25px;
+  color: #333;
+  text-align: center;
+  font-weight: 600;
+}
+
+/* Updated control panel for better alignment */
+.control-panel {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+  gap: 15px;
+}
+
+.search-box {
+  width: 30%;
+  min-width: 250px;
+}
+
+.search-box input {
+  width: 100%;
+  padding: 12px 15px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 14px;
+  background-color: white;
+  height: 45px; /* Match height with buttons */
+}
+
+.search-box input:focus {
+  outline: none;
+  border-color: #666;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+}
+
+.filter-buttons {
+  display: flex;
+  gap: 10px;
+  width: auto;
+}
+
+.filter-buttons button {
+  padding: 12px 30px;
+  height: 45px; /* Fixed height to match search box */
+  background-color: #0078d7; /* Blue color as shown in screenshot */
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: 600;
+  text-transform: uppercase;
+  transition: background-color 0.2s;
+  min-width: 110px;
+}
+
+.filter-buttons button:hover {
+  background-color: #005fa3;
+}
+
+.filter-buttons button.active {
+  background-color: #005fa3;
+}
+
+.table-container {
+  overflow-x: auto;
+  border-radius: 4px;
+  background: white;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.payments-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+}
+
+.payments-table th {
+  text-align: left;
+  padding: 12px;
+  background-color: #333;
+  color: white;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.payments-table td {
+  padding: 12px;
+  border-bottom: 1px solid #e0e0e0;
+  color: #333;
+}
+
+.payments-table tr:nth-child(even) {
+  background-color: #f5f5f5;
+}
+
+.payments-table tr:hover {
+  background-color: #f0f0f0;
+}
+
+.status-badge {
+  padding: 8px 12px;
+  border: none;
+  border-radius: 4px;
+  font-weight: 600;
+  font-size: 12px;
+  cursor: pointer;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  transition: all 0.2s;
+  min-width: 80px;
+}
+
+.status-badge.paid {
+  background-color: #000;
+  color: white;
+}
+
+.status-badge.pending {
+  background-color: white;
+  color: #000;
+  border: 1px solid #000;
+}
+
+.status-badge.unknown {
+  background-color: #999;
+  color: white;
+}
+
+.status-badge:hover {
+  opacity: 0.9;
+  transform: translateY(-1px);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.action-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}
+
+.action-buttons button,
+.action-buttons a {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 18px;
+  color: #666;
+  transition: color 0.2s;
+  text-decoration: none;
+}
+
+.view-btn:hover {
+  color: #0066cc;
+}
+
+.delete-btn:hover {
+  color: #cc0000;
+}
+
+.no-data-message {
+  text-align: center;
+  padding: 20px;
+  color: #666;
+  font-style: italic;
+}
+
+.error {
+  color: #cc0000;
+  text-align: center;
+  padding: 20px;
+  border: 1px solid #cc0000;
+  border-radius: 4px;
+  background-color: #ffeeee;
+  margin-top: 20px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .control-panel {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  
+  .search-box {
+    width: 100%;
+    margin-bottom: 10px;
+  }
+  
+  .filter-buttons {
+    width: 100%;
+    justify-content: space-between;
+  }
+  
+  .filter-buttons button {
+    flex: 1;
+    padding: 12px 10px;
+    min-width: 0;
+  }
+}
