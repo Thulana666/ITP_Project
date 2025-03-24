@@ -1,0 +1,23 @@
+.booking-details-container {
+  padding: 20px;
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+  max-width: 600px;
+  margin: auto;
+  margin-bottom: 300px;
+}
+
+h2 {
+  margin-bottom: 10px;
+  text-align: center;
+  font-size: 40px;
+  font-weight: bold;
+  margin-bottom: 20px;
+  color: white;
+}
+
+.booking-details-container p {
+  font-size: 20px;
+  margin: 15px 20px;
+}
