@@ -1,38 +1,755 @@
-.App {
+/* App.css */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+  }
+  .container {
+    width: 80%;
+    margin: auto;
+    padding: 20px;
+  }
+  h1 {
+    text-align: center;
+  }
+  
+  /* src/App.css */
+/* Reset and base styles */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body, html {
+  font-family: Arial, sans-serif;
+  line-height: 1.6;
+  color: #333;
+  background-color: #f8f9fa;
+}
+
+/* Common elements */
+h1, h2, h3, h4, h5, h6 {
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+  line-height: 1.2;
+}
+
+h1 {
+  font-size: 2rem;
+}
+
+h2 {
+  font-size: 1.5rem;
+}
+
+h3 {
+  font-size: 1.25rem;
+}
+
+p {
+  margin-bottom: 1rem;
+}
+
+button {
+  cursor: pointer;
+}
+
+/* Navigation */
+.navbar {
+  background-color: white;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+.navbar-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 20px;
+}
+
+.navbar-brand a {
+  font-size: 20px;
+  font-weight: 600;
+  text-decoration: none;
+  color: #0066cc;
+}
+
+.navbar-nav {
+  display: flex;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  gap: 30px;
+}
+
+.navbar-nav li a {
+  text-decoration: none;
+  color: #555;
+  font-weight: 500;
+  padding: 5px 0;
+  transition: color 0.3s;
+}
+
+.navbar-nav li a:hover,
+.navbar-nav li.active a {
+  color: #0066cc;
+  border-bottom: 2px solid #0066cc;
+}
+
+.navbar-auth {
+  display: flex;
+  align-items: center;
+}
+
+.auth-buttons {
+  display: flex;
+  gap: 15px;
+}
+
+.btn-login, .btn-register {
+  text-decoration: none;
+  padding: 8px 16px;
+  border-radius: 4px;
+  font-weight: 500;
+  transition: all 0.3s;
+}
+
+.btn-login {
+  background-color: transparent;
+  color: #0066cc;
+  border: 1px solid #0066cc;
+}
+
+.btn-login:hover {
+  background-color: rgba(0, 102, 204, 0.1);
+}
+
+.btn-register {
+  background-color: #0066cc;
+  color: white;
+  border: 1px solid #0066cc;
+}
+
+.btn-register:hover {
+  background-color: #0055aa;
+}
+
+.user-menu {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.user-name {
+  font-weight: 500;
+  color: #333;
+}
+
+.btn-logout {
+  background-color: #f5f5f5;
+  color: #333;
+  border: 1px solid #ddd;
+  padding: 8px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: all 0.2s;
+}
+
+.btn-logout:hover {
+  background-color: #eee;
+}
+
+/* Auth Forms */
+.auth-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 80vh;
+  padding: 20px;
+}
+
+.auth-form-container {
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  padding: 40px;
+  width: 100%;
+  max-width: 450px;
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+.form-group label {
+  display: block;
+  font-size: 14px;
+  color: #555;
+  margin-bottom: 8px;
+  font-weight: 500;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 16px;
+  transition: border-color 0.2s;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+  border-color: #0066cc;
+  outline: none;
+}
+
+.btn-primary {
+  width: 100%;
+  padding: 12px;
+  background-color: #0066cc;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  margin-top: 10px;
+}
+
+.btn-primary:hover {
+  background-color: #0055aa;
+}
+
+.btn-primary:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+.error-message {
+  background-color: #ffebee;
+  color: #d32f2f;
+  padding: 10px 15px;
+  border-radius: 4px;
+  margin-bottom: 20px;
+  font-size: 14px;
+}
+
+.success-message {
+  background-color: #e8f5e9;
+  color: #2e7d32;
+  padding: 10px 15px;
+  border-radius: 4px;
+  margin-bottom: 20px;
+  font-size: 14px;
+}
+
+.auth-footer {
+  text-align: center;
+  margin-top: 25px;
+  color: #666;
+  font-size: 14px;
+}
+
+.auth-footer a {
+  color: #0066cc;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+/* Service Selection Page */
+.service-selection-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.service-selection-container h1 {
+  text-align: center;
+  color: #333;
+  margin-bottom: 30px;
+}
+
+.service-categories {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+
+.service-category {
+  background-color: #f5f5f5;
+  border-radius: 6px;
+  padding: 20px;
+}
+
+.service-category h2 {
+  font-size: 20px;
+  color: #333;
+  margin-bottom: 15px;
+  border-bottom: 1px solid #ddd;
+  padding-bottom: 10px;
+}
+
+.service-providers {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.provider-card {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px;
+  background-color: white;
+  border-radius: 6px;
+  border: 1px solid #eee;
+}
+
+.provider-select {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.provider-select input[type="radio"] {
+  width: 18px;
+  height: 18px;
+  cursor: pointer;
+}
+
+.provider-select label {
+  font-size: 16px;
+  font-weight: 500;
+  color: #333;
+}
+
+.package-actions {
+  display: flex;
+  gap: 10px;
+}
+
+.package-select {
+  padding: 8px 12px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 14px;
+  background-color: white;
+  color: #333;
+  cursor: pointer;
+}
+
+.btn-view-profile {
+  padding: 8px 12px;
+  background-color: #333;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.btn-view-profile:hover {
+  background-color: #555;
+}
+
+.service-summary {
+  margin-top: 40px;
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 6px;
+  border: 1px solid #eee;
+}
+
+.selected-services h3 {
+  margin-bottom: 15px;
+}
+
+.selected-services ul {
+  list-style: none;
+  padding: 0;
+  margin-bottom: 20px;
+}
+
+.selected-services li {
+  padding: 10px 0;
+  border-bottom: 1px solid #eee;
+  font-size: 15px;
+}
+
+.discount-notice {
+  background-color: #e8f4fd;
+  padding: 12px;
+  border-radius: 4px;
+  margin: 15px 0;
+  border-left: 4px solid #4da9ff;
+}
+
+.discount-notice p {
+  margin: 0;
+  color: #0075cc;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.total-price {
+  margin: 20px 0;
+  text-align: right;
+}
+
+.btn-checkout {
+  display: block;
+  width: 100%;
+  padding: 12px;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.btn-checkout:hover {
+  background-color: #43a047;
+}
+
+.btn-checkout:disabled {
+  background-color: #cccccc;
+  cursor: not-allowed;
+}
+
+/* Report Container */
+.report-container {
+  margin-top: 30px;
+  padding: 25px;
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+/* Loading state */
+.loading {
+  text-align: center;
+  padding: 40px;
+  font-size: 18px;
+  color: #666;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .navbar-container {
+    flex-direction: column;
+    gap: 15px;
+  }
+  
+  .navbar-nav {
+    gap: 15px;
+  }
+  
+  .navbar-auth {
+    width: 100%;
+    justify-content: center;
+  }
+  
+  .provider-card {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 15px;
+  }
+  
+  .package-actions {
+    width: 100%;
+  }
+}
+
+.verification-message {
+  text-align: center;
+  margin-bottom: 20px;
+  color: #555;
+  line-height: 1.6;
+}
+
+.verification-inputs {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 25px;
+}
+
+.verification-input {
+  width: 45px;
+  height: 45px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-size: 20px;
+  font-weight: bold;
+  text-align: center;
+  padding: 0;
+  background-color: #f8f9fa;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.verification-input:focus {
+  border-color: #0066cc;
+  box-shadow: 0 0 0 2px rgba(0, 102, 204, 0.2);
+  outline: none;
+}
+
+.verification-form {
+  margin-top: 30px;
+}
+
+.btn-link {
+  background: none;
+  border: none;
+  color: #0066cc;
+  font-weight: 500;
+  cursor: pointer;
+  padding: 0;
+  font-size: 14px;
+  text-decoration: underline;
+}
+
+.btn-link:disabled {
+  color: #999;
+  cursor: not-allowed;
+  text-decoration: none;
+}
+
+/* Responsive adjustments */
+@media (max-width: 480px) {
+  .verification-input {
+    width: 40px;
+    height: 40px;
+    font-size: 18px;
+  }
+  
+  .verification-inputs {
+    gap: 8px;
+  }
+}
+
+/* Add this to your App.css */
+
+.verification-message {
+  text-align: center;
+  margin-bottom: 25px;
+}
+
+.verification-inputs {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 25px;
+}
+
+.verification-input {
+  width: 45px;
+  height: 45px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 20px;
+  font-weight: bold;
   text-align: center;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.verification-input:focus {
+  border-color: #0066cc;
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(0, 102, 204, 0.2);
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
+.verification-form {
+  margin-top: 30px;
+}
+
+.auth-footer {
+  margin-top: 20px;
+  text-align: center;
+}
+
+.btn-link {
+  background: none;
+  border: none;
+  color: #0066cc;
+  text-decoration: underline;
+  cursor: pointer;
+  padding: 0;
+}
+
+.btn-link:disabled {
+  color: #999;
+  cursor: not-allowed;
+}
+
+.auth-subtitle {
+  text-align: center;
+  color: #666;
+  margin-top: -15px;
+  margin-bottom: 25px;
+  font-size: 14px;
+}
+
+.auth-form-container h2 {
+  color: #0066cc;
+}
+
+/* Updated button styles */
+.btn-login, .btn-register {
+  font-weight: 600;
+}
+
+.btn-register {
+  background-color: #0066cc;
+  padding: 8px 16px;
+}
+
+.btn-login {
+  border: 1px solid #0066cc;
+  padding: 8px 16px;
+}
+
+/* Service provider focus */
+.form-group label {
+  color: #444;
+}
+
+/* Service provider form submit button */
+.btn-primary {
+  background-color: #0066cc;
+  font-weight: 600;
+  letter-spacing: 0.3px;
+}
+
+.btn-primary:hover {
+  background-color: #0055aa;
+}
+
+/* Auth footer links */
+.auth-footer a {
+  color: #0066cc;
+  font-weight: 600;
+}
+
+/* Responsive tweaks for service provider text */
+@media (max-width: 768px) {
+  .btn-register, .btn-login {
+    font-size: 14px;
+    padding: 6px 12px;
   }
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+/* Add these styles to your App.css file */
+
+/* Modal Styles */
+.modal-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
   display: flex;
-  flex-direction: column;
-  align-items: center;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  align-items: center;
+  z-index: 1000;
 }
 
-.App-link {
-  color: #61dafb;
+.modal-content {
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  width: 90%;
+  max-width: 500px;
+  max-height: 90vh;
+  overflow-y: auto;
+  animation: modalFadeIn 0.3s ease;
 }
 
-@keyframes App-logo-spin {
+@keyframes modalFadeIn {
   from {
-    transform: rotate(0deg);
+    opacity: 0;
+    transform: translateY(-20px);
   }
   to {
-    transform: rotate(360deg);
+    opacity: 1;
+    transform: translateY(0);
   }
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 20px;
+  border-bottom: 1px solid #eee;
+}
+
+.modal-header h2 {
+  margin: 0;
+  font-size: 20px;
+  color: #333;
+}
+
+.close-button {
+  background: none;
+  border: none;
+  font-size: 24px;
+  color: #666;
+  cursor: pointer;
+  padding: 0;
+  line-height: 1;
+}
+
+.close-button:hover {
+  color: #000;
+}
+
+.modal-body {
+  padding: 20px;
+}
+
+.modal-footer {
+  padding: 15px 20px;
+  border-top: 1px solid #eee;
+  text-align: right;
+}
+
+.profile-info {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.info-group {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.info-group label {
+  font-weight: 600;
+  color: #666;
+  font-size: 14px;
+}
+
+.info-group p {
+  margin: 0;
+  font-size: 16px;
+  color: #333;
 }

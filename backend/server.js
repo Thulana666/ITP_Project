@@ -1,3 +1,4 @@
+// backend/server.js
 const express = require("express");
 const dotenv = require("dotenv");
 const mongoose = require("mongoose");
@@ -6,10 +7,12 @@ const connectDB = require("./config/db");
 
 // Import all routes
 const authRoutes = require("./routes/authRoutes");
+const userRoutes = require("./routes/userRoutes");
 const serviceProviderRoutes = require("./routes/serviceProviderRoutes");
 const adminRoutes = require('./routes/adminRoutes');
 const reviewRoutes = require("./routes/ReviewRoutes");
 const packageRoutes = require('./routes/packageRoutes');
+const serviceRoutes = require('./routes/serviceRouter');
 
 // Load environment variables
 dotenv.config();
@@ -39,10 +42,12 @@ app.get("/", (req, res) => {
 
 // Use all routes
 app.use("/api/auth", authRoutes);
+app.use("/api/users", userRoutes);
 app.use("/api/service-provider", serviceProviderRoutes);
 app.use('/api/admin', adminRoutes);
 app.use("/api/reviews", reviewRoutes);
 app.use('/api/packages', packageRoutes);
+app.use('/api/services', serviceRoutes);
 
 // Print registered routes in development
 if (process.env.NODE_ENV !== 'production') {
