@@ -1,0 +1,36 @@
+.admin-sidebar {
+  width: 250px;
+  background-color: #34495e;
+  padding: 20px;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.admin-sidebar h2 {
+  color: white;
+  font-size: 1.8rem;
+  margin-bottom: 30px;
+  text-align: center;
+}
+
+.admin-sidebar ul {
+  list-style: none;
+  padding: 0;
+}
+
+.admin-sidebar ul li {
+  margin-bottom: 20px;
+}
+
+.admin-sidebar ul li a {
+  color: white;
+  font-size: 1.2rem;
+  text-decoration: none;
+}
+
+.admin-sidebar ul li a:hover {
+  background-color: #1abc9c;
+  padding: 10px;
+  border-radius: 5px;
+}

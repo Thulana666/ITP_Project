@@ -1,0 +1,47 @@
+.admin-view-users {
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 5px;
+  }
+  
+  .admin-view-users h2 {
+    font-size: 2rem;
+    margin-bottom: 20px;
+  }
+  
+  .admin-view-users input {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+  
+  .admin-view-users ul {
+    list-style: none;
+    padding: 0;
+  }
+  
+  .admin-view-users ul li {
+    background-color: #ecf0f1;
+    padding: 15px;
+    margin: 10px 0;
+    border-radius: 5px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .admin-view-users ul li button {
+    background-color: #3498db;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 3px;
+    cursor: pointer;
+  }
+  
+  .admin-view-users ul li button:hover {
+    background-color: #2980b9;
+  }
+  

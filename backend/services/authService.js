@@ -11,10 +11,20 @@ const sendOTPEmail = async (email, otp) => {
   });
 
   const mailOptions = {
-    from: process.env.EMAIL_USER,
+    from: `"Bridal Salon Security Team" <${process.env.EMAIL_USER}>`, // Use a proper sender name
     to: email,
-    subject: 'Your OTP for MFA',
-    text: `Your OTP code is: ${otp}`,
+    subject: '🔐 Your Secure OTP Code - Bridal Salon',
+    text: `
+Hello,
+
+Your one-time password (OTP) for secure login to your Bridal Salon account is: **${otp}**
+
+🔹 This OTP is valid for **10 minutes**.  
+🔹 If you did not request this, please ignore this email.
+
+Thank you,  
+**Bridal Salon Security Team**
+    `,
   };
 
   try {

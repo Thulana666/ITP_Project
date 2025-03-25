@@ -10,8 +10,20 @@ const registerUser = async (req, res) => {
     let user = await User.findOne({ email });
     if (user) return res.status(400).json({ message: 'User already exists' });
 
+    // Password validation before hashing
+    const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+    if (!passwordRegex.test(password)) {
+      return res.status(400).json({ 
+        message: 'Password must be at least 8 characters long, include an uppercase letter, a lowercase letter, a number, and a special character.' 
+      });
+    }
+    
+    console.log("Before Hashing:", password);
+
     const hashedPassword = await bcrypt.hash(password, 10);
 
+    console.log("After Hashing:", hashedPassword);
+    
      //  Restrict admin registration to specific emails
      const allowedAdminEmails = ["chamutharu482@gmail.com"];
      if (role === "admin" && !allowedAdminEmails.includes(email)) {
@@ -95,10 +107,10 @@ const loginUser = async (req, res) => {
       const otpExpires = new Date(Date.now() + 10 * 60 * 1000);
       await User.updateOne({ email }, { otp, otpExpires });
       await sendOTPEmail(email, otp);
-      return res.status(200).json({ message: ' OTP sent to email' });
+      return res.status(200).json({ message: 'OTP sent successfully', otpRequired: true });
     }
 
-    const token = jwt.sign({ id: user._id, role: user.role }, process.env.JWT_SECRET, { expiresIn: '1h' });
+    const token = jwt.sign({ id: user._id, role: user.role }, process.env.JWT_SECRET, { expiresIn: '6h' });
     res.status(200).json({ token });
   } catch (error) {
     console.error(' Error in login:', error);

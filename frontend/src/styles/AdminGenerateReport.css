@@ -1,0 +1,24 @@
+.admin-generate-report {
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 5px;
+  }
+  
+  .admin-generate-report h2 {
+    font-size: 2rem;
+    margin-bottom: 20px;
+  }
+  
+  .admin-generate-report button {
+    background-color: #8e44ad;
+    color: white;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .admin-generate-report button:hover {
+    background-color: #9b59b6;
+  }
+  

@@ -1,0 +1,167 @@
+/* Styles specific to ServiceProviderDashboard */
+.service-provider-dashboard {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  background-color: white;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+}
+
+/* Sidebar */
+.service-provider-dashboard .sidebar {
+  width: 280px;
+  background-color: #2c3e50;
+  color: white;
+  padding: 30px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border-top-left-radius: 10px;
+  border-bottom-left-radius: 10px;
+}
+
+/* Sidebar Heading */
+.service-provider-dashboard .sidebar-heading {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 40px;
+  color: #f1c40f;
+  text-align: center;
+}
+
+/* Sidebar Menu */
+.service-provider-dashboard .sidebar ul {
+  list-style: none;
+  padding: 0;
+  width: 100%;
+}
+
+.service-provider-dashboard .sidebar ul li {
+  font-size: 18px;
+  margin-bottom: 15px;
+  padding: 12px;
+  border-radius: 5px;
+  cursor: pointer;
+  text-align: center;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.service-provider-dashboard .sidebar ul li:hover {
+  background-color: #34495e;
+  color: #f39c12;
+}
+
+/* Content Area */
+.service-provider-dashboard .content {
+  width: 900px;
+  height: 500px;
+  max-width: 100%;
+  max-height: 100%;
+  
+  padding: 30px;
+  font-size: 16px;
+  color: #2c3e50;
+  background-color: #ecf0f1;
+  border-top-right-radius: 10px;
+  border-bottom-right-radius: 10px;
+  
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+}
+
+/* Heading */
+.service-provider-dashboard .content h2 {
+  font-size: 28px;
+  color: #2c3e50;
+  margin-bottom: 20px;
+}
+  
+.service-provider-dashboard .content p {
+  font-size: 16px;
+  line-height: 1.6;
+}
+  
+button {
+  padding: 12px 20px;
+  font-size: 16px;
+  background-color: #161d22;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  margin-bottom: 20px;
+}
+
+button:hover {
+  background-color: #586975;
+}
+
+/* Form Elements */
+input {
+  padding: 12px 20px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  width: 100%;
+  margin-bottom: 15px;
+  box-sizing: border-box;
+  background-color: #fff;
+}
+
+input:focus {
+  border-color: #3498db;
+  outline: none;
+}
+
+form {
+  max-width: 500px;
+  margin: 0 auto;
+  padding: 80px;
+  background-color: #fff;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+}
+
+/* Loading and Error Messages */
+.service-provider-dashboard .loading {
+  font-size: 18px;
+  color: #95a5a6;
+}
+
+.service-provider-dashboard .error-message {
+  color: #e74c3c;
+  font-size: 16px;
+  margin-top: 10px;
+}
+
+/* Mobile Responsive */
+@media (max-width: 768px) {
+  .service-provider-dashboard {
+    flex-direction: column;
+    height: auto;
+  }
+
+  .service-provider-dashboard .sidebar {
+    width: 100%;
+    border-radius: 0;
+    padding: 20px;
+  }
+
+  .service-provider-dashboard .content {
+    padding: 20px;
+  }
+}
+
+/* Sidebar Heading */
+.service-provider-dashboard .sidebar-heading {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 40px;
+  color: #cebbbb;
+}

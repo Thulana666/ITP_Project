@@ -6,7 +6,7 @@ const connectDB = require("./config/db");
 const authRoutes = require("./routes/authRoutes");
 const serviceProviderRoutes = require("./routes/serviceProviderRoutes");
 const adminRoutes = require('./routes/adminRoutes'); 
-
+const customerRoutes = require("./routes/customerRoutes"); // Import customer
 dotenv.config(); // Load environment variables
 
 const app = express();
@@ -25,6 +25,8 @@ app.get("/", (req, res) => {
 app.use("/api/auth", authRoutes);
 app.use("/api/service-provider", serviceProviderRoutes);
 app.use('/api/admin', adminRoutes);
+app.use("/api/customer", customerRoutes); // Register routes
+app.use('/api/service-provider', require('./routes/serviceProviderRoutes'));
 
 // Server Port
 const PORT = process.env.PORT || 5000;
