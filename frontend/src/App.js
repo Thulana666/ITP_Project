@@ -20,6 +20,7 @@ import EditBookingPage from "./pages/EditBookingPage";
 import BookingDetails from "./components/BookingDetails";
 
 import ServiceSelectionPage from './pages/ServiceSelectionPage';
+//import PackageListPage from './pages/PackageManagement';
 
 function App() {
   return (
@@ -40,7 +41,8 @@ function App() {
           <Route path="/booking/:id" element={<BookingDetails />} />
           <Route path="/edit-booking/:id" element={<EditBookingPage />} />
 
-          <Route path="/packages" element={<ServiceSelectionPage />} />   
+          <Route path="/packages" element={<ServiceSelectionPage />} />  
+          {/*<Route path="/package-management" element={<PackageListPage />} />   */}
         </Routes>
       </div>
       <Footer />
