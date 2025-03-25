@@ -8,7 +8,10 @@ const serviceProviderRoutes = require("./routes/serviceProviderRoutes");
 const adminRoutes = require('./routes/adminRoutes'); 
 const customerRoutes = require("./routes/customerRoutes"); // Import customer
 const bookingRoutes = require("./routes/bookingRoutes"); 
-
+const reviewRoutes = require("./routes/ReviewRoutes");
+const packageRoutes = require('./routes/packageRoutes');
+const serviceRoutes = require('./routes/serviceRouter');
+const paymentRoutes = require("./routes/PaymentRoutes");
 dotenv.config(); // Load environment variables
 
 const app = express();
@@ -28,8 +31,12 @@ app.use("/api/auth", authRoutes);
 app.use("/api/service-provider", serviceProviderRoutes);
 app.use('/api/admin', adminRoutes);
 app.use("/api/customer", customerRoutes); // Register routes
-app.use('/api/service-provider', require('./routes/serviceProviderRoutes'));
-app.use("/api/bookings", bookingRoutes); 
+//app.use('/api/service-provider', require('./routes/serviceProviderRoutes'));
+app.use("/api/bookings", bookingRoutes);
+app.use("/api/reviews", reviewRoutes);
+app.use('/api/packages', packageRoutes);
+app.use('/api/services', serviceRoutes);
+app.use("/api/payments", paymentRoutes);
 // API health check route
 app.get("/api/health", (req, res) => {
   res.status(200).json({ status: "ok", message: "Server is running" });

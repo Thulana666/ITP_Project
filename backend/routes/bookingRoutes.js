@@ -5,7 +5,8 @@ const {
   getUserBookings, 
   getBookingDetails, 
   updateBooking, 
-  deleteBooking 
+  deleteBooking,
+  updateBookingPackages
 } = require("../controllers/bookingController"); // Ensure getBookedDates is exported
 const validateBooking = require("../middleware/validation");
 const Booking = require("../models/Booking");
@@ -35,10 +36,11 @@ router.post("/", async (req, res) => {
         expectedCrowd: req.body.expectedCrowd,
         salonServices: req.body.salonServices,
         eventDate: bookingDate.toISOString().split("T")[0],
+        packagesList: []
       });
   
       await newBooking.save();
-      res.json({ message: "Booking successful!" });
+      res.json({ message: "Booking successful!", booking: newBooking });
   
     } catch (error) {
       console.error("Booking failed:", error);
@@ -52,5 +54,8 @@ router.get("/:userId", getUserBookings); // Get all bookings for a user
 router.get("/details/:bookingId", getBookingDetails); // Get details of a booking
 router.put("/edit/:bookingId", updateBooking); // Edit booking details
 router.delete("/cancel/:bookingId", deleteBooking); // Cancel a booking
+
+// Remove duplicate routes and keep only this one
+router.put('/:bookingId/packages', updateBookingPackages);
 
 module.exports = router;

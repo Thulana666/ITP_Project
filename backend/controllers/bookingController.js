@@ -1,3 +1,4 @@
+const mongoose = require("mongoose");
 const Booking = require("../models/Booking");
 
 // Create a booking (Already Exists)
@@ -61,6 +62,7 @@ const getUserBookings = async (req, res) => {
     const bookings = await Booking.find({ userId });
 
     res.json(bookings);
+    console.log("User bookings:", bookings[0]._id); // Log user bookings for debugging
   } catch (error) {
     console.error("Error fetching user bookings:", error);
     res.status(500).json({ error: "Server error. Please try again." });
@@ -138,11 +140,61 @@ const deleteBooking = async (req, res) => {
   }
 };
 
+// Add new method for updating packages
+const updateBookingPackages = async (req, res) => {
+  try {
+    const { packages, totalPrice } = req.body;
+    const booking = await Booking.findById(req.params.bookingId);
+
+    if (!booking) {
+      return res.status(404).json({ error: "Booking not found" });
+    }
+
+    // Enhanced validation for packages array
+    if (!Array.isArray(packages) || packages.length === 0) {
+      return res.status(400).json({ error: "At least one package is required" });
+    }
+
+    // Validate each package has required fields and correct types
+    const formattedPackages = packages.map(pkg => {
+      if (!pkg.serviceType || !pkg.packageId || !pkg.packageName || !pkg.price) {
+        throw new Error("Missing required package fields");
+      }
+
+      return {
+        serviceType: pkg.serviceType,
+        packageId: new mongoose.Types.ObjectId(pkg.packageId),
+        packageName: pkg.packageName,
+        price: Number(pkg.price)
+      };
+    });
+
+    // Update booking with validated data
+    booking.packages = formattedPackages;
+    booking.totalPrice = Number(totalPrice);
+
+    await booking.save();
+    res.json({
+      success: true,
+      message: "Packages updated successfully",
+      booking
+    });
+
+  } catch (error) {
+    console.error("Error updating booking packages:", error);
+    res.status(500).json({ 
+      error: "Server error. Please try again.",
+      details: error.message 
+    });
+  }
+};
+
 module.exports = { 
   createBooking, 
   getBookedDates, 
   getUserBookings, 
   getBookingDetails, 
   updateBooking, 
-  deleteBooking 
+  deleteBooking,
+  updateBookingPackages 
 };

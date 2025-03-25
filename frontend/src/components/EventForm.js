@@ -82,8 +82,11 @@ const EventForm = ({ selectedDate, booking, setBooking }) => {
       });
 
       if (response.success) {
-        alert("Booking successful!");
-        setFormData({ eventType: "", expectedCrowd: "", salonServices: [] });
+        console.log(response.booking.booking._id);
+        // Navigate to packages page with booking ID
+        navigate(`/packages`, {
+          state: { bookingId: response.booking.booking._id }
+        });
       } else {
         console.error("Server responded with an error:", response.error);
         alert(response.error || "Booking failed!");

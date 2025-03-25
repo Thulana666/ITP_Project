@@ -2,6 +2,7 @@ import React, { useState, useEffect, useCallback } from "react";
 import axios from "axios";
 import ReportPage from "../components/ReportPage";
 import ServiceProviderProfileModal from "../components/ServiceProviderProfileModal";
+import { useLocation, useNavigate } from "react-router-dom";
 
 // Helper function for currency formatting
 const formatCurrency = (amount) => {
@@ -16,6 +17,11 @@ const formatCurrency = (amount) => {
 };
 
 const ServiceSelectionPage = () => {
+  const location = useLocation();
+  const navigate = useNavigate();
+  const bookingId = location.state?.bookingId;
+  console.log(bookingId);
+
   const [packages, setPackages] = useState({
     Photographer: [],
     Hotel: [],
@@ -133,10 +139,57 @@ const ServiceSelectionPage = () => {
     }
   };
 
-  const handleProceedToCheckout = () => {
-    // This would navigate to a checkout page
-    console.log("Proceeding to checkout with selected packages:", selectedPackages);
+  const handleProceedToCheckout = async () => {
+    if (!bookingId) {
+      alert("No booking ID found. Please start from the event booking form.");
+      navigate('/booking');
+      return;
+    }
+
+    try {
+      // Format selected packages into a clean JSON structure
+      const formattedPackages = Object.entries(selectedPackages)
+        .filter(([_, pkg]) => pkg !== null)
+        .map(([serviceType, pkg]) => ({
+          serviceType,
+          packageId: pkg._id,
+          packageName: pkg.packageName,
+          price: pkg.price
+        }));
+
+      // Update the booking with selected packages
+      const response = await axios.put(`http://localhost:5000/api/bookings/${bookingId}/packages`, {
+        packages: formattedPackages,
+        totalPrice: totalPrice
+      });
+
+      if (response.data.success) {
+        console.log('Formateed', formattedPackages)
+        console.log("Packages", selectedPackages)
+        console.log(response)
+        // navigate('/checkout', { 
+        //   state: { 
+        //     bookingId,
+        //     totalPrice,
+        //     selectedPackages: formattedPackages
+        //   }
+        // }); 
+      } else {
+        alert("Failed to update booking with selected packages");
+      }
+    } catch (error) {
+      console.error("Error updating booking:", error);
+      alert("Failed to update booking with selected packages");
+    }
   };
+
+  // Show warning if no booking ID is present
+  useEffect(() => {
+    if (!bookingId) {
+      alert("Please start from the event booking form");
+      navigate('/booking');
+    }
+  }, [bookingId, navigate]);
 
   if (loading) {
     return <div className="loading">Loading packages...</div>;

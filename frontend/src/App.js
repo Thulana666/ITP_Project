@@ -19,6 +19,8 @@ import ManageBookingsPage from "./pages/ManageBookingsPage";
 import EditBookingPage from "./pages/EditBookingPage";
 import BookingDetails from "./components/BookingDetails";
 
+import ServiceSelectionPage from './pages/ServiceSelectionPage';
+
 function App() {
   return (
     <Router>
@@ -36,7 +38,9 @@ function App() {
           <Route path="/booking" element={<BookingPage />} />
           <Route path="/manage-bookings" element={<ManageBookingsPage />} />
           <Route path="/booking/:id" element={<BookingDetails />} />
-          <Route path="/edit-booking/:id" element={<EditBookingPage />} />         
+          <Route path="/edit-booking/:id" element={<EditBookingPage />} />
+
+          <Route path="/packages" element={<ServiceSelectionPage />} />   
         </Routes>
       </div>
       <Footer />

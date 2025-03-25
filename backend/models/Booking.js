@@ -24,6 +24,16 @@ const bookingSchema = new mongoose.Schema({
     type: [String],
     required: true,
   },
+  packages: [{
+    serviceType: { type: String, required: true },
+    packageId: { type: mongoose.Schema.Types.ObjectId, required: true },
+    packageName: { type: String, required: true },
+    price: { type: Number, required: true }
+  }],
+  totalPrice: {
+    type: Number,
+    default: 0
+  }
 });
 
 // Ensure a date can only have one booking (Optional: Uncomment if needed)
