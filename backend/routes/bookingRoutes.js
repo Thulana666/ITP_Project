@@ -30,7 +30,7 @@ router.post("/", async (req, res) => {
       }
   
       const newBooking = new Booking({
-        userId: "641d2f9b8f1b2c001c8e4d3a", // Replace with a valid user ID from your database
+        userId: req.body.userId, // "641d2f9b8f1b2c001c8e4d3a", // Replace with a valid user ID from your database
         eventType: req.body.eventType,
         expectedCrowd: req.body.expectedCrowd,
         salonServices: req.body.salonServices,

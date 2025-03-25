@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import "../styles/BookingForm.css";
 import { submitBooking } from "../services/bookingService";
+import { jwtDecode } from "jwt-decode";
+import { useNavigate } from "react-router-dom";
 
 const EventForm = ({ selectedDate, booking, setBooking }) => {
   const [formData, setFormData] = useState(
@@ -11,7 +13,18 @@ const EventForm = ({ selectedDate, booking, setBooking }) => {
     }
   );
 
+  const navigate = useNavigate();
+
+  const token = localStorage.getItem("token");
+
+  const decoded = jwtDecode(token);
+  const userId = decoded.id;
+
   useEffect(() => {
+    if (!token) {
+      navigate("/login");
+      return null;
+    } 
     if (booking) setFormData(booking);
   }, [booking]);
 
@@ -61,7 +74,7 @@ const EventForm = ({ selectedDate, booking, setBooking }) => {
 
     try {
       const response = await submitBooking({
-        userId: "641d2f9b8f1b2c001c8e4d3a", // Replace with a valid user ID
+        userId: userId,//"641d2f9b8f1b2c001c8e4d3a", // Replace with a valid user ID
         eventType: formData.eventType,
         expectedCrowd: formData.expectedCrowd,
         salonServices: formData.salonServices,

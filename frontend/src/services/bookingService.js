@@ -1,4 +1,5 @@
 import axios from "axios";
+import {jwtDecode} from "jwt-decode";
 
 const API_URL = "http://localhost:5000/api/bookings";
 
@@ -24,9 +25,12 @@ export const submitBooking = async (data) => {
 };
 
 // New functions for managing bookings
-export const getUserBookings = async () => {
+export const getUserBookings = async (token) => {
   try {
-    const response = await axios.get(`${API_URL}/641d2f9b8f1b2c001c8e4d3a`);
+    const decoded = jwtDecode(token);
+    const userId = decoded.id; 
+    
+    const response = await axios.get(`${API_URL}/${userId}`);
     return response.data;
   } catch (error) {
     console.error("Error fetching user bookings:", error);

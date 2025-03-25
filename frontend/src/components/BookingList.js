@@ -1,15 +1,27 @@
 import React, { useState, useEffect } from "react";
 import { getUserBookings, cancelBooking } from "../services/bookingService";
 import { useNavigate } from "react-router-dom";
+import {jwtDecode} from "jwt-decode";
 import "../styles/BookingList.css";
 
 const BookingList = () => {
   const [bookings, setBookings] = useState([]);
+  const [currentUser, setCurrentUser] = useState(null);
   const navigate = useNavigate();
 
   useEffect(() => {
+    const token = localStorage.getItem('token');
+
+    if (token) {
+      console.log(token);
+      const decoded = jwtDecode(token);
+      console.log(decoded);
+    } else {
+      navigate("/login");
+    }
     const fetchBookings = async () => {
-      const data = await getUserBookings();
+
+      const data = await getUserBookings(token);
       setBookings(data);
     };
     fetchBookings();
