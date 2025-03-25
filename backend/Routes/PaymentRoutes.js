@@ -9,7 +9,7 @@ const {
   getPaymentById,
   updatePaymentStatus,
   deletePayment
-} = require("../Controllers/PaymentControllers");
+} = require("../controllers/PaymentControllers");
 
 // Validation middleware
 const validatePayment = [
