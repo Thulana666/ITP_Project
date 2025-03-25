@@ -75,7 +75,7 @@ const ProtectedRoute = ({ allowedRoles = [], children }) => {
 
   if (!isAuthorized) {
     // Redirect to login if not authenticated or not authorized
-    return <Navigate to="/login" replace />;
+    return <Navigate to="/login-sp" replace />;
   }
 
   // If authenticated and has the required role, render the protected component
