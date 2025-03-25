@@ -25,7 +25,8 @@
     display: inline-flex;
     font-family: judson;
     font-size: 25px;
-
+    justify-content: left !important;
+    text-align: left;
 }
 
 .c1{

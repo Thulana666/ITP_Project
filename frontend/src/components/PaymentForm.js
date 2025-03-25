@@ -30,7 +30,7 @@ const PaymentForm = () => {
                 <option value="Credit Card">Credit Card</option>
                 <option value="Bank Transfer">Bank Transfer</option>
             </select>
-            <button type="submit">Submit Payment</button>
+            <button className="globalButton" type="submit">Submit Payment</button>
         </form>
     );
 };

@@ -24,7 +24,7 @@ const PackageForm = ({ setPackages }) => {
       <input type="text" name="description" placeholder="Description" onChange={handleChange} required />
       <input type="number" name="price" placeholder="Price" onChange={handleChange} required />
       <input type="text" name="serviceProvider" placeholder="Service Provider" onChange={handleChange} required />
-      <button type="submit">Add Package</button>
+      <button className="globalButton" type="submit">Add Package</button>
     </form>
   );
 };

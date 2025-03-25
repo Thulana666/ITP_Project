@@ -32,8 +32,8 @@ const PackageList = () => {
             <p>{pkg.description}</p>
             <p>Price: {pkg.price}</p>
             <p>Service Provider: {pkg.serviceProvider}</p>
-            <button onClick={() => setEditingPackage(pkg)}>Edit</button>
-            <button onClick={() => handleDelete(pkg._id)}>Delete</button>
+            <button className="globalButton" onClick={() => setEditingPackage(pkg)}>Edit</button>
+            <button className="globalButton" onClick={() => handleDelete(pkg._id)}>Delete</button>
           </div>
         ))}
       </div>

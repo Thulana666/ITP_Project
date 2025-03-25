@@ -176,8 +176,8 @@ h2 {
 }
 
 /* Submit Button */
-button {
-  background: linear-gradient(135deg, #007bff, #0056b3);
+.globalButton {
+  background: #1c1c25;
   color: white;
   padding: 16px 25px;
   border: none;
@@ -194,8 +194,8 @@ button {
 }
 
 /* Button Hover Effect */
-button:hover {
-  background: linear-gradient(135deg, #0056b3, #003f7f);
+.globalButton:hover {
+  background: #2d334a;
   box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.2);
   transform: translateY(-2px);
 }

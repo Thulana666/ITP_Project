@@ -23,7 +23,7 @@ const UpdatePackageForm = ({ packageData, setEditingPackage, setPackages }) => {
       <input type="number" name="price" value={formData.price} onChange={handleChange} required />
       <input type="text" name="serviceProvider" value={formData.serviceProvider} onChange={handleChange} required />
       <button type="submit">Update Package</button>
-      <button onClick={() => setEditingPackage(null)}>Cancel</button>
+      <button className="globalButton" onClick={() => setEditingPackage(null)}>Cancel</button>
     </form>
   );
 };
