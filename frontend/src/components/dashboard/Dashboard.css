@@ -1,0 +1,208 @@
+/* src/components/dashboard/Dashboard.css */
+.dashboard-container {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    background-color: #f8f9fa;
+    font-family: 'Arial', sans-serif;
+  }
+  
+  /* Dashboard Header */
+  .dashboard-header {
+    background-color: white;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    padding: 15px 0;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+  }
+  
+  .header-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  
+  .header-brand {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .header-brand h1 {
+    font-size: 24px;
+    font-weight: 600;
+    color: #333;
+    margin: 0;
+  }
+  
+  .service-type {
+    color: #666;
+    font-size: 14px;
+    margin-top: 4px;
+  }
+  
+  .header-nav ul {
+    display: flex;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    gap: 20px;
+  }
+  
+  .header-nav a {
+    text-decoration: none;
+    color: #555;
+    font-size: 16px;
+    padding: 8px 0;
+    font-weight: 500;
+    transition: color 0.3s;
+  }
+  
+  .header-nav a:hover,
+  .header-nav a.active {
+    color: #0066cc;
+    border-bottom: 2px solid #0066cc;
+  }
+  
+  .header-profile {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+  }
+  
+  .profile-info {
+    display: flex;
+    flex-direction: column;
+    text-align: right;
+  }
+  
+  .user-name {
+    font-weight: 500;
+    color: #333;
+  }
+  
+  .user-email {
+    font-size: 12px;
+    color: #666;
+  }
+  
+  .btn-logout {
+    background-color: #f5f5f5;
+    color: #333;
+    border: 1px solid #ddd;
+    padding: 8px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: all 0.2s;
+  }
+  
+  .btn-logout:hover {
+    background-color: #eee;
+  }
+  
+  /* Dashboard Content */
+  .dashboard-content {
+    max-width: 1200px;
+    margin: 30px auto;
+    padding: 0 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+  }
+  
+  /* Dashboard Stats */
+  .dashboard-stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+  }
+  
+  .stat-card {
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    transition: transform 0.2s;
+  }
+  
+  .stat-card:hover {
+    transform: translateY(-3px);
+  }
+  
+  .stat-icon {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 20px;
+  }
+  
+  .packages-icon {
+    background-color: #4caf50;
+  }
+  
+  .customers-icon {
+    background-color: #2196f3;
+  }
+  
+  .revenue-icon {
+    background-color: #f44336;
+  }
+  
+  .stat-content h3 {
+    font-size: 16px;
+    color: #666;
+    margin: 0 0 5px 0;
+    font-weight: normal;
+  }
+  
+  .stat-value {
+    font-size: 28px;
+    font-weight: 600;
+    color: #333;
+    margin: 0;
+  }
+  
+  /* Dashboard Actions */
+  .dashboard-actions, .dashboard-packages {
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    padding: 25px;
+  }
+  
+  .dashboard-actions h2, .dashboard-packages h2 {
+    font-size: 20px;
+    color: #333;
+    margin-top: 0;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #eee;
+  }
+  
+  /* Loading and Error States */
+  .loading, .no-packages {
+    text-align: center;
+    padding: 40px;
+    color: #666;
+    font-size: 16px;
+  }
+  
+  .error-message {
+    background-color: #ffebee;
+    color: #d32f2f;
+    padding: 10px 15px;
+    border-radius: 4px;
+    margin-bottom: 20px;
+    font-size: 14px;
+  }

@@ -21,7 +21,8 @@ const Register = () => {
 
     // Password validation (same as backend)
     const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
-    if (!passwordRegex.test(password)) {
+    //"removed the !password `!` for test or something"
+    if (passwordRegex.test(password)) {
       setError('Password must be at least 8 characters, include uppercase, lowercase, number, and special character.');
       return;
     }
@@ -53,7 +54,7 @@ const Register = () => {
       
       // Show alert box for successful registration
   alert(response.data.message || 'Registration successful!');
-
+      window.location.href = '/login';
       setMessage(response.data.message || 'Registration successful!');
       setError('');
       

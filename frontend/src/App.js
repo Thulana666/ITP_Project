@@ -1,5 +1,9 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import Navbar from './components/Navbar';
+import Footer from './components/Footer';
+import './App.css';
+import HomePage from './pages/HomePage';
 import Register from './pages/Register'; 
 import Login from "./pages/Login";
 import ServiceProviderDashboard from './components/ServiceProviderDashboard'; // Correct path
@@ -13,9 +17,10 @@ import './styles/AdminDashboard.css'; // Import Admin Dashboard styles
 function App() {
   return (
     <Router>
-      <div className="app-container">
-        
+      <Navbar />
+      <div className="content">
         <Routes>
+          <Route path="/" element={<HomePage />} />
           <Route path="/register" element={<Register />} />
           <Route path="/login" element={<Login />} />
           <Route path="/service-provider/dashboard" element={<ServiceProviderDashboard />} /> {/* Add the dashboard route */}
@@ -24,6 +29,7 @@ function App() {
           
         </Routes>
       </div>
+      <Footer />
     </Router>
   );
 }
