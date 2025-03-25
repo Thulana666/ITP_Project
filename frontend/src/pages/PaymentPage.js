@@ -203,7 +203,7 @@ const PaymentPage = () => {
           </div>
         )}
 
-        <button type="submit">Submit</button>
+        <button className="globalButton" type="submit">Submit</button>
       </form>
     </div>
   );

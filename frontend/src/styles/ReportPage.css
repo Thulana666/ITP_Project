@@ -80,21 +80,21 @@
   }
   
   .btn-download {
-    background-color: #4caf50;
+    background-color: #1c1c25;
     color: white;
   }
   
   .btn-download:hover {
-    background-color: #43a047;
+    background-color: #2d334a;
   }
   
   .btn-print {
-    background-color: #2196f3;
+    background-color: #1c1c25;
     color: white;
   }
   
   .btn-print:hover {
-    background-color: #1e88e5;
+    background-color: #2d334a;
   }
   
   .btn-back {

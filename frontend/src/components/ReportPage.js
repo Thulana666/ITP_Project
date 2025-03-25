@@ -100,7 +100,7 @@ const ReportPage = ({ selectedPackages }) => {
           <p style={{ marginBottom: '20px', color: '#666' }}>Generate a detailed report of your selected service packages.</p>
           <button 
             style={{
-              backgroundColor: '#0066cc',
+              backgroundColor: '#1c1c25',
               color: 'white',
               border: 'none',
               padding: '10px 20px',
@@ -127,7 +127,7 @@ const ReportPage = ({ selectedPackages }) => {
             <h3 style={{ margin: 0 }}>Event Services Report</h3>
             <div className="report-actions" style={{ display: 'flex', gap: '10px' }}>
               <button 
-                style={{ padding: '8px 12px', backgroundColor: '#4caf50', color: 'white', border: 'none', borderRadius: '4px', cursor: 'pointer' }}
+                style={{ padding: '8px 12px', backgroundColor: '#1c1c25', color: 'white', border: 'none', borderRadius: '4px', cursor: 'pointer' }}
                 onClick={downloadReport}
               >
                 Download
