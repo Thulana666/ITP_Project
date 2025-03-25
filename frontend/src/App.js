@@ -14,6 +14,11 @@ import './styles/Dashboard.css';
 import './styles/AdminApproveServiceProviders.css';
 import './styles/AdminDashboard.css'; // Import Admin Dashboard styles
 
+import BookingPage from "./pages/BookingPage";
+import ManageBookingsPage from "./pages/ManageBookingsPage";
+import EditBookingPage from "./pages/EditBookingPage";
+import BookingDetails from "./components/BookingDetails";
+
 function App() {
   return (
     <Router>
@@ -27,6 +32,11 @@ function App() {
           <Route path="/admin/*" element={<AdminDashboard />} /> {/* Admin Dashboard Route */}
           <Route path="/customer-dashboard" element={<CustomerDashboard />} /> {/* Customer Dashboard Route */}
           
+          {/* Booking Routes */}
+          <Route path="/booking" element={<BookingPage />} />
+          <Route path="/manage-bookings" element={<ManageBookingsPage />} />
+          <Route path="/booking/:id" element={<BookingDetails />} />
+          <Route path="/edit-booking/:id" element={<EditBookingPage />} />         
         </Routes>
       </div>
       <Footer />

@@ -1,10 +1,17 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import BookingCalendar from "../components/Calendar";
 import EventForm from "../components/EventForm";
+import { useNavigate } from "react-router-dom";
 
 const BookingPage = () => {
   const [selectedDate, setSelectedDate] = useState(new Date());
-
+  const navigate = useNavigate();
+  useEffect(() => {
+      const token = localStorage.getItem("token");
+      if (!token) {
+        navigate("/login");
+      }
+    }, [navigate]);
   return (
     <div className="booking-container">
       <div>

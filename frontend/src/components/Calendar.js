@@ -11,6 +11,7 @@ const BookingCalendar = ({ selectedDate, onDateChange }) => {
     const fetchBookedDates = async () => {
       try {
         const dates = await getBookedDates();
+        console.log("Booking Dates",dates);
         setBookedDates(dates);
       } catch (error) {
         console.error("Error fetching booked dates:", error);
