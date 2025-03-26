@@ -30,6 +30,7 @@ import ProtectedRoute from './components/common/ProtectedRoute';
 import { AuthContextProvider } from './context/AuthContext';
 import PackageForm from './components/PackageForm';
 import PackageList from './components/PackageList';
+import BookingReportPage from "./pages/BookingReportPage";
 
 function App() {
   return (
@@ -84,6 +85,7 @@ function App() {
             <Route path="/payment" element={<PaymentPage />} />
             <Route path="/view-payments" element={<ViewPaymentsPage />} />
             <Route path="/payment-report" element={<PaymentReportPage />} />
+            <Route path="/booking-report" element={<BookingReportPage />} />
 
           </Routes>
         </div>

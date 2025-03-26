@@ -190,6 +190,17 @@ const updateBookingPackages = async (req, res) => {
   }
 };
 
+// Get all bookings
+const getAllBookings = async (req, res) => {
+  try {
+    const bookings = await Booking.find({});
+    res.json(bookings);
+  } catch (error) {
+    console.error("Error fetching all bookings:", error);
+    res.status(500).json({ error: "Server error. Please try again." });
+  }
+};
+
 module.exports = { 
   createBooking, 
   getBookedDates, 
@@ -197,5 +208,6 @@ module.exports = {
   getBookingDetails, 
   updateBooking, 
   deleteBooking,
-  updateBookingPackages 
+  updateBookingPackages,
+  getAllBookings 
 };

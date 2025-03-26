@@ -6,7 +6,8 @@ const {
   getBookingDetails, 
   updateBooking, 
   deleteBooking,
-  updateBookingPackages
+  updateBookingPackages,
+  getAllBookings
 } = require("../controllers/bookingController"); // Ensure getBookedDates is exported
 const validateBooking = require("../middleware/validation");
 const Booking = require("../models/Booking");
@@ -48,6 +49,8 @@ router.post("/", async (req, res) => {
     }
   });
   
+router.get("/all", getAllBookings); // Add this new route before other routes
+
 router.get("/booked-dates", getBookedDates); // Ensure getBookedDates is defined
 
 router.get("/:userId", getUserBookings); // Get all bookings for a user
