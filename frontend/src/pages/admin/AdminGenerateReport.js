@@ -5,6 +5,10 @@ import { useNavigate } from "react-router-dom";
 const AdminGenerateReport = () => {
   const navigate = useNavigate();
 
+  const handleClick = (path) => {
+    window.location.href = path;
+  };
+
   const handleGenerateReport = async () => {
     try {
       const token = localStorage.getItem("token"); // Ensure the token is included
@@ -72,6 +76,7 @@ const AdminGenerateReport = () => {
   };
 
   return (
+    <>
     <div style={pageStyle}>
       <h2 style={headerStyle}>Generate User Report</h2>
       <button
@@ -83,6 +88,43 @@ const AdminGenerateReport = () => {
         Download Report
       </button>
     </div>
+
+    <div style={pageStyle}>
+      <h2 style={headerStyle}>Generate Booking Report</h2>
+      <button
+        onClick={() => handleClick('/booking-report')}
+        style={buttonStyle}
+        onMouseOver={(e) => (e.target.style.backgroundColor = buttonHoverStyle.backgroundColor)}
+        onMouseOut={(e) => (e.target.style.backgroundColor = buttonStyle.backgroundColor)}
+      >
+        See Booking Report
+      </button>
+    </div>
+
+    <div style={pageStyle}>
+      <h2 style={headerStyle}>Generate Payment Report</h2>
+      <button
+        onClick={() => handleClick('/payment-report')}
+        style={buttonStyle}
+        onMouseOver={(e) => (e.target.style.backgroundColor = buttonHoverStyle.backgroundColor)}
+        onMouseOut={(e) => (e.target.style.backgroundColor = buttonStyle.backgroundColor)}
+      >
+        See Payment Report
+      </button>
+    </div>
+
+    <div style={pageStyle}>
+      <h2 style={headerStyle}>Generate Reviews Report</h2>
+      <button
+        onClick={() => handleClick('/review-report')}
+        style={buttonStyle}
+        onMouseOver={(e) => (e.target.style.backgroundColor = buttonHoverStyle.backgroundColor)}
+        onMouseOut={(e) => (e.target.style.backgroundColor = buttonStyle.backgroundColor)}
+      >
+        See Reviews Report
+      </button>
+    </div>
+    </>
   );
 };
 

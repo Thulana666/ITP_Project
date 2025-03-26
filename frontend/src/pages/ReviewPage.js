@@ -110,10 +110,10 @@ const ReviewPage = () => {
                     required
                 />
 
-                <div className="image-upload">
+                {/*<div className="image-upload">
                     <label htmlFor="imageUpload">Add Images (Optional)</label>
                     <input type="file" id="imageUpload" onChange={handleImageChange} />
-                </div>
+                </div>*/}
 
                 <div className="rating-section">
                     <p>Your Rating (Required)</p>

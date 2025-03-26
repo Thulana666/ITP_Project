@@ -85,6 +85,7 @@ exports.getReviews = async(req, res) => {
     try {
         const { search, minRating, sort } = req.query;
         const { serviceId } = req.params;
+        console.log(req.params)
 
         // Ensure serviceId is valid
         if (!mongoose.Types.ObjectId.isValid(serviceId)) {

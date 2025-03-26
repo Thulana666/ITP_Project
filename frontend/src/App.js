@@ -94,6 +94,7 @@ function App() {
             {/* Review Routes */}
             <Route path="/add-review" element={<ReviewPage />} />
             <Route path="/reviews" element={<ReviewListPage />} />
+            <Route path="/review-report" element={<ReviewReportPage />} />
 
           </Routes>
         </div>

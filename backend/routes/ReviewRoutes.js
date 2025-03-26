@@ -20,7 +20,7 @@ router.get("/", getAllReviews);
 router.post("/", verifyToken, createReview);
 
 // Get reviews for a specific service (Public)
-router.get("/:serviceId", getReviews);
+//router.get("/:serviceId", getReviews);
 
 // Update a review (Only the user who created it)
 router.put("/:reviewId", verifyToken, updateReview);

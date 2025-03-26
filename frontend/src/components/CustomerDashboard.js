@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+
 //import AddReview from './AddReview'; // Update the path based on where the AddReview component is located
 
 
@@ -241,7 +242,7 @@ const CustomerDashboard = () => {
 
           {activeSection === "addReview" && (
             <>
-              <h3>Add Review</h3>
+              <button style={buttonStyle} onClick={() => navigate('/add-review')}><h3>Add Review</h3></button>
               {/* AddReview component goes here */}
             </>
           )}
