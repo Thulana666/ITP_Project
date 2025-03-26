@@ -10,6 +10,12 @@ const ReviewListPage = () => {
     const [userRole, setUserRole] = useState(null);
     const [isAdmin, setIsAdmin] = useState(false);
     const [userId, setUserId] = useState(null);
+    const [editingReview, setEditingReview] = useState(null);
+    const [showEditModal, setShowEditModal] = useState(false);
+    const [editForm, setEditForm] = useState({
+        comment: '',
+        rating: 1
+    });
 
     useEffect(() => {
         // Get and decode token
@@ -59,9 +65,37 @@ const ReviewListPage = () => {
         }
     };
 
-    const handleEdit = (id) => {
-        if (!isAdmin && !canModifyReview(reviews.find(review => review._id === id))) return;
-        alert(`Edit feature for review ID: ${id} is under development!`);
+    const handleEdit = (review) => {
+        if (!isAdmin && !canModifyReview(review)) return;
+        setEditingReview(review);
+        setEditForm({
+            comment: review.comment,
+            rating: review.rating
+        });
+        setShowEditModal(true);
+    };
+
+    const handleUpdate = async () => {
+        try {
+            const token = localStorage.getItem('token');
+            const response = await axios.put(
+                `http://localhost:5000/api/reviews/${editingReview._id}`,
+                editForm,
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`
+                    }
+                }
+            );
+            
+            setReviews(reviews.map(review => 
+                review._id === editingReview._id ? response.data.review : review
+            ));
+            setShowEditModal(false);
+            setEditingReview(null);
+        } catch (error) {
+            console.error("Error updating review:", error);
+        }
     };
 
     const filteredReviews = reviews.filter((review) =>
@@ -84,6 +118,31 @@ const ReviewListPage = () => {
                 </div>
             </header>
 
+            {showEditModal && (
+                <div className="modal">
+                    <div className="modal-content">
+                        <h3>Edit Review</h3>
+                        <textarea
+                            value={editForm.comment}
+                            onChange={(e) => setEditForm({...editForm, comment: e.target.value})}
+                            placeholder="Update your review"
+                        />
+                        <select
+                            value={editForm.rating}
+                            onChange={(e) => setEditForm({...editForm, rating: Number(e.target.value)})}
+                        >
+                            {[1,2,3,4,5].map(num => (
+                                <option key={num} value={num}>{num} Stars</option>
+                            ))}
+                        </select>
+                        <div className="modal-actions">
+                            <button onClick={handleUpdate}>Save</button>
+                            <button onClick={() => setShowEditModal(false)}>Cancel</button>
+                        </div>
+                    </div>
+                </div>
+            )}
+
             <div className="reviews-grid">
                 {filteredReviews.map((review) => (
                     <div key={review._id} className="review-card">
@@ -99,7 +158,7 @@ const ReviewListPage = () => {
                             <div className="review-actions">
                                 <button 
                                     className="edit-btn"
-                                    onClick={() => handleEdit(review._id)}
+                                    onClick={() => handleEdit(review)}
                                 >
                                     Edit
                                 </button>
