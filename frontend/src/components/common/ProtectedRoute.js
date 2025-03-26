@@ -1,30 +1,17 @@
 // src/components/common/ProtectedRoute.js
-import React, { useContext } from 'react';
+import React from 'react';
 import { Navigate } from 'react-router-dom';
-import { AuthContext } from '../../context/AuthContext';
 
-const ProtectedRoute = ({ allowedRoles = [], children }) => {
-  const { currentUser, loading } = useContext(AuthContext);
+const ProtectedRoute = ({ children, allowedRoles }) => {
+  const token = localStorage.getItem('token');
+  const currentUser = JSON.parse(localStorage.getItem('currentUser'));
 
-  if (loading) {
-    return (
-      <div style={{ 
-        display: 'flex', 
-        justifyContent: 'center', 
-        alignItems: 'center', 
-        height: '100vh' 
-      }}>
-        Loading...
-      </div>
-    );
+  if (!token) {
+    return <Navigate to="/login" />;
   }
 
-  if (!currentUser) {
-    return <Navigate to="/login" replace />;
-  }
-
-  if (allowedRoles.length > 0 && !allowedRoles.includes(currentUser.role)) {
-    return <Navigate to="/" replace />;
+  if (!currentUser || !allowedRoles.includes(currentUser.role)) {
+    return <Navigate to="/" />;
   }
 
   return children;

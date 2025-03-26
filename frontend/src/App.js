@@ -43,23 +43,32 @@ function App() {
             <Route path="/login" element={<Login />} />
             
             {/* Protected Routes */}
-            <Route path="/service-provider/dashboard" element={
-              <ProtectedRoute allowedRoles={['service_provider']}>
-                <ServiceProviderDashboard />
-              </ProtectedRoute>
-            } />
+            <Route 
+              path="/service-provider/dashboard" 
+              element={
+                <ProtectedRoute allowedRoles={['service_provider']}>
+                  <ServiceProviderDashboard />
+                </ProtectedRoute>
+              } 
+            />
             
-            <Route path="/admin/*" element={
-              <ProtectedRoute allowedRoles={['admin']}>
-                <AdminDashboard />
-              </ProtectedRoute>
-            } />
+            <Route 
+              path="/admin/*" 
+              element={
+                <ProtectedRoute allowedRoles={['admin']}>
+                  <AdminDashboard />
+                </ProtectedRoute>
+              } 
+            />
             
-            <Route path="/customer-dashboard" element={
-              <ProtectedRoute allowedRoles={['customer']}>
-                <CustomerDashboard />
-              </ProtectedRoute>
-            } />
+            <Route 
+              path="/customer-dashboard" 
+              element={
+                <ProtectedRoute allowedRoles={['customer']}>
+                  <CustomerDashboard />
+                </ProtectedRoute>
+              } 
+            />
             
             {/* Booking Routes */}
             <Route path="/booking" element={<BookingPage />} />

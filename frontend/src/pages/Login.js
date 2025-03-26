@@ -20,34 +20,35 @@ const Login = () => {
   //  Handle Login Request
   const [triggerRerender, setTriggerRerender] = useState(false);
 
-const handleLogin = async (e) => {
-  e.preventDefault();
-  setError("");
-  setMessage("");
+  const handleLogin = async (e) => {
+    e.preventDefault();
+    setError("");
+    setMessage("");
 
-  try {
-    const response = await axios.post("http://localhost:5000/api/auth/login", {
-      email,
-      password,
-    });
+    try {
+      const response = await axios.post("http://localhost:5000/api/auth/login", {
+        email,
+        password,
+      });
 
-    console.log(" Login Response:", response.data);
+      console.log("Login Response:", response.data);
 
-    if (response.data.otpRequired) {
-      setMessage("OTP sent successfully. Please enter the OTP below.");
-      setShowOTPField(true);
-      setTriggerRerender(prev => !prev);  //  Force re-render
-    } else if (response.data.token) {
-      setMessage("Login successful! Redirecting...");
-      completeLogin(response.data.token);
-    } else {
-      setError(response.data.message);
+      if (response.data.otpRequired) {
+        setMessage("OTP sent successfully. Please enter the OTP below.");
+        setShowOTPField(true);
+        setTriggerRerender(prev => !prev);
+      } else if (response.data.token) {
+        setMessage("Login successful! Redirecting...");
+        // Handle login completion
+        completeLogin(response.data.token);
+      } else {
+        setError(response.data.message || "Login failed");
+      }
+    } catch (error) {
+      console.error("Error during login:", error);
+      setError(error.response?.data?.message || "Login failed.");
     }
-  } catch (error) {
-    console.error(" Error during login:", error);
-    setError(error.response?.data?.message || "Login failed.");
-  }
-};
+  };
 
   //  Handle OTP Verification
   const handleVerifyOTP = async (e) => {
@@ -77,16 +78,35 @@ const handleLogin = async (e) => {
 
   //  Redirect Based on User Role
   const completeLogin = (token) => {
-    localStorage.setItem("token", token);
-    const payload = JSON.parse(atob(token.split(".")[1])); // Decode JWT
-    const userRole = payload.role;
-
-    if (userRole === "admin") {
-      navigate("/admin");
-    } else if (userRole === "service_provider") {
-      navigate("/service-provider/dashboard");
-    } else {
-      navigate("/customer-dashboard");
+    try {
+      // Save token
+      localStorage.setItem("token", token);
+      
+      // Decode token and extract user data
+      const payload = JSON.parse(atob(token.split(".")[1]));
+      console.log("Decoded token payload:", payload);
+      
+      // Save user data
+      localStorage.setItem("currentUser", JSON.stringify(payload));
+      
+      // Navigate based on role
+      switch (payload.role) {
+        case "admin":
+          navigate("/admin");
+          break;
+        case "service_provider":
+          navigate("/service-provider/dashboard");
+          break;
+        case "customer":
+          navigate("/customer-dashboard");
+          break;
+        default:
+          console.error("Unknown user role:", payload.role);
+          navigate("/");
+      }
+    } catch (error) {
+      console.error("Error processing login:", error);
+      setError("Error processing login. Please try again.");
     }
   };
 
