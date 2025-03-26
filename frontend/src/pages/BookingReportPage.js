@@ -27,18 +27,23 @@ const BookingReportPage = () => {
     const lineHeight = 10;
     const margin = 20;
 
-    // Title
+    // Title and date sections remain the same
     doc.setFontSize(20);
     doc.text('Booking Report', margin, yPos);
     yPos += lineHeight * 2;
 
-    // Date
     doc.setFontSize(12);
     doc.text(`Generated: ${new Date().toLocaleString()}`, margin, yPos);
     yPos += lineHeight * 2;
 
-    // Bookings
+    // Bookings with package details
     bookings.forEach((booking, index) => {
+      // Check page space
+      if (yPos > 250) {
+        doc.addPage();
+        yPos = 20;
+      }
+
       doc.setFontSize(14);
       doc.text(`Booking #${index + 1}`, margin, yPos);
       yPos += lineHeight;
@@ -48,13 +53,24 @@ const BookingReportPage = () => {
         `Event Type: ${booking.eventType}`,
         `Date: ${new Date(booking.eventDate).toLocaleDateString()}`,
         `Expected Crowd: ${booking.expectedCrowd}`,
-        `Total Price: ${booking.totalPrice || 'N/A'}`,
-        `Services: ${booking.salonServices?.join(', ') || 'None'}`,
-        '------------------------'
+        `Services: ${booking.salonServices?.join(', ') || 'None'}`
       ];
 
+      // Add package details if available
+      if (booking.packages && booking.packages.length > 0) {
+        details.push('\nSelected Packages:');
+        booking.packages.forEach(pkg => {
+          details.push(
+            `  • ${pkg.serviceType} - ${pkg.packageName}`,
+            `    Price: Rs. ${pkg.price}`
+          );
+        });
+        details.push(`\nTotal Price: Rs. ${booking.totalPrice || 'N/A'}`);
+      }
+
+      details.push('------------------------');
+
       details.forEach(line => {
-        // Add new page if content exceeds page height
         if (yPos > 280) {
           doc.addPage();
           yPos = 20;
@@ -88,6 +104,7 @@ const BookingReportPage = () => {
             <th>Event Type</th>
             <th>Date</th>
             <th>Expected Crowd</th>
+            <th>Packages</th>
             <th>Total Price</th>
           </tr>
         </thead>
@@ -97,7 +114,14 @@ const BookingReportPage = () => {
               <td>{booking.eventType}</td>
               <td>{new Date(booking.eventDate).toLocaleDateString()}</td>
               <td>{booking.expectedCrowd}</td>
-              <td>{booking.totalPrice || 'N/A'}</td>
+              <td>
+                {booking.packages?.length > 0 
+                  ? booking.packages.map(pkg => 
+                      `${pkg.packageName} (${pkg.serviceType})`
+                    ).join(', ')
+                  : 'No packages'}
+              </td>
+              <td>{booking.totalPrice ? `Rs. ${booking.totalPrice}` : 'N/A'}</td>
             </tr>
           ))}
         </tbody>
