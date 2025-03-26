@@ -80,7 +80,7 @@ const PaymentPage = () => {
     if (paymentData.file) {
       formData.append("paymentSlip", paymentData.file);
     }
-
+    console.log(formData);
     try {
       const response = await fetch("http://localhost:5000/api/payments", {
         method: "POST",

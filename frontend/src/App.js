@@ -32,6 +32,10 @@ import PackageForm from './components/PackageForm';
 import PackageList from './components/PackageList';
 import BookingReportPage from "./pages/BookingReportPage";
 
+import ReviewListPage from "./pages/ReviewListPage";
+import ReviewPage from "./pages/ReviewPage";
+import ReviewReportPage from "./pages/ReviewReportPage";
+
 function App() {
   return (
     <AuthContextProvider>
@@ -86,6 +90,10 @@ function App() {
             <Route path="/view-payments" element={<ViewPaymentsPage />} />
             <Route path="/payment-report" element={<PaymentReportPage />} />
             <Route path="/booking-report" element={<BookingReportPage />} />
+
+            {/* Review Routes */}
+            <Route path="/add-review" element={<ReviewPage />} />
+            <Route path="/reviews" element={<ReviewListPage />} />
 
           </Routes>
         </div>

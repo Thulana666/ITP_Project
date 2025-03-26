@@ -1,0 +1,55 @@
+.review-container {
+    width: 350px;
+    margin: 50px auto;
+    background: #e0e0e0;
+    padding: 20px;
+    border-radius: 10px;
+    text-align: center;
+}
+
+h2 {
+    margin-bottom: 15px;
+}
+
+input,
+textarea {
+    width: 100%;
+    padding: 8px;
+    margin: 8px 0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+textarea {
+    height: 80px;
+    resize: none;
+}
+
+.rating {
+    margin: 10px 0;
+}
+
+.star {
+    font-size: 20px;
+    cursor: pointer;
+    color: gray;
+}
+
+.star.selected {
+    color: gold;
+}
+
+button {
+    width: 100%;
+    padding: 10px;
+    margin: 5px 0;
+    border: none;
+    cursor: pointer;
+    background: black;
+    color: white;
+    border-radius: 5px;
+}
+
+.view-reviews {
+    background: gray;
+}

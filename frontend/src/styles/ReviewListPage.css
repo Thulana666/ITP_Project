@@ -1,0 +1,138 @@
+.review-list-container {
+    width: 80%;
+    margin: 20px auto;
+    background: #e0e0e0;
+    padding: 20px;
+    border-radius: 10px;
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+h2 {
+    margin: 0;
+}
+
+
+/* Search Bar */
+
+.search-container {
+    display: flex;
+    align-items: center;
+    background: white;
+    padding: 5px;
+    border-radius: 20px;
+    width: 250px;
+    position: relative;
+}
+
+.search-icon {
+    color: gray;
+    margin-left: 5px;
+}
+
+.filter-icon {
+    color: gray;
+    margin-left: auto;
+    margin-right: 5px;
+    cursor: pointer;
+}
+
+input {
+    border: none;
+    outline: none;
+    padding: 8px;
+    width: 100%;
+}
+
+
+/* Reviews Grid */
+
+.reviews-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 15px;
+}
+
+.review-card {
+    background: #fff;
+    padding: 15px;
+    border-radius: 10px;
+    text-align: center;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+
+/* Profile Icon */
+
+.profile-icon {
+    font-size: 30px;
+    color: black;
+    margin-right: 5px;
+}
+
+.review-header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 10px;
+}
+
+.review-header h3 {
+    margin: 0;
+    font-size: 18px;
+}
+
+
+/* Rating */
+
+.review-rating {
+    font-size: 24px;
+    color: gold;
+    margin: 10px 0;
+}
+
+
+/* Comment */
+
+.review-comment {
+    font-size: 14px;
+    color: #333;
+    background: #f2f2f2;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+
+/* Buttons */
+
+.review-actions {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+button {
+    border: none;
+    padding: 8px 12px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.edit-btn {
+    background: black;
+    color: white;
+}
+
+.delete-btn {
+    background: red;
+    color: white;
+}

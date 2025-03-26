@@ -117,7 +117,7 @@ const Register = () => {
             <div>
               <label>
                 <input type="checkbox" checked={mfaPreference} onChange={(e) => setMfaPreference(e.target.checked)} />
-                Enable MFA (Two-Factor Authentication)
+                Enable MFA (Multi-Factor Authentication)
               </label>
             </div>
           </>

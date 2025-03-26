@@ -30,7 +30,7 @@ exports.createPayment = async (req, res) => {
       amount,
       paymentSlip,
     });
-
+    console.log(newPayment)
     await newPayment.save();
     res.status(201).json(newPayment);
   } catch (error) {

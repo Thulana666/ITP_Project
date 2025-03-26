@@ -69,7 +69,18 @@ exports.createReview = async(req, res) => {
     }
 };
 
-// **2. Get Reviews (Search & Filter)**
+// **2. Get All Reviews (for listing)**
+exports.getAllReviews = async (req, res) => {
+    try {
+        const reviews = await Review.find().sort({ createdAt: -1 });
+        res.json(reviews);
+    } catch (error) {
+        console.error("Get All Reviews Error:", error);
+        res.status(500).json({ message: "Server error", error: error.message });
+    }
+};
+
+// **3. Get Reviews for a Specific Service**
 exports.getReviews = async(req, res) => {
     try {
         const { search, minRating, sort } = req.query;
@@ -109,7 +120,7 @@ exports.getReviews = async(req, res) => {
     }
 };
 
-// **3. Update a Review**
+// **4. Update a Review**
 exports.updateReview = async(req, res) => {
     try {
         const { comment, rating, images } = req.body;
@@ -172,7 +183,7 @@ exports.updateReview = async(req, res) => {
     }
 };
 
-// **4. Delete a Review**
+// **5. Delete a Review**
 exports.deleteReview = async(req, res) => {
     try {
         const { reviewId } = req.params;
@@ -194,6 +205,57 @@ exports.deleteReview = async(req, res) => {
         res.json({ message: "Review deleted successfully" });
     } catch (error) {
         console.error("Delete Review Error:", error);
+        res.status(500).json({ message: "Server error", error: error.message });
+    }
+};
+
+// **6. Get Review Statistics**
+exports.getReviewStats = async (req, res) => {
+    try {
+        const totalReviews = await Review.countDocuments();
+        
+        const ratingsData = await Review.aggregate([
+            {
+                $group: {
+                    _id: null,
+                    averageRating: { $avg: "$rating" }
+                }
+            }
+        ]);
+        
+        const averageRating = ratingsData.length > 0 ? ratingsData[0].averageRating : 0;
+        
+        res.json({
+            totalReviews,
+            averageRating
+        });
+    } catch (error) {
+        console.error("Review Stats Error:", error);
+        res.status(500).json({ message: "Server error", error: error.message });
+    }
+};
+
+// **7. Get Monthly Report**
+exports.getMonthlyReport = async (req, res) => {
+    try {
+        const monthlyData = await Review.aggregate([
+            {
+                $group: {
+                    _id: {
+                        month: { $month: "$createdAt" },
+                        year: { $year: "$createdAt" }
+                    },
+                    totalReviews: { $sum: 1 },
+                    averageRating: { $avg: "$rating" }
+                }
+            },
+            { $sort: { "_id.year": -1, "_id.month": -1 } },
+            { $limit: 12 }
+        ]);
+        
+        res.json(monthlyData);
+    } catch (error) {
+        console.error("Monthly Report Error:", error);
         res.status(500).json({ message: "Server error", error: error.message });
     }
 };
