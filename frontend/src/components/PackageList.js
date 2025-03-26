@@ -8,23 +8,68 @@ import "../styles/styles.css";
 const PackageList = () => {
   const [packages, setPackages] = useState([]);
   const [editingPackage, setEditingPackage] = useState(null);
+  const [showAddForm, setShowAddForm] = useState(false);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
-    axios.get("http://localhost:5000/packages")
-      .then(response => setPackages(response.data))
-      .catch(error => console.error("Error fetching packages:", error));
+    const fetchPackages = async () => {
+      const token = localStorage.getItem('token');
+      if (!token) {
+        setError("Please login first");
+        return;
+      }
+
+      try {
+        const response = await axios.get("http://localhost:5000/api/packages", {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          }
+        });
+        setPackages(response.data);
+      } catch (err) {
+        setError(err.response?.data?.message || "Error fetching packages");
+        console.error("Error fetching packages:", err);
+      }
+    };
+
+    fetchPackages();
   }, []);
 
-  const handleDelete = (id) => {
-    axios.delete(`http://localhost:5000/packages/${id}`)
-      .then(() => setPackages(packages.filter(pkg => pkg._id !== id)))
-      .catch(error => console.error("Error deleting package:", error));
+  const handleDelete = async (id) => {
+    const token = localStorage.getItem('token');
+    if (!token) {
+      setError("Please login first");
+      return;
+    }
+
+    try {
+      await axios.delete(`http://localhost:5000/api/packages/${id}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        }
+      });
+      setPackages(packages.filter(pkg => pkg._id !== id));
+    } catch (error) {
+      console.error("Error deleting package:", error);
+      setError(error.response?.data?.message || "Error deleting package");
+    }
   };
 
   return (
     <div className="container">
-      <PackageForm setPackages={setPackages} />
-      {editingPackage && <UpdatePackageForm packageData={editingPackage} setEditingPackage={setEditingPackage} setPackages={setPackages} />}
+      <h1>Package List</h1>
+      {error && <div className="error-message">{error}</div>}
+      <button className="globalButton" onClick={() => setShowAddForm(!showAddForm)}>
+        {showAddForm ? 'Hide Add Form' : 'Add New Package'}
+      </button>
+      
+      {showAddForm && <PackageForm setPackages={setPackages} />}
+      {editingPackage && <UpdatePackageForm 
+        packageData={editingPackage} 
+        setEditingPackage={setEditingPackage} 
+        setPackages={setPackages} 
+      />}
+      
       <div className="package-list">
         {packages.map(pkg => (
           <div key={pkg._id} className="package-card">
@@ -32,7 +77,7 @@ const PackageList = () => {
             <p>{pkg.description}</p>
             <p>Price: {pkg.price}</p>
             <p>Service Provider: {pkg.serviceProvider}</p>
-            <button className="globalButton" onClick={() => setEditingPackage(pkg)}>Edit</button>
+            {/*<button className="globalButton" onClick={() => setEditingPackage(pkg)}>Edit</button>*/}
             <button className="globalButton" onClick={() => handleDelete(pkg._id)}>Delete</button>
           </div>
         ))}

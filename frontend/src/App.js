@@ -28,6 +28,8 @@ import PaymentReportPage from "./pages/PaymentReportPage";
 
 import ProtectedRoute from './components/common/ProtectedRoute';
 import { AuthContextProvider } from './context/AuthContext';
+import PackageForm from './components/PackageForm';
+import PackageList from './components/PackageList';
 
 function App() {
   return (
@@ -66,7 +68,9 @@ function App() {
             <Route path="/edit-booking/:id" element={<EditBookingPage />} />
 
             <Route path="/packages" element={<ServiceSelectionPage />} />  
-            {/*<Route path="/package-management" element={<PackageListPage />} />   */}
+            <Route path="/add-package" element={<PackageForm />} />
+            <Route path="/package-list" element={<PackageList />} />
+            
             {/* Payment Routes */}
             <Route path="/payment" element={<PaymentPage />} />
             <Route path="/view-payments" element={<ViewPaymentsPage />} />

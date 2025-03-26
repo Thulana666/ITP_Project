@@ -13,20 +13,24 @@ const calculateDiscount = (selectedPackages) => {
     return totalPrice;
 };
 
-// Get all packages
+// Modify getPackages to filter by service provider
 exports.getPackages = async (req, res) => {
     try {
-        const packages = await Package.find();
+        const userId = req.user.id; // Get user ID from auth middleware
+        const packages = await Package.find({ serviceProvider: userId });
         res.json(packages);
     } catch (error) {
         res.status(500).json({ message: "Error fetching packages: " + error.message });
     }
 };
 
-// Create a new package
+// Modify createPackage to include service provider
 exports.createPackage = async (req, res) => {
     try {
-        const newPackage = new Package(req.body);
+        const newPackage = new Package({
+            ...req.body,
+            serviceProvider: req.user.id // Add the service provider ID from auth
+        });
         const savedPackage = await newPackage.save();
         res.status(201).json(savedPackage);
     } catch (error) {
@@ -34,22 +38,40 @@ exports.createPackage = async (req, res) => {
     }
 };
 
-// Update a package
+// Add ownership check to updatePackage
 exports.updatePackage = async (req, res) => {
     try {
-        const updatedPackage = await Package.findByIdAndUpdate(req.params.id, req.body, { new: true });
-        if (!updatedPackage) return res.status(404).json({ message: 'Package not found' });
+        const package = await Package.findById(req.params.id);
+        if (!package) return res.status(404).json({ message: 'Package not found' });
+        
+        // Check if the package belongs to the logged-in service provider
+        if (package.serviceProvider.toString() !== req.user.id) {
+            return res.status(403).json({ message: 'Not authorized to update this package' });
+        }
+
+        const updatedPackage = await Package.findByIdAndUpdate(
+            req.params.id, 
+            req.body, 
+            { new: true }
+        );
         res.json(updatedPackage);
     } catch (error) {
         res.status(400).json({ message: "Error updating package: " + error.message });
     }
 };
 
-// Delete a package
+// Add ownership check to deletePackage
 exports.deletePackage = async (req, res) => {
     try {
-        const deletedPackage = await Package.findByIdAndDelete(req.params.id);
-        if (!deletedPackage) return res.status(404).json({ message: 'Package not found' });
+        const package = await Package.findById(req.params.id);
+        if (!package) return res.status(404).json({ message: 'Package not found' });
+        
+        // Check if the package belongs to the logged-in service provider
+        if (package.serviceProvider.toString() !== req.user.id) {
+            return res.status(403).json({ message: 'Not authorized to delete this package' });
+        }
+
+        await Package.findByIdAndDelete(req.params.id);
         res.json({ message: 'Package deleted successfully' });
     } catch (error) {
         res.status(500).json({ message: "Error deleting package: " + error.message });
