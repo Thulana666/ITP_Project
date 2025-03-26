@@ -1,15 +1,21 @@
 import React, { useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 import "../styles/PaymentPage.css";
 
 const PaymentPage = () => {
+  const location = useLocation();
+  const navigate = useNavigate();
+  const bookingData = location.state || {};
+
   const [paymentData, setPaymentData] = useState({
     userId: "64a1e76f5ab8ed2f86b0c123", //temp hardcoded
     firstName: "",
     lastName: "",
     email: "",
     phone: "",
-    paymentMethod: "Bank Transfer", // Changed to match backend enum
-    amount: "", // Added amount field
+    paymentMethod: "Bank Transfer",
+    amount: bookingData.totalAmount || "",
+    bookingId: bookingData.bookingId || "",
     file: null,
   });
 
@@ -63,13 +69,11 @@ const PaymentPage = () => {
     }
 
     const formData = new FormData();
-    formData.append("userId", paymentData.userId);
-    formData.append("firstName", paymentData.firstName);
-    formData.append("lastName", paymentData.lastName);
-    formData.append("email", paymentData.email);
-    formData.append("phone", paymentData.phone);
-    formData.append("paymentMethod", paymentData.paymentMethod);
-    formData.append("amount", paymentData.amount);
+    Object.keys(paymentData).forEach(key => {
+      if (key !== 'file') {
+        formData.append(key, paymentData[key]);
+      }
+    });
     if (paymentData.file) {
       formData.append("paymentSlip", paymentData.file);
     }
@@ -82,32 +86,44 @@ const PaymentPage = () => {
 
       if (response.ok) {
         alert("Payment submitted successfully!");
-        setPaymentData({
-          userId: "64a1e76f5ab8ed2f86b0c123", // Keep the user ID
-          firstName: "",
-          lastName: "",
-          email: "",
-          phone: "",
-          paymentMethod: "Bank Transfer",
-          amount: "",
-          file: null
+        // Navigate to confirmation or dashboard page
+        navigate('/payment-confirmation', { 
+          state: { 
+            paymentDetails: await response.json(),
+            bookingDetails: bookingData 
+          }
         });
-        setFileName("");
       } else {
         const errorData = await response.json();
-        console.error("Error response:", errorData);
-        setFormError(errorData.error || errorData.details || "Error submitting payment. Please check your form data.");
+        setFormError(errorData.error || "Error submitting payment");
       }
     } catch (error) {
       console.error("Error:", error);
-      setFormError("Failed to submit payment. Please check your internet connection.");
+      setFormError("Failed to submit payment");
     }
   };
 
   return (
     <div className="payment-container">
-      <h2>Payment</h2>
+      <h2>Payment Details</h2>
       
+      {bookingData.packages && (
+        <div className="booking-summary">
+          <h3>Booking Summary</h3>
+          <div className="selected-packages">
+            {bookingData.packages.map((pkg, index) => (
+              <div key={index} className="package-item">
+                <span>{pkg.serviceType}: {pkg.packageName}</span>
+                <span>LKR {pkg.price}</span>
+              </div>
+            ))}
+          </div>
+          <div className="total-amount">
+            <strong>Total Amount: LKR {bookingData.totalAmount}</strong>
+          </div>
+        </div>
+      )}
+
       {formError && (
         <div className="error-message" style={{ color: "red", marginBottom: "15px" }}>
           {formError}

@@ -147,7 +147,6 @@ const ServiceSelectionPage = () => {
     }
 
     try {
-      // Format selected packages into a clean JSON structure
       const formattedPackages = Object.entries(selectedPackages)
         .filter(([_, pkg]) => pkg !== null)
         .map(([serviceType, pkg]) => ({
@@ -157,23 +156,20 @@ const ServiceSelectionPage = () => {
           price: pkg.price
         }));
 
-      // Update the booking with selected packages
       const response = await axios.put(`http://localhost:5000/api/bookings/${bookingId}/packages`, {
         packages: formattedPackages,
         totalPrice: totalPrice
       });
 
       if (response.data.success) {
-        console.log('Formateed', formattedPackages)
-        console.log("Packages", selectedPackages)
-        console.log(response)
-        // navigate('/checkout', { 
-        //   state: { 
-        //     bookingId,
-        //     totalPrice,
-        //     selectedPackages: formattedPackages
-        //   }
-        // }); 
+        navigate('/payment', { 
+          state: { 
+            bookingId,
+            totalAmount: totalPrice,
+            packages: formattedPackages,
+            booking: response.data.booking
+          }
+        });
       } else {
         alert("Failed to update booking with selected packages");
       }

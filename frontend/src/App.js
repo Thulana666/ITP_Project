@@ -22,6 +22,10 @@ import BookingDetails from "./components/BookingDetails";
 import ServiceSelectionPage from './pages/ServiceSelectionPage';
 //import PackageListPage from './pages/PackageManagement';
 
+import PaymentPage from "./pages/PaymentPage";
+import ViewPaymentsPage from "./pages/ViewPaymentsPage";
+import PaymentReportPage from "./pages/PaymentReportPage";
+
 function App() {
   return (
     <Router>
@@ -43,6 +47,11 @@ function App() {
 
           <Route path="/packages" element={<ServiceSelectionPage />} />  
           {/*<Route path="/package-management" element={<PackageListPage />} />   */}
+          {/* Payment Routes */}
+          <Route path="/payment" element={<PaymentPage />} />
+          <Route path="/view-payments" element={<ViewPaymentsPage />} />
+          <Route path="/payment-report" element={<PaymentReportPage />} />
+
         </Routes>
       </div>
       <Footer />
