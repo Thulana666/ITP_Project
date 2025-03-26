@@ -1,0 +1,57 @@
+.service-selection-container{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-top: 50px;
+}
+
+.service-selection-container h2{
+    color: #fcfaf8;
+}
+
+.service-selection-container h1{
+    font-size: 2.5rem;
+    margin-bottom: 20px;
+}
+
+.service-providers{
+    display: grid;
+    direction: row;
+    justify-content: center;
+    grid-template-rows: 1fr 1fr 1fr;
+    grid-gap: 20px;
+}
+
+.provider-card{
+    display: grid;
+    direction: column;
+    justify-content: center;
+    grid-template-columns: 1fr 1fr;
+    grid-gap: 20px;
+    background-color: #fcfaf8;
+    padding: 10px;
+    margin: 0px 200px;
+}
+
+.provider-select{
+    display: grid;
+    direction: column;
+    justify-content: center;
+    grid-template-columns: 1fr 1fr;
+    grid-gap: 20px;
+}
+
+.package-actions{
+    display: grid;
+    direction: column;
+    justify-content: center;
+    grid-template-columns: 1fr 1fr;
+    grid-gap: 20px;
+}
+
+.service-summary{
+    background-color: #fcfaf8;
+    padding: 10px 400px;
+    border-radius: 20x;
+}

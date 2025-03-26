@@ -3,6 +3,7 @@ import axios from "axios";
 import ReportPage from "../components/ReportPage";
 import ServiceProviderProfileModal from "../components/ServiceProviderProfileModal";
 import { useLocation, useNavigate } from "react-router-dom";
+import "../styles/ServiceSelection.css";
 
 // Helper function for currency formatting
 const formatCurrency = (amount) => {
