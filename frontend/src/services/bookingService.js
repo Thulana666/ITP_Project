@@ -41,6 +41,7 @@ export const getUserBookings = async (token) => {
 export const getBookingById = async (id) => {
   try {
     const response = await axios.get(`${API_URL}/details/${id}`);
+    console.log(response);
     return response.data;
   } catch (error) {
     console.error("Error fetching booking details:", error);

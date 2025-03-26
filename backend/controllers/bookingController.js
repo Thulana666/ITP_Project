@@ -62,7 +62,7 @@ const getUserBookings = async (req, res) => {
     const bookings = await Booking.find({ userId });
 
     res.json(bookings);
-    console.log("User bookings:", bookings[0]._id); // Log user bookings for debugging
+    console.log("User bookings:", bookings[0].id); // Log user bookings for debugging
   } catch (error) {
     console.error("Error fetching user bookings:", error);
     res.status(500).json({ error: "Server error. Please try again." });
@@ -76,6 +76,7 @@ const getBookingDetails = async (req, res) => {
     if (!booking) {
       return res.status(404).json({ error: "Booking not found" });
     }
+    console.log("Booking details:", booking); // Log booking details for debugging
     res.json(booking);
   } catch (error) {
     console.error("Error fetching booking details:", error);

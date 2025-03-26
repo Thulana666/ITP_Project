@@ -11,10 +11,23 @@ const Navbar = () => {
     logout();
   };
 
-  // Don't show navbar on the dashboard
-  if (location.pathname === '/dashboard') {
+  // Don't show navbar on dashboard pages
+  if (['/dashboard', '/admin', '/customer-dashboard'].includes(location.pathname)) {
     return null;
   }
+
+  const getDashboardLink = () => {
+    switch (currentUser?.role) {
+      case 'service_provider':
+        return '/service-provider/dashboard';
+      case 'admin':
+        return '/admin';
+      case 'customer':
+        return '/customer-dashboard';
+      default:
+        return '/';
+    }
+  };
 
   return (
     <nav className="navbar">
@@ -31,11 +44,6 @@ const Navbar = () => {
             <li className={location.pathname === '/packages' ? 'active' : ''}>
               <Link to="/packages">Services</Link>
             </li>
-            {currentUser && currentUser.role === 'service_provider' && (
-              <li className={location.pathname === '/dashboard' ? 'active' : ''}>
-                <Link to="/dashboard">Provider Dashboard</Link>
-              </li>
-            )}
           </ul>
         </div>
         
@@ -43,18 +51,17 @@ const Navbar = () => {
           {currentUser ? (
             <div className="user-menu">
               <span className="user-name">{currentUser.fullName}</span>
+              <Link to={getDashboardLink()} className="btn-dashboard">
+                Dashboard
+              </Link>
               <button className="btn-logout" onClick={handleLogout}>
                 Logout
               </button>
             </div>
           ) : (
             <div className="auth-buttons">
-              <Link to="/login" className="btn-login">
-                Service Provider Login
-              </Link>
-              <Link to="/register" className="btn-register">
-                Register as Provider
-              </Link>
+              <Link to="/login" className="btn-login">Login</Link>
+              <Link to="/register" className="btn-register">Register</Link>
             </div>
           )}
         </div>

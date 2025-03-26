@@ -26,36 +26,57 @@ import PaymentPage from "./pages/PaymentPage";
 import ViewPaymentsPage from "./pages/ViewPaymentsPage";
 import PaymentReportPage from "./pages/PaymentReportPage";
 
+import ProtectedRoute from './components/common/ProtectedRoute';
+import { AuthContextProvider } from './context/AuthContext';
+
 function App() {
   return (
-    <Router>
-      <Navbar />
-      <div className="content">
-        <Routes>
-          <Route path="/" element={<HomePage />} />
-          <Route path="/register" element={<Register />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/service-provider/dashboard" element={<ServiceProviderDashboard />} /> {/* Add the dashboard route */}
-          <Route path="/admin/*" element={<AdminDashboard />} /> {/* Admin Dashboard Route */}
-          <Route path="/customer-dashboard" element={<CustomerDashboard />} /> {/* Customer Dashboard Route */}
-          
-          {/* Booking Routes */}
-          <Route path="/booking" element={<BookingPage />} />
-          <Route path="/manage-bookings" element={<ManageBookingsPage />} />
-          <Route path="/booking/:id" element={<BookingDetails />} />
-          <Route path="/edit-booking/:id" element={<EditBookingPage />} />
+    <AuthContextProvider>
+      <Router>
+        <Navbar />
+        <div className="content">
+          <Routes>
+            <Route path="/" element={<HomePage />} />
+            <Route path="/register" element={<Register />} />
+            <Route path="/login" element={<Login />} />
+            
+            {/* Protected Routes */}
+            <Route path="/service-provider/dashboard" element={
+              <ProtectedRoute allowedRoles={['service_provider']}>
+                <ServiceProviderDashboard />
+              </ProtectedRoute>
+            } />
+            
+            <Route path="/admin/*" element={
+              <ProtectedRoute allowedRoles={['admin']}>
+                <AdminDashboard />
+              </ProtectedRoute>
+            } />
+            
+            <Route path="/customer-dashboard" element={
+              <ProtectedRoute allowedRoles={['customer']}>
+                <CustomerDashboard />
+              </ProtectedRoute>
+            } />
+            
+            {/* Booking Routes */}
+            <Route path="/booking" element={<BookingPage />} />
+            <Route path="/manage-bookings" element={<ManageBookingsPage />} />
+            <Route path="/booking/:id" element={<BookingDetails />} />
+            <Route path="/edit-booking/:id" element={<EditBookingPage />} />
 
-          <Route path="/packages" element={<ServiceSelectionPage />} />  
-          {/*<Route path="/package-management" element={<PackageListPage />} />   */}
-          {/* Payment Routes */}
-          <Route path="/payment" element={<PaymentPage />} />
-          <Route path="/view-payments" element={<ViewPaymentsPage />} />
-          <Route path="/payment-report" element={<PaymentReportPage />} />
+            <Route path="/packages" element={<ServiceSelectionPage />} />  
+            {/*<Route path="/package-management" element={<PackageListPage />} />   */}
+            {/* Payment Routes */}
+            <Route path="/payment" element={<PaymentPage />} />
+            <Route path="/view-payments" element={<ViewPaymentsPage />} />
+            <Route path="/payment-report" element={<PaymentReportPage />} />
 
-        </Routes>
-      </div>
-      <Footer />
-    </Router>
+          </Routes>
+        </div>
+        <Footer />
+      </Router>
+    </AuthContextProvider>
   );
 }
 

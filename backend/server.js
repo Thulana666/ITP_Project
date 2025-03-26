@@ -2,6 +2,7 @@ const express = require("express");
 const dotenv = require("dotenv");
 const mongoose = require("mongoose");
 const cors = require("cors");
+const path = require("path"); // Add this line
 const connectDB = require("./config/db");
 const authRoutes = require("./routes/authRoutes");
 const serviceProviderRoutes = require("./routes/serviceProviderRoutes");
@@ -19,6 +20,12 @@ const app = express();
 // Middleware
 app.use(cors());
 app.use(express.json());
+
+// Serve static files from uploads directory
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+app.use('/uploads', (req, res) => {
+  res.status(404).send('File not found');
+});
 
 // Connect to the database
 connectDB();

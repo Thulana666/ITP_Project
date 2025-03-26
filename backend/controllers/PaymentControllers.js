@@ -1,7 +1,6 @@
 // PaymentControllers.js
 const { validationResult } = require("express-validator");
 const Payment = require("../models/PaymentModel");
-const mongoose = require("mongoose");
 
 // Create a Payment
 exports.createPayment = async (req, res) => {
@@ -11,7 +10,7 @@ exports.createPayment = async (req, res) => {
   }
 
   try {
-    const { userId, firstName, lastName, email, phone, paymentMethod, amount, bookingId } = req.body;
+    const { userId, firstName, lastName, email, phone, paymentMethod, amount } = req.body;
     const paymentSlip = req.file ? req.file.filename : null;
 
     // Validate paymentSlip for Bank Transfer
@@ -23,7 +22,6 @@ exports.createPayment = async (req, res) => {
 
     const newPayment = new Payment({
       userId,
-      bookingId,  // Add booking reference
       firstName,
       lastName,
       email,
@@ -32,18 +30,8 @@ exports.createPayment = async (req, res) => {
       amount,
       paymentSlip,
     });
-    console.log("newPayment:", newPayment);
+
     await newPayment.save();
-
-    // Update booking status if bookingId is provided
-    if (bookingId) {
-      await mongoose.model('Booking').findByIdAndUpdate(
-        bookingId,
-        { paymentStatus: 'Paid', paymentId: newPayment._id },
-        { new: true }
-      );
-    }
-
     res.status(201).json(newPayment);
   } catch (error) {
     console.error("Payment creation error:", error);
