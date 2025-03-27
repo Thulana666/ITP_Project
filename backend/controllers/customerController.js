@@ -5,7 +5,7 @@ const bcrypt = require('bcryptjs');
 const getCustomerProfile = async (req, res) => {
   try {
     const customer = await User.findById(req.user.id).select('-password'); // Exclude password
-    if (!customer) return res.status(404).json({ message: 'Customer not found' });
+    if (!customer) return res.status(404).json({ message: 'Customer not found' });  //validate customer not found
 
     res.status(200).json(customer);
   } catch (error) {
@@ -22,10 +22,10 @@ const updateCustomerProfile = async (req, res) => {
 
     if (!customer) return res.status(404).json({ message: 'Customer not found' });
 
-    if (fullName) customer.fullName = fullName;
+    if (fullName) customer.fullName = fullName;    //validation - only updates fields that are provided in the request body
     if (email) customer.email = email;
     
-    if (password) {
+    if (password) {   //validation- If a new password is provided, it is hashed before saving
       const salt = await bcrypt.genSalt(10);
       customer.password = await bcrypt.hash(password, salt);
     }

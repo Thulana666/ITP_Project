@@ -3,10 +3,12 @@ const jwt = require('jsonwebtoken');
 const User = require('../models/User');
 const { generateOTP, sendOTPEmail } = require('../services/authService');
 
+// Handle user registration  
 const registerUser = async (req, res) => {
   const { fullName, email, password, isServiceProvider, role, phoneNumber, serviceType, mfaPreference } = req.body;
 
   try {
+    //  Check if the user already exists 
     let user = await User.findOne({ email });
     if (user) return res.status(400).json({ message: 'User already exists' });
 
@@ -30,7 +32,7 @@ const registerUser = async (req, res) => {
        return res.status(403).json({ message: " You are not allowed to register as an admin!" });
      }
 
-
+     //  Validate required fields for service providers 
     if (isServiceProvider) {
       if (!role || !phoneNumber || !serviceType ) {
         return res.status(400).json({ message: 'Missing required service provider details' });
@@ -47,6 +49,7 @@ const registerUser = async (req, res) => {
         approvalStatus: false
       });
 
+      // Check if the user is an admin
     } else if (role === "admin") {
       user = new User({
         fullName,
@@ -71,7 +74,7 @@ const registerUser = async (req, res) => {
         }
       });
 
-    }else {
+    }else {      //  If the user is a normal customer, create a new customer user
       user = new User({
         fullName,
         email,
@@ -110,6 +113,7 @@ const loginUser = async (req, res) => {
       return res.status(200).json({ message: 'OTP sent successfully', otpRequired: true });
     }
 
+    //  Generate JWT token with 6-hour expiration
     const token = jwt.sign({ id: user._id, role: user.role }, process.env.JWT_SECRET, { expiresIn: '6h' });
     res.status(200).json({ token });
   } catch (error) {
@@ -118,6 +122,7 @@ const loginUser = async (req, res) => {
   }
 };
 
+//handle otp varification
 const verifyOTP = async (req, res) => {
   const { email, otp } = req.body;
   try {
@@ -129,6 +134,7 @@ const verifyOTP = async (req, res) => {
 
     await User.updateOne({ email }, { $unset: { otp: '', otpExpires: '' } });
 
+    //  Generate JWT token with 1-hour expiration
     const token = jwt.sign({ id: user._id, role: user.role }, process.env.JWT_SECRET, { expiresIn: '1h' });
     res.status(200).json({ token });
   } catch (error) {
