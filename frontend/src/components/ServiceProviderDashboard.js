@@ -7,6 +7,10 @@ import DeleteAccount from './DeleteAccount';
 const ServiceProviderDashboard = () => {
   const [view, setView] = useState('viewProfile'); // Default to 'viewProfile'
 
+  const handleClick = (path) => {
+    window.location.href = path;
+  };
+
   console.log("ServiceProviderDashboard rendered"); // Debugging line
 
   return (
@@ -20,6 +24,14 @@ const ServiceProviderDashboard = () => {
         {view === 'viewProfile' && <ProfileView />}
         {view === 'updateProfile' && <ProfileUpdate />}
         {view === 'deleteAccount' && <DeleteAccount />}
+
+        <button onClick={() => handleClick('/add-package')}>
+          Add New Package
+        </button>
+        <button onClick={() => handleClick('/package-list')}>
+          View/Edit/Delete Packages
+        </button>
+        
       </div>
     </div>
   );
