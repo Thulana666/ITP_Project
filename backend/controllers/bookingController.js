@@ -1,22 +1,22 @@
 const mongoose = require("mongoose");
 const Booking = require("../models/Booking");
 
-// Create a booking (Already Exists)
+// Create a booking 
 const createBooking = async (req, res) => {
   try {
     const { userId, eventType, eventDate, expectedCrowd, salonServices } = req.body;
 
-    console.log("Received booking data:", req.body); // Log incoming data for debugging
-    console.log("Received eventType:", eventType); // Log the eventType for debugging
+    console.log("Received booking data:", req.body); 
+    console.log("Received eventType:", eventType); 
 
     if (!userId || !eventType || !eventDate || !expectedCrowd || !salonServices) {
       return res.status(400).json({ error: "All fields are required!" });
     }
-
+//converts date into formated date
     let bookingDate = new Date(eventDate);
     bookingDate.setMinutes(bookingDate.getMinutes() - bookingDate.getTimezoneOffset());
     const formattedDate = bookingDate.toISOString().split("T")[0];
-
+//availability check
     const existingBooking = await Booking.findOne({ eventDate: formattedDate });
     if (existingBooking) {
       return res.status(400).json({ error: "Selected date is already booked" });
@@ -29,16 +29,16 @@ const createBooking = async (req, res) => {
       salonServices,
       eventDate: formattedDate,
     });
-
+//save booking with above details
     await newBooking.save();
     res.status(201).json({ message: "Booking successful", booking: newBooking });
   } catch (error) {
-    console.error("Error creating booking:", error); // Log the error for debugging
+    console.error("Error creating booking:", error);
     res.status(500).json({ error: "Server error. Please try again." });
   }
 };
 
-// Get all booked dates (Already Exists)
+// Get all booked dates
 const getBookedDates = async (req, res) => {
   try {
     const bookings = await Booking.find({}, "eventDate -_id");
@@ -55,28 +55,28 @@ const getBookedDates = async (req, res) => {
   }
 };
 
-// 🆕 Get all bookings for a specific user
+// Get all bookings for a specific user
 const getUserBookings = async (req, res) => {
   try {
-    const userId = req.params.userId; // Get user ID from params
+    const userId = req.params.userId;
     const bookings = await Booking.find({ userId });
 
     res.json(bookings);
-    console.log("User bookings:", bookings[0].id); // Log user bookings for debugging
+    console.log("User bookings:", bookings[0].id);
   } catch (error) {
     console.error("Error fetching user bookings:", error);
     res.status(500).json({ error: "Server error. Please try again." });
   }
 };
 
-// 🆕 Get booking details by ID
+// Get booking details by ID
 const getBookingDetails = async (req, res) => {
   try {
     const booking = await Booking.findById(req.params.bookingId);
     if (!booking) {
       return res.status(404).json({ error: "Booking not found" });
     }
-    console.log("Booking details:", booking); // Log booking details for debugging
+    console.log("Booking details:", booking); 
     res.json(booking);
   } catch (error) {
     console.error("Error fetching booking details:", error);
@@ -84,7 +84,7 @@ const getBookingDetails = async (req, res) => {
   }
 };
 
-// 🆕 Edit/update booking details
+// update booking details
 const updateBooking = async (req, res) => {
   try {
     const { eventType, eventDate, expectedCrowd, salonServices } = req.body;
@@ -118,7 +118,7 @@ const updateBooking = async (req, res) => {
   }
 };
 
-// 🆕 Delete/cancel a booking
+// Delete a booking
 const deleteBooking = async (req, res) => {
   try {
     const booking = await Booking.findById(req.params.bookingId);

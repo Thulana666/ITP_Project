@@ -3,12 +3,12 @@ const mongoose = require("mongoose");
 const bookingSchema = new mongoose.Schema({
   userId: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: "User", // Reference to the User model
+    ref: "User",
     required: true,
   },
   eventType: {
     type: String,
-    enum: ["Wedding", "Graduation", "Birthday", "Corporate Event", "Other"], // Ensure "Corporate Event" is included
+    enum: ["Wedding", "Graduation", "Birthday", "Corporate Event", "Other"], 
     required: true,
   },
   eventDate: {
@@ -36,7 +36,5 @@ const bookingSchema = new mongoose.Schema({
   }
 });
 
-// Ensure a date can only have one booking (Optional: Uncomment if needed)
-// bookingSchema.index({ eventDate: 1 }, { unique: true });
 
 module.exports = mongoose.model("Booking", bookingSchema);
