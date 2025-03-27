@@ -7,7 +7,7 @@ const BookingDetails = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const [booking, setBooking] = useState(null);
-
+//fetching booking details
   useEffect(() => {
     const fetchBooking = async () => {
       const data = await getBookingById(id);

@@ -22,7 +22,7 @@ const BookingCalendar = ({ selectedDate, onDateChange }) => {
     fetchBookedDates();
     const interval = setInterval(fetchBookedDates, 1000);
 
-    return () => clearInterval(interval); // Cleanup on unmount
+    return () => clearInterval(interval);
   }, []);
 
   const today = new Date();

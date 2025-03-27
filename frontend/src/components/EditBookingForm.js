@@ -3,7 +3,6 @@ import { getBookingById, updateBooking } from "../services/bookingService";
 import { useParams, useNavigate } from "react-router-dom";
 import BookingCalendar from "./Calendar";
 import EventForm from "./EventForm";
-// import "../styles/BookingEditForm.css";
 import "../styles/EditBookings.css";
 
 const EditBookingForm = () => {
@@ -11,7 +10,7 @@ const EditBookingForm = () => {
   const navigate = useNavigate();
   const [booking, setBooking] = useState(null);
   const [selectedDate, setSelectedDate] = useState(new Date());
-
+//fetching booking details
   useEffect(() => {
     const fetchBooking = async () => {
       const data = await getBookingById(id);
@@ -20,7 +19,7 @@ const EditBookingForm = () => {
     };
     fetchBooking();
   }, [id]);
-
+//booking updating
   const handleSubmit = async (e) => {
     e.preventDefault();
     await updateBooking(id, { ...booking, eventDate: selectedDate });

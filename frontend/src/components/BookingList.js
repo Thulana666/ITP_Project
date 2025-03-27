@@ -8,7 +8,7 @@ const BookingList = () => {
   const [bookings, setBookings] = useState([]);
   const [currentUser, setCurrentUser] = useState(null);
   const navigate = useNavigate();
-
+//fetching user bookings
   useEffect(() => {
     const token = localStorage.getItem('token');
 
@@ -26,14 +26,14 @@ const BookingList = () => {
     };
     fetchBookings();
   }, []);
-
+//cancel booking
   const handleCancel = async (id) => {
     if (window.confirm("Are you sure you want to cancel this booking?")) {
       await cancelBooking(id);
       setBookings(bookings.filter((booking) => booking._id !== id));
     }
   };
-
+// past dates
   const isPastDate = (eventDate) => {
     const today = new Date().toISOString().split("T")[0];
     return eventDate < today;

@@ -27,7 +27,7 @@ const BookingReportPage = () => {
     const lineHeight = 10;
     const margin = 20;
 
-    // Title and date sections remain the same
+    // Title and date sections
     doc.setFontSize(20);
     doc.text('Booking Report', margin, yPos);
     yPos += lineHeight * 2;

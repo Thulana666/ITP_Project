@@ -2,7 +2,7 @@ import axios from "axios";
 import {jwtDecode} from "jwt-decode";
 
 const API_URL = "http://localhost:5000/api/bookings";
-
+//get booked dates
 export const getBookedDates = async () => {
   try {
     const response = await axios.get(`${API_URL}/booked-dates`);
@@ -12,7 +12,7 @@ export const getBookedDates = async () => {
     return [];
   }
 };
-
+//submit booking
 export const submitBooking = async (data) => {
   try {
     console.log("Submitting booking:", data); // Debugging log
@@ -24,7 +24,7 @@ export const submitBooking = async (data) => {
   }
 };
 
-// New functions for managing bookings
+// all the bookings for one user
 export const getUserBookings = async (token) => {
   try {
     const decoded = jwtDecode(token);
