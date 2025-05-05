@@ -8,8 +8,29 @@ const Package = require('../models/Package');
 // Get all packages (Public route)
 router.get('/', async (req, res) => {
     try {
-        const packages = await Package.find();
-        res.json(packages);
+        const packages = await Package.find()
+            .populate({
+                path: 'createdBy',
+                select: 'fullName serviceType',
+                model: 'User'
+            });
+        
+        // Transform the data to include service provider details
+        const transformedPackages = packages.map(pkg => {
+            const provider = pkg.createdBy || {};
+            return {
+                _id: pkg._id,
+                packageName: pkg.packageName,
+                description: pkg.description,
+                price: pkg.price,
+                discount: pkg.discount,
+                serviceType: provider.serviceType || 'Unknown',  // Fallback value
+                serviceProvider: provider.fullName || 'Unknown', // Fallback value
+                createdBy: provider._id
+            };
+        });
+
+        res.json(transformedPackages);
     } catch (error) {
         res.status(500).json({ message: "Error fetching packages: " + error.message });
     }

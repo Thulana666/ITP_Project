@@ -24,7 +24,7 @@ const ServiceProviderDashboard = () => {
     packageName: '',
     description: '',
     price: '',
-    serviceProvider: '',
+    serviceProvider: currentUser?.fullName || '', // Change to fullName
     discount: 0
   });
   const [isEditing, setIsEditing] = useState(false);
@@ -272,19 +272,15 @@ const ServiceProviderDashboard = () => {
           </div>
           
           <div>
-            <label style={{ display: 'block', marginBottom: '5px' }}>Service Provider Type</label>
-            <select
+            <label style={{ display: 'block', marginBottom: '5px' }}>Service Provider</label>
+            <input
+              type="text"
               name="serviceProvider"
-              value={packageData.serviceProvider || currentUser?.serviceType || ''}
-              onChange={handleInputChange}
-              style={{ width: '100%', padding: '8px', borderRadius: '4px', border: '1px solid #ddd' }}
-              required
-            >
-              <option value="">Select Service Type</option>
-              <option value="Photographer">Photographer</option>
-              <option value="Hotel">Hotel</option>
-              <option value="Music Band">Music Band</option>
-            </select>
+              value={currentUser?.fullName || ''}
+              disabled
+              readOnly
+              style={{ width: '100%', padding: '8px', borderRadius: '4px', border: '1px solid #ddd', backgroundColor: '#f5f5f5' }}
+            />
           </div>
           
           <div>

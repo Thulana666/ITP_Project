@@ -74,19 +74,30 @@ const ServiceSelectionPage = () => {
       setLoading(true);
       const response = await axios.get("http://localhost:5000/api/packages");
 
-      // Group packages by service provider type
-      const groupedPackages = {
-        Photographer: [],
-        Hotel: [],
-        "Music Band": [],
-      };
+      // Initialize empty arrays for each service type
+      const groupedPackages = Object.fromEntries(
+        SERVICE_TYPES.map(type => [type, []])
+      );
 
+      // Group packages by their service type
       response.data.forEach((pkg) => {
-        if (groupedPackages[pkg.serviceProvider]) {
-          groupedPackages[pkg.serviceProvider].push(pkg);
+        // Ensure the package has a valid service type that matches our constants
+        if (pkg.serviceType && SERVICE_TYPES.includes(pkg.serviceType)) {
+          groupedPackages[pkg.serviceType].push({
+            _id: pkg._id,
+            packageName: pkg.packageName,
+            description: pkg.description,
+            price: pkg.price,
+            serviceType: pkg.serviceType,
+            serviceProvider: pkg.serviceProvider,
+            discount: pkg.discount || 0
+          });
+        } else {
+          console.warn(`Package ${pkg._id} has invalid service type:`, pkg.serviceType);
         }
       });
 
+      console.log('Grouped packages:', groupedPackages); // For debugging
       setPackages(groupedPackages);
       setLoading(false);
     } catch (err) {
@@ -218,7 +229,7 @@ const ServiceSelectionPage = () => {
                       onChange={() => handlePackageSelect(serviceType, pkg._id)}
                     />
                     <label htmlFor={`${serviceType.toLowerCase()}-${pkg._id}`}>
-                      {pkg.packageName}
+                      {pkg.packageName} - By {pkg.providerName}
                     </label>
                   </div>
 
@@ -230,7 +241,7 @@ const ServiceSelectionPage = () => {
                     >
                       <option value="">Select Package</option>
                       <option value={pkg._id}>
-                        {pkg.packageName} - {formatCurrency(pkg.price)}
+                        {pkg.packageName} by {pkg.providerName} - {formatCurrency(pkg.price)}
                       </option>
                     </select>
 

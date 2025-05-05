@@ -8,7 +8,7 @@ const PackageForm = ({ setPackages = null }) => {
     packageName: "",
     description: "",
     price: "",
-    serviceProvider: currentUser?.serviceType || "",
+    serviceProvider: currentUser?.fullName || "", // Change to fullName
   });
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
@@ -46,7 +46,7 @@ const PackageForm = ({ setPackages = null }) => {
         packageName: "",
         description: "",
         price: "",
-        serviceProvider: currentUser?.serviceType || "",
+        serviceProvider: currentUser?.fullName || "", // Change to fullName
       });
       setSuccess("Package created successfully!");
       alert("Package created successfully!");
@@ -88,8 +88,8 @@ const PackageForm = ({ setPackages = null }) => {
       <input 
         type="text" 
         name="serviceProvider" 
-        value={currentUser?.serviceType || ""}
-        placeholder="Service Provider" 
+        value={currentUser?.fullName || ""} // Change to fullName
+        placeholder="Service Provider Name" 
         readOnly
         disabled
       />
