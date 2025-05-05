@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import Sidebar from './Sidebar'; // Ensure Sidebar is correctly imported
 import ProfileView from './ProfileView';
 import ProfileUpdate from './ProfileUpdate';
@@ -6,10 +7,7 @@ import DeleteAccount from './DeleteAccount';
 
 const ServiceProviderDashboard = () => {
   const [view, setView] = useState('viewProfile'); // Default to 'viewProfile'
-
-  const handleClick = (path) => {
-    window.location.href = path;
-  };
+  const navigate = useNavigate();
 
   console.log("ServiceProviderDashboard rendered"); // Debugging line
 
@@ -24,12 +22,11 @@ const ServiceProviderDashboard = () => {
         {view === 'viewProfile' && <ProfileView />}
         {view === 'updateProfile' && <ProfileUpdate />}
         {view === 'deleteAccount' && <DeleteAccount />}
-
-        <button onClick={() => handleClick('/add-package')}>
-          Add New Package
+        <button onClick={() => navigate('/add-package')}>
+          Add Package
         </button>
-        <button onClick={() => handleClick('/package-list')}>
-          View/Edit/Delete Packages
+        <button onClick={() => navigate('/service-provider/packages')}>
+          Manage Packages
         </button>
         
       </div>

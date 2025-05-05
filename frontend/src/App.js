@@ -35,6 +35,7 @@ import BookingReportPage from "./pages/BookingReportPage";
 import ReviewListPage from "./pages/ReviewListPage";
 import ReviewPage from "./pages/ReviewPage";
 import ReviewReportPage from "./pages/ReviewReportPage";
+import ServiceProviderPackages from './pages/ServiceProviderPackages';
 
 function App() {
   return (
@@ -81,6 +82,14 @@ function App() {
             <Route path="/booking/:id" element={<BookingDetails />} />
             <Route path="/edit-booking/:id" element={<EditBookingPage />} />
 
+            <Route 
+              path="/service-provider/packages" 
+              element={
+                <ProtectedRoute allowedRoles={['service_provider']}>
+                  <ServiceProviderPackages />
+                </ProtectedRoute>
+              } 
+            />
             <Route path="/packages" element={<ServiceSelectionPage />} />  
             <Route path="/add-package" element={<PackageForm />} />
             <Route path="/package-list" element={<PackageList />} />

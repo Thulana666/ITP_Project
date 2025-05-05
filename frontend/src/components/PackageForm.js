@@ -1,12 +1,14 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import axios from "axios";
+import { AuthContext } from "../context/AuthContext";
 
 const PackageForm = ({ setPackages = null }) => {
+  const { currentUser } = useContext(AuthContext);
   const [formData, setFormData] = useState({
     packageName: "",
     description: "",
     price: "",
-    serviceProvider: "",
+    serviceProvider: currentUser?.serviceType || "",
   });
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
@@ -44,7 +46,7 @@ const PackageForm = ({ setPackages = null }) => {
         packageName: "",
         description: "",
         price: "",
-        serviceProvider: "",
+        serviceProvider: currentUser?.serviceType || "",
       });
       setSuccess("Package created successfully!");
       alert("Package created successfully!");
@@ -86,10 +88,10 @@ const PackageForm = ({ setPackages = null }) => {
       <input 
         type="text" 
         name="serviceProvider" 
-        value={formData.serviceProvider}
+        value={currentUser?.serviceType || ""}
         placeholder="Service Provider" 
-        onChange={handleChange} 
-        required 
+        readOnly
+        disabled
       />
       <button className="globalButton" type="submit">Add Package</button>
     </form>

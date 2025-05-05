@@ -72,8 +72,12 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/t
 
 
 # TODO
-- [x] 1. Payment - Reject Payment (Notify customer about the rejection)
+
 - [x] 2. Service provider package management- Validation , page navigation
-- [x] 3. Service provider - update function, User profile, logout
-- [x] 4. Review- Date,Add image
+- [x] 3. Service provider - update function, User profile
 - [x] 5. Sevice provider notifications
+
+# DONE
+- [x] 1. Payment - Reject Payment
+- [x] 4. Review- Date,Add image
+- [x] 3. Service provider - update function, User profile, logout
