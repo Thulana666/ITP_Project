@@ -58,12 +58,17 @@ exports.createReview = async(req, res) => {
             console.log("File:", req.file); // Add this for debugging
             console.log("Body:", req.body); // Add this for debugging
 
-            const { serviceId, comment } = req.body;
+            const { serviceId, comment, eventDate } = req.body;
             const rating = Number(req.body.rating); // Convert rating to number explicitly
 
             // Check for required fields
-            if (!serviceId || !comment || !rating) {
-                return res.status(400).json({ message: "Service ID, comment, and rating are required." });
+            if (!serviceId || !comment || !rating || !eventDate) {
+                return res.status(400).json({ message: "Service ID, comment, rating, and event date are required." });
+            }
+
+            // Validate eventDate
+            if (!Date.parse(eventDate)) {
+                return res.status(400).json({ message: "Invalid event date format." });
             }
 
             // Ensure rating is a valid number
@@ -112,6 +117,7 @@ exports.createReview = async(req, res) => {
                 userName,
                 comment,
                 rating, // This is now guaranteed to be a number
+                eventDate: new Date(eventDate),
                 images: req.file ? [req.file.filename] : []
             });
 

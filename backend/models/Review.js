@@ -28,6 +28,10 @@ const reviewSchema = new mongoose.Schema({
         max: 5,
     },
     images: [String],
+    eventDate: {
+        type: Date,
+        required: [true, "Event date is required"]
+    },
 }, { timestamps: true });
 
 const Review = mongoose.model("Review", reviewSchema);

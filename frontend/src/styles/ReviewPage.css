@@ -72,3 +72,22 @@ button {
     border-radius: 5px;
     background: #fff;
 }
+
+.event-date {
+    margin: 15px 0;
+    text-align: left;
+}
+
+.event-date label {
+    display: block;
+    margin-bottom: 5px;
+    color: #333;
+}
+
+.event-date input[type="date"] {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background: #fff;
+}

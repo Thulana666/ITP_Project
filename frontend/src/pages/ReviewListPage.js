@@ -170,9 +170,14 @@ const ReviewListPage = () => {
                             {"★".repeat(review.rating)}{"☆".repeat(5 - review.rating)}
                         </div>
                         <p className="review-comment">{review.comment}</p>
-                        <p className="review-date">
-                            {new Date(review.createdAt).toISOString().split('T')[0]}
-                        </p>
+                        <div className="review-dates">
+                            <p className="event-date">
+                                Event Date: {new Date(review.eventDate).toLocaleDateString()}
+                            </p>
+                            <p className="review-date">
+                                Posted on: {new Date(review.createdAt).toLocaleDateString()}
+                            </p>
+                        </div>
                         {canModifyReview(review) && (
                             <div className="review-actions">
                                 <button 

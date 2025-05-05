@@ -209,3 +209,18 @@ button {
     font-size: 12px;
     margin-top: 5px;
 }
+
+.review-dates {
+    margin: 10px 0;
+    font-size: 12px;
+    color: #666;
+}
+
+.event-date {
+    font-weight: bold;
+    margin-bottom: 3px;
+}
+
+.review-date {
+    font-style: italic;
+}

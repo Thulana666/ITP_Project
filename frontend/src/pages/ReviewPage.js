@@ -10,6 +10,7 @@ const ReviewPage = () => {
         description: "",
         image: null,
         rating: 0,
+        eventDate: "",
         serviceId: "6405fb334ac30232d8c34671" // Temporary valid ObjectId format
     });
     
@@ -36,8 +37,8 @@ const ReviewPage = () => {
         setError("");
         setSuccess("");
     
-        if (!formData.description || formData.rating === 0) {
-            setError("Please fill all required fields and select a rating!");
+        if (!formData.description || formData.rating === 0 || !formData.eventDate) {
+            setError("Please fill all required fields, select a rating, and event date!");
             setLoading(false);
             return;
         }
@@ -54,6 +55,7 @@ const ReviewPage = () => {
             formDataToSend.append('serviceId', formData.serviceId);
             formDataToSend.append('comment', formData.description);
             formDataToSend.append('rating', String(formData.rating));
+            formDataToSend.append('eventDate', formData.eventDate);
             
             if (formData.image) {
                 formDataToSend.append('image', formData.image);
@@ -78,6 +80,7 @@ const ReviewPage = () => {
                 description: "",
                 image: null,
                 rating: 0,
+                eventDate: "",
                 serviceId: "6405fb334ac30232d8c34671"
             });
         } catch (error) {
@@ -118,6 +121,18 @@ const ReviewPage = () => {
                         id="imageUpload"
                         accept="image/*"
                         onChange={handleImageChange}
+                    />
+                </div>
+
+                <div className="event-date">
+                    <label htmlFor="eventDate">Event Date (Required)</label>
+                    <input 
+                        type="date"
+                        id="eventDate"
+                        name="eventDate"
+                        value={formData.eventDate}
+                        onChange={handleChange}
+                        required
                     />
                 </div>
                 
