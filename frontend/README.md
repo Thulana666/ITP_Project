@@ -68,3 +68,12 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/d
 ### `npm run build` fails to minify
 
 This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+
+
+
+# TODO
+- [x] 1. Payment - Reject Payment (Notify customer about the rejection)
+- [x] 2. Service provider package management- Validation , page navigation
+- [x] 3. Service provider - update function, User profile, logout
+- [x] 4. Review- Date,Add image
+- [x] 5. Sevice provider notifications

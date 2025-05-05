@@ -5,7 +5,6 @@ import { jwtDecode } from "jwt-decode";
 import { useNavigate } from "react-router-dom"; 
 
 const EventForm = ({ selectedDate, booking, setBooking }) => {
-  // Initialize form data with either existing booking or empty data
   const [formData, setFormData] = useState(
     booking || {
       eventType: "",
@@ -14,27 +13,32 @@ const EventForm = ({ selectedDate, booking, setBooking }) => {
     }
   );
 
+  const [errors, setErrors] = useState({});
+  const [loading, setLoading] = useState(false); 
+  const [userId, setUserId] = useState(null); // State to hold userId
   const navigate = useNavigate(); 
 
   // Get token from localStorage and decode it to extract user ID
-  const token = localStorage.getItem("token");
-  const decoded = jwtDecode(token);
-  const userId = decoded.id; 
-
-  // check if the user is logged in
   useEffect(() => {
-
+    const token = localStorage.getItem("token");
     if (!token) {
       navigate("/login");
-      return null;
-    } 
+      return;
+    }
 
+    try {
+      const decoded = jwtDecode(token);
+      setUserId(decoded.id);
+    } catch (error) {
+      console.error("Invalid token specified:", error);
+      navigate("/login");
+    }
+  }, [navigate]);
+
+  // Update form data if booking changes
+  useEffect(() => {
     if (booking) setFormData(booking);
   }, [booking]);
-
-
-  const [errors, setErrors] = useState({});
-  const [loading, setLoading] = useState(false); 
 
   // Handle changes in text inputs and update form data
   const handleChange = (e) => {
@@ -47,7 +51,6 @@ const EventForm = ({ selectedDate, booking, setBooking }) => {
   // Handle checkbox changes 
   const handleCheckboxChange = (e) => {
     const { value, checked } = e.target; 
-    // If checked, add service to the array; if unchecked, remove it
     const updatedServices = checked
       ? [...formData.salonServices, value]
       : formData.salonServices.filter((s) => s !== value);
@@ -63,7 +66,6 @@ const EventForm = ({ selectedDate, booking, setBooking }) => {
     if (!formData.eventType) newErrors.eventType = "Event Type is required";
     if (!formData.expectedCrowd) newErrors.expectedCrowd = "Crowd size is required";
     if (formData.salonServices.length === 0) newErrors.salonServices = "Select at least one service";
-    // Check if a valid event date is selected
     if (!selectedDate || selectedDate.toDateString() === new Date().toDateString()) {
       newErrors.selectedDate = "Please select a date";
     }
@@ -80,13 +82,11 @@ const EventForm = ({ selectedDate, booking, setBooking }) => {
 
     setLoading(true); 
 
-
     const localDate = new Date(selectedDate);
     localDate.setMinutes(localDate.getMinutes() - localDate.getTimezoneOffset());
     const formattedDate = localDate.toISOString().split("T")[0]; 
 
     try {
-      // Send the booking data 
       const response = await submitBooking({
         userId: userId, 
         eventType: formData.eventType,
@@ -97,7 +97,6 @@ const EventForm = ({ selectedDate, booking, setBooking }) => {
 
       if (response.success) {
         console.log(response.booking.booking._id); 
-        // Navigate to the packages page, passing the booking ID as state
         navigate(`/packages`, {
           state: { bookingId: response.booking.booking._id }
         });
