@@ -36,6 +36,7 @@ import ReviewListPage from "./pages/ReviewListPage";
 import ReviewPage from "./pages/ReviewPage";
 import ReviewReportPage from "./pages/ReviewReportPage";
 import ServiceProviderPackages from './pages/ServiceProviderPackages';
+import NotificationsPage from './pages/NotificationsPage';
 
 function App() {
   return (
@@ -104,6 +105,15 @@ function App() {
             <Route path="/add-review" element={<ReviewPage />} />
             <Route path="/reviews" element={<ReviewListPage />} />
             <Route path="/review-report" element={<ReviewReportPage />} />
+
+            <Route 
+              path="/service-provider/notifications" 
+              element={
+                <ProtectedRoute allowedRoles={['service_provider']}>
+                  <NotificationsPage />
+                </ProtectedRoute>
+              } 
+            />
 
           </Routes>
         </div>

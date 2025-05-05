@@ -1,9 +1,11 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect, useCallback, useContext } from "react";
 import axios from "axios";
 import ReportPage from "../components/ReportPage";
 import ServiceProviderProfileModal from "../components/ServiceProviderProfileModal";
 import { useLocation, useNavigate } from "react-router-dom";
 import { SERVICE_TYPES } from '../constants/serviceTypes';
+import { AuthContext } from '../context/AuthContext'; // Add AuthContext import
+import { getBookingById } from "../services/bookingService";
 import "../styles/ServiceSelection.css";
 
 // Helper function for currency formatting
@@ -23,6 +25,8 @@ const ServiceSelectionPage = () => {
   const navigate = useNavigate();
   const bookingId = location.state?.bookingId;
   console.log(bookingId);
+
+  const { currentUser } = useContext(AuthContext); // Add this line
 
   const [packages, setPackages] = useState(
     Object.fromEntries(SERVICE_TYPES.map(type => [type, []]))
@@ -81,7 +85,6 @@ const ServiceSelectionPage = () => {
 
       // Group packages by their service type
       response.data.forEach((pkg) => {
-        // Ensure the package has a valid service type that matches our constants
         if (pkg.serviceType && SERVICE_TYPES.includes(pkg.serviceType)) {
           groupedPackages[pkg.serviceType].push({
             _id: pkg._id,
@@ -90,6 +93,7 @@ const ServiceSelectionPage = () => {
             price: pkg.price,
             serviceType: pkg.serviceType,
             serviceProvider: pkg.serviceProvider,
+            providerId: pkg.providerId, // Make sure this is included
             discount: pkg.discount || 0
           });
         } else {
@@ -97,7 +101,7 @@ const ServiceSelectionPage = () => {
         }
       });
 
-      console.log('Grouped packages:', groupedPackages); // For debugging
+      console.log('Grouped packages:', groupedPackages);
       setPackages(groupedPackages);
       setLoading(false);
     } catch (err) {
@@ -156,39 +160,70 @@ const ServiceSelectionPage = () => {
     }
 
     try {
-      // Format selected packages into a clean JSON structure
+      // Get booking details using the service
+      const bookingDetails = await getBookingById(bookingId);
+      console.log('Booking details:', bookingDetails);
+
       const formattedPackages = Object.entries(selectedPackages)
         .filter(([_, pkg]) => pkg !== null)
         .map(([serviceType, pkg]) => ({
           serviceType,
           packageId: pkg._id,
           packageName: pkg.packageName,
-          price: pkg.price
+          price: pkg.price,
+          providerId: pkg.providerId
         }));
 
-      // Update the booking with selected packages
-      const response = await axios.put(`http://localhost:5000/api/bookings/${bookingId}/packages`, {
+      const bookingResponse = await axios.put(`http://localhost:5000/api/bookings/${bookingId}/packages`, {
         packages: formattedPackages,
         totalPrice: totalPrice
       });
 
-      if (response.data.success) {
-        console.log('Formateed', formattedPackages)
-        console.log("Packages", selectedPackages)
+      if (bookingResponse.data.success) {
+        const notificationPromises = formattedPackages.map(pkg => {
+          if (!pkg.providerId) {
+            console.error('Missing providerId for package:', pkg);
+            return Promise.resolve();
+          }
 
-         navigate('/manage-bookings', { 
+          const notificationMessage = `
+Your package "${pkg.packageName}" has been selected by ${currentUser.fullName} for a booking.
+
+Event Details:
+• Event Type: ${bookingDetails.eventType}
+• Event Date: ${new Date(bookingDetails.eventDate).toLocaleDateString()}
+• Expected Crowd: ${bookingDetails.expectedCrowd}`;
+
+          return axios.post('http://localhost:5000/api/notifications', {
+            recipient: pkg.providerId,
+            recipientType: 'service_provider',
+            title: 'New Package Booking',
+            message: notificationMessage.trim(),
+            type: 'booking',
+            relatedId: bookingId,
+            relatedModel: 'Booking'
+          }, {
+            headers: {
+              'Authorization': `Bearer ${localStorage.getItem('token')}`,
+              'Content-Type': 'application/json'
+            }
+          });
+        });
+
+        await Promise.all(notificationPromises);
+        navigate('/manage-bookings', { 
           state: { 
-             bookingId,
-           totalPrice,
-           selectedPackages: formattedPackages
-           }
-         }); 
+            bookingId,
+            totalPrice,
+            selectedPackages: formattedPackages
+          }
+        }); 
       } else {
         alert("Failed to update booking with selected packages");
       }
     } catch (error) {
-      console.error("Error updating booking:", error);
-      alert("Failed to update booking with selected packages");
+      console.error("Error in checkout process:", error);
+      alert("Failed to complete checkout process");
     }
   };
 
@@ -229,7 +264,7 @@ const ServiceSelectionPage = () => {
                       onChange={() => handlePackageSelect(serviceType, pkg._id)}
                     />
                     <label htmlFor={`${serviceType.toLowerCase()}-${pkg._id}`}>
-                      {pkg.packageName} - By {pkg.providerName}
+                      {pkg.packageName}
                     </label>
                   </div>
 
@@ -244,13 +279,13 @@ const ServiceSelectionPage = () => {
                         {pkg.packageName} by {pkg.providerName} - {formatCurrency(pkg.price)}
                       </option>
                     </select>
-
+                  {/* 
                     <button
                       className="btn-view-profile"
                       onClick={() => handleViewProfile(serviceType, pkg._id)}
                     >
                       View Profile
-                    </button>
+                    </button>*/}
                   </div>
                 </div>
               ))}

@@ -24,9 +24,9 @@ router.get('/', async (req, res) => {
                 description: pkg.description,
                 price: pkg.price,
                 discount: pkg.discount,
-                serviceType: provider.serviceType || 'Unknown',  // Fallback value
-                serviceProvider: provider.fullName || 'Unknown', // Fallback value
-                createdBy: provider._id
+                serviceType: provider.serviceType || 'Unknown',
+                serviceProvider: provider.fullName || 'Unknown',
+                providerId: provider._id // Add this line to include the provider's ID
             };
         });
 

@@ -17,6 +17,23 @@ const ServiceProviderDashboard = () => {
       
       <div className="content">
       
+        {/* Add this button before viewProfile */}
+        <button 
+          onClick={() => navigate('/service-provider/notifications')}
+          style={{
+            backgroundColor: '#2196f3',
+            color: 'white',
+            padding: '12px 20px',
+            border: 'none',
+            borderRadius: '5px',
+            cursor: 'pointer',
+            marginBottom: '10px',
+            width: '100%'
+          }}
+        >
+          Notifications
+        </button>
+        
         {/* Dynamically render the views based on the current view */}
         
         {view === 'viewProfile' && <ProfileView />}

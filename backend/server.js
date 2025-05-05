@@ -14,6 +14,7 @@ const reviewRoutes = require("./routes/ReviewRoutes");
 const packageRoutes = require('./routes/packageRoutes');
 const serviceRoutes = require('./routes/serviceRouter');
 const paymentRoutes = require("./routes/PaymentRoutes");
+const notificationRoutes = require('./routes/notificationRoutes');
 
 dotenv.config(); // Load environment variables
 
@@ -53,6 +54,7 @@ app.use("/api/reviews", reviewRoutes);
 app.use('/api/packages', packageRoutes);
 app.use('/api/services', serviceRoutes);
 app.use("/api/payments", paymentRoutes);
+app.use('/api/notifications', notificationRoutes);
 // API health check route
 app.get("/api/health", (req, res) => {
   res.status(200).json({ status: "ok", message: "Server is running" });
