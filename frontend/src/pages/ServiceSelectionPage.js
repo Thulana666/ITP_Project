@@ -3,6 +3,7 @@ import axios from "axios";
 import ReportPage from "../components/ReportPage";
 import ServiceProviderProfileModal from "../components/ServiceProviderProfileModal";
 import { useLocation, useNavigate } from "react-router-dom";
+import { SERVICE_TYPES } from '../constants/serviceTypes';
 import "../styles/ServiceSelection.css";
 
 // Helper function for currency formatting
@@ -23,17 +24,13 @@ const ServiceSelectionPage = () => {
   const bookingId = location.state?.bookingId;
   console.log(bookingId);
 
-  const [packages, setPackages] = useState({
-    Photographer: [],
-    Hotel: [],
-    "Music Band": [],
-  });
+  const [packages, setPackages] = useState(
+    Object.fromEntries(SERVICE_TYPES.map(type => [type, []]))
+  );
 
-  const [selectedPackages, setSelectedPackages] = useState({
-    Photographer: null,
-    Hotel: null,
-    "Music Band": null,
-  });
+  const [selectedPackages, setSelectedPackages] = useState(
+    Object.fromEntries(SERVICE_TYPES.map(type => [type, null]))
+  );
 
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -200,178 +197,68 @@ const ServiceSelectionPage = () => {
     return <div className="error-message">{error}</div>;
   }
 
+  // Replace the hardcoded sections with dynamic rendering
   return (
     <div className="service-selection-container">
       <h1>Select Service Providers And Packages</h1>
 
       <div className="service-categories">
-        {/* Photographers Section */}
-        <section className="service-category">
-          <h2>1. Photographers</h2>
-          <div className="service-providers">
-            {packages.Photographer.map((pkg) => (
-              <div key={pkg._id} className="provider-card">
-                <div className="provider-select">
-                  <input
-                    type="radio"
-                    id={`photographer-${pkg._id}`}
-                    name="photographer"
-                    checked={selectedPackages.Photographer?._id === pkg._id}
-                    onChange={() => handlePackageSelect("Photographer", pkg._id)}
-                  />
-                  <label htmlFor={`photographer-${pkg._id}`}>
-                    {pkg.packageName}
-                  </label>
+        {SERVICE_TYPES.map((serviceType, index) => (
+          <section key={serviceType} className="service-category">
+            <h2>{index + 1}. {serviceType}s</h2>
+            <div className="service-providers">
+              {packages[serviceType]?.map((pkg) => (
+                <div key={pkg._id} className="provider-card">
+                  <div className="provider-select">
+                    <input
+                      type="radio"
+                      id={`${serviceType.toLowerCase()}-${pkg._id}`}
+                      name={serviceType.toLowerCase()}
+                      checked={selectedPackages[serviceType]?._id === pkg._id}
+                      onChange={() => handlePackageSelect(serviceType, pkg._id)}
+                    />
+                    <label htmlFor={`${serviceType.toLowerCase()}-${pkg._id}`}>
+                      {pkg.packageName}
+                    </label>
+                  </div>
+
+                  <div className="package-actions">
+                    <select
+                      value={selectedPackages[serviceType]?._id === pkg._id ? pkg._id : ""}
+                      onChange={(e) => handlePackageSelect(serviceType, e.target.value)}
+                      className="package-select"
+                    >
+                      <option value="">Select Package</option>
+                      <option value={pkg._id}>
+                        {pkg.packageName} - {formatCurrency(pkg.price)}
+                      </option>
+                    </select>
+
+                    <button
+                      className="btn-view-profile"
+                      onClick={() => handleViewProfile(serviceType, pkg._id)}
+                    >
+                      View Profile
+                    </button>
+                  </div>
                 </div>
-
-                <div className="package-actions">
-                  <select
-                    value={
-                      selectedPackages.Photographer?._id === pkg._id
-                        ? pkg._id
-                        : ""
-                    }
-                    onChange={(e) =>
-                      handlePackageSelect("Photographer", e.target.value)
-                    }
-                    className="package-select"
-                  >
-                    <option value="">Select Package</option>
-                    <option value={pkg._id}>
-                      {pkg.packageName} - {formatCurrency(pkg.price)}
-                    </option>
-                  </select>
-
-                  <button
-                    className="btn-view-profile"
-                    onClick={() => handleViewProfile("Photographer", pkg._id)}
-                  >
-                    View Profile
-                  </button>
-                </div>
-              </div>
-            ))}
-          </div>
-        </section>
-
-        {/* Hotels Section */}
-        <section className="service-category">
-          <h2>2. Hotels</h2>
-          <div className="service-providers">
-            {packages.Hotel.map((pkg) => (
-              <div key={pkg._id} className="provider-card">
-                <div className="provider-select">
-                  <input
-                    type="radio"
-                    id={`hotel-${pkg._id}`}
-                    name="hotel"
-                    checked={selectedPackages.Hotel?._id === pkg._id}
-                    onChange={() => handlePackageSelect("Hotel", pkg._id)}
-                  />
-                  <label htmlFor={`hotel-${pkg._id}`}>{pkg.packageName}</label>
-                </div>
-
-                <div className="package-actions">
-                  <select
-                    value={
-                      selectedPackages.Hotel?._id === pkg._id ? pkg._id : ""
-                    }
-                    onChange={(e) =>
-                      handlePackageSelect("Hotel", e.target.value)
-                    }
-                    className="package-select"
-                  >
-                    <option value="">Select Package</option>
-                    <option value={pkg._id}>
-                      {pkg.packageName} - {formatCurrency(pkg.price)}
-                    </option>
-                  </select>
-
-                  <button
-                    className="btn-view-profile"
-                    onClick={() => handleViewProfile("Hotel", pkg._id)}
-                  >
-                    View Profile
-                  </button>
-                </div>
-              </div>
-            ))}
-          </div>
-        </section>
-
-        {/* Music Bands Section */}
-        <section className="service-category">
-          <h2>3. Music Bands</h2>
-          <div className="service-providers">
-            {packages["Music Band"].map((pkg) => (
-              <div key={pkg._id} className="provider-card">
-                <div className="provider-select">
-                  <input
-                    type="radio"
-                    id={`band-${pkg._id}`}
-                    name="band"
-                    checked={selectedPackages["Music Band"]?._id === pkg._id}
-                    onChange={() =>
-                      handlePackageSelect("Music Band", pkg._id)
-                    }
-                  />
-                  <label htmlFor={`band-${pkg._id}`}>{pkg.packageName}</label>
-                </div>
-
-                <div className="package-actions">
-                  <select
-                    value={
-                      selectedPackages["Music Band"]?._id === pkg._id
-                        ? pkg._id
-                        : ""
-                    }
-                    onChange={(e) =>
-                      handlePackageSelect("Music Band", e.target.value)
-                    }
-                    className="package-select"
-                  >
-                    <option value="">Select Package</option>
-                    <option value={pkg._id}>
-                      {pkg.packageName} - {formatCurrency(pkg.price)}
-                    </option>
-                  </select>
-
-                  <button
-                    className="btn-view-profile"
-                    onClick={() => handleViewProfile("Music Band", pkg._id)}
-                  >
-                    View Profile
-                  </button>
-                </div>
-              </div>
-            ))}
-          </div>
-        </section>
+              ))}
+            </div>
+          </section>
+        ))}
       </div>
 
       <div className="service-summary">
         <div className="selected-services">
           <h3>Selected Services</h3>
           <ul>
-            {selectedPackages.Photographer && (
-              <li>
-                <strong>Photographer:</strong>{" "}
-                {selectedPackages.Photographer.packageName} -{" "}
-                {formatCurrency(selectedPackages.Photographer.price)}
-              </li>
-            )}
-            {selectedPackages.Hotel && (
-              <li>
-                <strong>Hotel:</strong> {selectedPackages.Hotel.packageName} -{" "}
-                {formatCurrency(selectedPackages.Hotel.price)}
-              </li>
-            )}
-            {selectedPackages["Music Band"] && (
-              <li>
-                <strong>Music Band:</strong>{" "}
-                {selectedPackages["Music Band"].packageName} -{" "}
-                {formatCurrency(selectedPackages["Music Band"].price)}
-              </li>
+            {Object.entries(selectedPackages).map(([type, pkg]) => 
+              pkg && (
+                <li key={type}>
+                  <strong>{type}:</strong>{" "}
+                  {pkg.packageName} - {formatCurrency(pkg.price)}
+                </li>
+              )
             )}
           </ul>
 

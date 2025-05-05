@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import { SERVICE_TYPES } from '../constants/serviceTypes';
 
 const Register = () => {
   const [fullName, setFullName] = useState('');
@@ -112,7 +113,16 @@ const Register = () => {
             </div>
             <div>
               <label>Service Type</label>
-              <input type="text" value={serviceType} onChange={(e) => setServiceType(e.target.value)} required />
+              <select 
+                value={serviceType} 
+                onChange={(e) => setServiceType(e.target.value)}
+                required
+              >
+                <option value="">Select Service Type</option>
+                {SERVICE_TYPES.map(type => (
+                  <option key={type} value={type}>{type}</option>
+                ))}
+              </select>
             </div>
             <div>
               <label>

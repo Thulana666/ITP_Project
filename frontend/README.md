@@ -74,7 +74,6 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/t
 # TODO
 
 - [x] 2. Service provider package management- Validation , page navigation
-- [x] 3. Service provider - update function, User profile
 - [x] 5. Sevice provider notifications
 
 # DONE
