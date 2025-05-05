@@ -85,17 +85,23 @@ exports.updatePaymentStatus = async (req, res) => {
 
   try {
     const { id } = req.params;
+    const { status } = req.body; // Get status from request body
     const payment = await Payment.findById(id);
 
     if (!payment) {
       return res.status(404).json({ error: "Payment not found" });
     }
 
-    payment.status = "Paid";
+    // Validate status
+    if (!["Pending", "Paid", "Rejected"].includes(status)) {
+      return res.status(400).json({ error: "Invalid status" });
+    }
+
+    payment.status = status; // Update status
     await payment.save();
-    
+
     res.status(200).json({ 
-      message: "Payment status updated to Paid",
+      message: `Payment status updated to ${status}`,
       payment
     });
   } catch (error) {

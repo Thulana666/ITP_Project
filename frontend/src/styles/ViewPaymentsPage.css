@@ -140,6 +140,11 @@ h2 {
   color: white;
 }
 
+.status-badge.rejected {
+  background-color: #e74c3c;
+  color: white;
+}
+
 .status-badge:hover {
   opacity: 0.9;
   transform: translateY(-1px);
@@ -169,6 +174,19 @@ h2 {
 
 .delete-btn:hover {
   color: #cc0000;
+}
+
+.action-btn.reject {
+  background-color: #e74c3c;
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.action-btn.reject:hover {
+  background-color: #c0392b;
 }
 
 .no-data-message {

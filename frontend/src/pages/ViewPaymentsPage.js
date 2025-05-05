@@ -45,7 +45,7 @@ const ViewPaymentsPage = () => {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ status: newStatus }),
       });
-      fetchPayments();
+      fetchPayments(); // Refresh payments after status update
     } catch (error) {
       console.error("Error updating status:", error);
     }
@@ -118,6 +118,12 @@ const ViewPaymentsPage = () => {
           >
             PAID
           </button>
+          <button 
+            className={filter === "Rejected" ? "active" : ""}
+            onClick={() => handleFilterChange("Rejected")}
+          >
+            REJECTED
+          </button>
         </div>
       </div>
 
@@ -148,17 +154,29 @@ const ViewPaymentsPage = () => {
                   <td>{payment.paymentMethod || 'N/A'}</td>
                   <td>{payment.amount ? `Rs. ${Number(payment.amount).toLocaleString()}` : 'N/A'}</td>
                   <td>
-                    <button
-                      className={`status-badge ${payment.status?.toLowerCase() || 'unknown'}`}
-                      onClick={() =>
-                        handleStatusUpdate(
-                          payment._id,
-                          payment.status === "Pending" ? "Paid" : "Pending"
-                        )
-                      }
-                    >
-                      {payment.status || 'Unknown'}
-                    </button>
+                    <div className="status-actions">
+                      <button
+                        className={`status-badge ${payment.status?.toLowerCase() || 'unknown'}`}
+                      >
+                        {payment.status || 'Unknown'}
+                      </button>
+                      <div className="status-buttons">
+                        <button
+                          onClick={() => handleStatusUpdate(payment._id, "Paid")}
+                          className="action-btn approve"
+                          title="Approve Payment"
+                        >
+                          ✓
+                        </button>
+                        <button
+                          onClick={() => handleStatusUpdate(payment._id, "Rejected")}
+                          className="action-btn reject"
+                          title="Reject Payment"
+                        >
+                          ✕
+                        </button>
+                      </div>
+                    </div>
                   </td>
                   <td>
                     <div className="action-buttons">
