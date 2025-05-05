@@ -73,6 +73,35 @@
     background-color: #202536;
   }
 
+  .dashboard-btn {
+    background-color: #fcfaf8;
+    color: #12131A;
+    border: none;
+    border-radius: 10px;
+    font-size: 17px;
+    height: 40px;
+    width: 120px;
+    margin-right: 10px;
+  }
+
+  .dashboard-btn:hover {
+    background-color: #c7c7c7;
+  }
+
+  .logout-btn {
+    background-color: #0b0d15;
+    border-style: none;
+    color: #ffffff;
+    border-radius: 10px;
+    font-size: 17px;
+    height: 40px;
+    width: 110px;
+  }
+
+  .logout-btn:hover {
+    background-color: #202536;
+  }
+
 .user-menu {
   display: flex;
   align-items: center;

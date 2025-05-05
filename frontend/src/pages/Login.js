@@ -1,8 +1,10 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { AuthContext } from "../context/AuthContext";
 
 const Login = () => {
+  const { setCurrentUser } = useContext(AuthContext);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [otp, setOtp] = useState("");
@@ -79,14 +81,12 @@ const Login = () => {
   //  Redirect Based on User Role
   const completeLogin = (token) => {
     try {
-      // Save token
       localStorage.setItem("token", token);
-      
-      // Decode token and extract user data
       const payload = JSON.parse(atob(token.split(".")[1]));
       console.log("Decoded token payload:", payload);
       
-      // Save user data
+      // Update AuthContext state immediately
+      setCurrentUser(payload);
       localStorage.setItem("currentUser", JSON.stringify(payload));
       
       // Navigate based on role

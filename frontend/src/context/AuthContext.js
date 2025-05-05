@@ -93,8 +93,9 @@ export const AuthContextProvider = ({ children }) => {
 
   const logout = () => {
     localStorage.removeItem('token');
-    localStorage.removeItem('currentUser');
+    localStorage.removeItem('currentUser'); 
     setCurrentUser(null);
+    window.location.href = '/'; // Force a full refresh and redirect to home
   };
 
   const value = {
