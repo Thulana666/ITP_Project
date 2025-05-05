@@ -53,3 +53,22 @@ button {
 .view-reviews {
     background: gray;
 }
+
+.image-upload {
+    margin: 15px 0;
+    text-align: left;
+}
+
+.image-upload label {
+    display: block;
+    margin-bottom: 5px;
+    color: #333;
+}
+
+.image-upload input[type="file"] {
+    width: 100%;
+    padding: 8px;
+    border: 1px dashed #ccc;
+    border-radius: 5px;
+    background: #fff;
+}

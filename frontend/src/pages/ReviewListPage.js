@@ -102,6 +102,11 @@ const ReviewListPage = () => {
         review.userName.toLowerCase().includes(searchTerm.toLowerCase())
     );
 
+    // Add this function to get the correct image URL
+    const getImageUrl = (imageName) => {
+        return `${process.env.REACT_APP_API_URL || 'http://localhost:5000'}/uploads/${imageName}`;
+    };
+
     return (
         <div className="review-list-container">
             <header>
@@ -150,10 +155,24 @@ const ReviewListPage = () => {
                             <FaUserCircle className="profile-icon" />
                             <h3>{review.userName}</h3>
                         </div>
+                        {review.images && review.images[0] && (
+                            <img 
+                                src={getImageUrl(review.images[0])}
+                                alt="Review"
+                                className="review-image"
+                                onError={(e) => {
+                                    console.error("Image failed to load:", e.target.src);
+                                    e.target.style.display = 'none';
+                                }}
+                            />
+                        )}
                         <div className="review-rating">
                             {"★".repeat(review.rating)}{"☆".repeat(5 - review.rating)}
                         </div>
                         <p className="review-comment">{review.comment}</p>
+                        <p className="review-date">
+                            {new Date(review.createdAt).toISOString().split('T')[0]}
+                        </p>
                         {canModifyReview(review) && (
                             <div className="review-actions">
                                 <button 

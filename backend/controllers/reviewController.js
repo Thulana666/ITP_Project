@@ -1,68 +1,123 @@
 const mongoose = require("mongoose");
 const Review = require("../models/Review");
 const User = require("../models/User");
+const multer = require('multer');
+const path = require('path');
+const fs = require('fs');
+
+// Create uploads directory if it doesn't exist
+const uploadDir = path.join(__dirname, '../public/uploads');
+if (!fs.existsSync('./public')) {
+    fs.mkdirSync('./public');
+}
+if (!fs.existsSync(uploadDir)) {
+    fs.mkdirSync(uploadDir);
+}
+
+// Set up multer for file upload
+const storage = multer.diskStorage({
+    destination: function(req, file, cb) {
+        cb(null, uploadDir);
+    },
+    filename: function(req, file, cb) {
+        const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
+        cb(null, uniqueSuffix + path.extname(file.originalname));
+    }
+});
+
+const upload = multer({
+    storage: storage,
+    limits: { fileSize: 10000000 }, // 10MB limit
+    fileFilter: function(req, file, cb) {
+        checkFileType(file, cb);
+    }
+}).single('image');
+
+// Check file type
+function checkFileType(file, cb) {
+    const filetypes = /jpeg|jpg|png|gif/;
+    const extname = filetypes.test(path.extname(file.originalname).toLowerCase());
+    const mimetype = filetypes.test(file.mimetype);
+
+    if (mimetype && extname) {
+        return cb(null, true);
+    } else {
+        cb('Error: Images Only!');
+    }
+}
 
 // **1. Create a Review**
 exports.createReview = async(req, res) => {
     try {
-        const { serviceId, comment, rating, images } = req.body;
+        upload(req, res, async (err) => {
+            if (err) {
+                console.error("Upload Error:", err);
+                return res.status(400).json({ message: err.message });
+            }
 
-        // Check for required fields
-        if (!serviceId || !comment || !rating) {
-            return res.status(400).json({ message: "Service ID, comment, and rating are required." });
-        }
+            console.log("File:", req.file); // Add this for debugging
+            console.log("Body:", req.body); // Add this for debugging
 
-        // Ensure rating is a valid number
-        if (typeof rating !== "number" || rating < 1 || rating > 5) {
-            return res.status(400).json({ message: "Rating must be a number between 1 and 5." });
-        }
+            const { serviceId, comment } = req.body;
+            const rating = Number(req.body.rating); // Convert rating to number explicitly
 
-        // Comment length validation
-        if (comment.length < 10) {
-            return res.status(400).json({ message: "Comment must be at least 10 characters long." });
-        }
-        
-        if (comment.length > 500) {
-            return res.status(400).json({ message: "Comment cannot exceed 500 characters." });
-        }
-        
-        // Content filtering for inappropriate language (basic example)
-        const inappropriateWords = ['badword1', 'badword2', 'badword3']; // Add actual words to filter
-        const containsInappropriate = inappropriateWords.some(word => 
-            comment.toLowerCase().includes(word.toLowerCase())
-        );
-        
-        if (containsInappropriate) {
-            return res.status(400).json({ 
-                message: "Your comment contains inappropriate language. Please revise your comment." 
+            // Check for required fields
+            if (!serviceId || !comment || !rating) {
+                return res.status(400).json({ message: "Service ID, comment, and rating are required." });
+            }
+
+            // Ensure rating is a valid number
+            if (isNaN(rating) || rating < 1 || rating > 5) {
+                return res.status(400).json({ message: "Rating must be a number between 1 and 5." });
+            }
+
+            // Comment length validation
+            if (comment.length < 10) {
+                return res.status(400).json({ message: "Comment must be at least 10 characters long." });
+            }
+            
+            if (comment.length > 500) {
+                return res.status(400).json({ message: "Comment cannot exceed 500 characters." });
+            }
+            
+            // Content filtering for inappropriate language (basic example)
+            const inappropriateWords = ['badword1', 'badword2', 'badword3']; // Add actual words to filter
+            const containsInappropriate = inappropriateWords.some(word => 
+                comment.toLowerCase().includes(word.toLowerCase())
+            );
+            
+            if (containsInappropriate) {
+                return res.status(400).json({ 
+                    message: "Your comment contains inappropriate language. Please revise your comment." 
+                });
+            }
+
+            // Ensure `req.user` exists
+            if (!req.user || !req.user.id) {
+                return res.status(401).json({ message: "Unauthorized. User ID is missing." });
+            }
+
+            // Fetch the user from DB to get `fullName`
+            const user = await User.findById(req.user.id);
+            if (!user) {
+                return res.status(404).json({ message: "User not found" });
+            }
+
+            // Ensure `user.fullName` exists
+            const userName = user.fullName || "Anonymous";
+
+            const newReview = new Review({
+                serviceId,
+                userId: req.user.id,
+                userName,
+                comment,
+                rating, // This is now guaranteed to be a number
+                images: req.file ? [req.file.filename] : []
             });
-        }
 
-        // Ensure `req.user` exists
-        if (!req.user || !req.user.id) {
-            return res.status(401).json({ message: "Unauthorized. User ID is missing." });
-        }
-
-        // Fetch the user from DB to get `fullName`
-        const user = await User.findById(req.user.id);
-        if (!user) {
-            return res.status(404).json({ message: "User not found" });
-        }
-
-        // Ensure `user.fullName` exists
-        const userName = user.fullName || "Anonymous";
-
-        const newReview = new Review({
-            serviceId,
-            userId: req.user.id,
-            userName: userName,
-            comment,
-            rating,
-            images,
+            await newReview.save();
+            res.status(201).json({ message: "Review added successfully", review: newReview });
         });
-
-        await newReview.save();
-        res.status(201).json({ message: "Review added successfully", review: newReview });
     } catch (error) {
         console.error("Review Creation Error:", error);
         res.status(500).json({ message: "Server error", error: error.message });

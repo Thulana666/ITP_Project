@@ -42,7 +42,6 @@ const ReviewPage = () => {
             return;
         }
     
-        // Get the token from localStorage
         const token = localStorage.getItem('token');
         if (!token) {
             setError("Authentication required. Please log in again.");
@@ -51,21 +50,23 @@ const ReviewPage = () => {
         }
     
         try {
-            // Create a simple JSON object instead of FormData
-            const reviewData = {
-                serviceId: formData.serviceId,
-                comment: formData.description,
-                rating: Number(formData.rating)
-            };
-    
-            console.log("Sending review data:", reviewData);
+            const formDataToSend = new FormData();
+            formDataToSend.append('serviceId', formData.serviceId);
+            formDataToSend.append('comment', formData.description);
+            formDataToSend.append('rating', String(formData.rating));
             
+            if (formData.image) {
+                formDataToSend.append('image', formData.image);
+                console.log("Image being sent:", formData.image); // Add this for debugging
+            }
+
             const response = await axios.post(
                 "http://localhost:5000/api/reviews",
-                reviewData,
+                formDataToSend,
                 {
                     headers: {
-                        "Authorization": `Bearer ${token}`
+                        "Authorization": `Bearer ${token}`,
+                        "Content-Type": "multipart/form-data"
                     }
                 }
             );
@@ -77,7 +78,7 @@ const ReviewPage = () => {
                 description: "",
                 image: null,
                 rating: 0,
-                serviceId: "6405fb334ac30232d8c34671" // Keep the same ObjectId
+                serviceId: "6405fb334ac30232d8c34671"
             });
         } catch (error) {
             console.error("Error submitting review:", error);
@@ -110,11 +111,16 @@ const ReviewPage = () => {
                     required
                 />
 
-                {/*<div className="image-upload">
-                    <label htmlFor="imageUpload">Add Images (Optional)</label>
-                    <input type="file" id="imageUpload" onChange={handleImageChange} />
-                </div>*/}
-
+                <div className="image-upload">
+                    <label htmlFor="imageUpload">Add Image (Optional)</label>
+                    <input 
+                        type="file" 
+                        id="imageUpload"
+                        accept="image/*"
+                        onChange={handleImageChange}
+                    />
+                </div>
+                
                 <div className="rating-section">
                     <p>Your Rating (Required)</p>
                     <div className="stars">
