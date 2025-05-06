@@ -27,7 +27,7 @@ const HomePage = () => {
                   creativity.
                 </p>
                 <a href="/booking">
-                  <button className="plan-btn">
+                  <button id="plan-btn">
                     Book An Event &nbsp;&nbsp;{" "}
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -256,7 +256,7 @@ const HomePage = () => {
             </p>
             <a href="/booking">
               <button
-                className="plan-btn"
+                id="plan-btn"
                 style={{ backgroundColor: "#12131A", color: "#fcfaf8" }}>
                 Book An Event &nbsp;&nbsp;{" "}
                 <svg

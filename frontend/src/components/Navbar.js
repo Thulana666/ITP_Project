@@ -49,7 +49,7 @@ const Navbar = () => {
       <div className="nav-buttons">
         {currentUser ? (
           <>
-            <Link to={getDashboardLink()}><button className="dashboard-btn">Dashboard</button></Link>
+            <Link to={getDashboardLink()}><button className="dashboard-btn">My Profile</button></Link>
             <button className="logout-btn" onClick={handleLogout}>Logout</button>
           </>
         ) : (

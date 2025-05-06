@@ -77,7 +77,7 @@ const Register = () => {
   };
 
   return (
-    <div>
+    <div id='register-form-container'>
       
       <form className='regform' onSubmit={handleSubmit}>
         <h2>Registration</h2>

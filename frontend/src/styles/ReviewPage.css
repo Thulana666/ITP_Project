@@ -39,8 +39,11 @@ textarea {
     color: gold;
 }
 
+#add-manage-package-button{
+    width: 400px;
+}
+
 button {
-    width: 100%;
     padding: 10px;
     margin: 5px 0;
     border: none;

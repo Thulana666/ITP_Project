@@ -79,3 +79,9 @@
 .packages-edit-form button {
   margin: 5px;
 }
+
+#edit-packages{
+  background-color: white;
+  margin: 100px;
+}
+

@@ -67,7 +67,7 @@ p {
   justify-content: center;
 }
 
-.plan-btn {
+#plan-btn {
   margin-top: 10px;
   background-color: #fcfaf8;
   color: #12131a;
@@ -81,7 +81,9 @@ p {
   flex-direction: row;
   justify-content: center;
   align-items: center;
+  width: 250px;
 }
+
 
 .sec2 {
   display: grid;

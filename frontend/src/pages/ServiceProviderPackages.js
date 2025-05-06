@@ -83,7 +83,7 @@ const ServiceProviderPackages = () => {
   };
 
   return (
-    <div className="container">
+    <div className="container" id="edit-packages">
       <h1>My Packages</h1>
       {error && <div className="error-message">{error}</div>}
       <button className="globalButton" onClick={() => setShowAddForm(!showAddForm)}>

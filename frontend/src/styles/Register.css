@@ -26,6 +26,16 @@ body {
   margin: auto;
 }
 
+#register-form-container{
+  margin-top: 100px;
+  margin-bottom: 170px;
+}
+
+#register-form-container h2{
+  margin-top: 15px;
+  margin-bottom: 20px;
+}
+
 form div {
   margin-bottom: 15px;
 }

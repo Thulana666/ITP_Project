@@ -21,14 +21,14 @@ const ServiceProviderDashboard = () => {
         <button 
           onClick={() => navigate('/service-provider/notifications')}
           style={{
-            backgroundColor: '#2196f3',
+            backgroundColor: '#2C3F50',
             color: 'white',
             padding: '12px 20px',
             border: 'none',
             borderRadius: '5px',
             cursor: 'pointer',
             marginBottom: '10px',
-            width: '100%'
+            width: '400px'
           }}
         >
           Notifications
@@ -39,10 +39,10 @@ const ServiceProviderDashboard = () => {
         {view === 'viewProfile' && <ProfileView />}
         {view === 'updateProfile' && <ProfileUpdate />}
         {view === 'deleteAccount' && <DeleteAccount />}
-        <button onClick={() => navigate('/add-package')}>
+        <button onClick={() => navigate('/add-package')} id='add-manage-package-button'>
           Add Package
         </button>
-        <button onClick={() => navigate('/service-provider/packages')}>
+        <button onClick={() => navigate('/service-provider/packages')} id='add-manage-package-button'>
           Manage Packages
         </button>
         

@@ -2,6 +2,7 @@ import React, { useState, useEffect, useContext } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";
+import "../styles/Login.css";
 
 const Login = () => {
   const { setCurrentUser } = useContext(AuthContext);
@@ -111,7 +112,7 @@ const Login = () => {
   };
 
   return (
-    <div >
+    <div id="login-form-container">
       <h2>Login</h2>
 
       {message && <p style={{ color: "green" }}>{message}</p>}
