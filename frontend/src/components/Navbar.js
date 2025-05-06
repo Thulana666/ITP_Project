@@ -1,6 +1,7 @@
 import React, { useContext, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { AuthContext } from "../context/AuthContext";
+import { Link as ScrollLink } from "react-scroll"; // Import Link from react-scroll
 import "../styles/Navbar.css";
 import logo from "../assets/logo.png";
 
@@ -42,6 +43,14 @@ const Navbar = () => {
       </div>
       <div className="nav-links">
         <Link to="/">Home</Link>
+        <ScrollLink 
+          to="services" 
+          smooth={true} 
+          duration={500} 
+          offset={-70} // Adjust offset for fixed navbar
+        >
+          Services
+        </ScrollLink>
         <Link to="/booking">Bookings</Link>
         <Link to="/reviews">Reviews</Link>
       </div>
