@@ -165,19 +165,29 @@ const CustomerDashboard = () => {
           Change Password
         </button>
         <button
+          style={activeSection === "addReview" ? activeButtonStyle : buttonStyle}
+          onClick={() => setActiveSection("addReview")}
+        >
+          Add Review
+        </button>
+        <button
+          style={{
+            ...buttonStyle,
+            backgroundColor: activeSection === "manageBookings" ? "#2ecc71" : "#27ae60",
+            color: "white",
+            fontWeight: "bold",
+            boxShadow: "0 2px 4px rgba(0,0,0,0.2)"
+          }}
+          onClick={() => navigate('/manage-bookings')}
+        >
+          Manage My Bookings
+        </button>
+        <button
           style={{ ...buttonStyle, backgroundColor: "#e74c3c" }}
           onClick={handleDelete}
         >
           Delete Account
         </button>
-
-        <button
-          style={activeSection === "addReview" ? activeButtonStyle : buttonStyle}  // Set active button style conditionally
-          onClick={() => setActiveSection("addReview")}  // Set "addReview" as active section on button click
-        >
-          Add Review
-        </button>  
-
       </div>
 
       {/* Content Area */}
