@@ -13,6 +13,18 @@
     align-items: center;
   }
 
+  .nav-links a, 
+.nav-links .react-scroll-link {
+  cursor: pointer; /* Ensure the pointer cursor is shown */
+  text-decoration: none; /* Optional: Remove underline */
+  color: inherit; /* Optional: Inherit text color */
+  transition: color 0.3s ease; /* Optional: Add hover effect */
+}
+
+.nav-links .react-scroll-link:hover {
+  color: #3498db; /* Optional: Change color on hover */
+}
+
   .nav-links a {
     margin: 0 10px;
     text-decoration: none;
