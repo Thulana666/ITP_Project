@@ -58,43 +58,45 @@ const PackageForm = ({ setPackages = null }) => {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      {error && <div className="alert alert-danger">{error}</div>}
-      {success && <div className="alert alert-success">{success}</div>}
-      <input 
-        type="text" 
-        name="packageName" 
-        value={formData.packageName}
-        placeholder="Package Name" 
-        onChange={handleChange} 
-        required 
-      />
-      <input 
-        type="text" 
-        name="description" 
-        value={formData.description}
-        placeholder="Description" 
-        onChange={handleChange} 
-        required 
-      />
-      <input 
-        type="number" 
-        name="price" 
-        value={formData.price}
-        placeholder="Price" 
-        onChange={handleChange} 
-        required 
-      />
-      <input 
-        type="text" 
-        name="serviceProvider" 
-        value={currentUser?.fullName || ""} // Change to fullName
-        placeholder="Service Provider Name" 
-        readOnly
-        disabled
-      />
-      <button className="globalButton" type="submit">Add Package</button>
-    </form>
+    <div id="edit-packages">
+      <form onSubmit={handleSubmit}>
+        {error && <div className="alert alert-danger">{error}</div>}
+        {success && <div className="alert alert-success">{success}</div>}
+        <input 
+          type="text" 
+          name="packageName" 
+          value={formData.packageName}
+          placeholder="Package Name" 
+          onChange={handleChange} 
+          required 
+        />
+        <input 
+          type="text" 
+          name="description" 
+          value={formData.description}
+          placeholder="Description" 
+          onChange={handleChange} 
+          required 
+        />
+        <input 
+          type="number" 
+          name="price" 
+          value={formData.price}
+          placeholder="Price" 
+          onChange={handleChange} 
+          required 
+        />
+        <input 
+          type="text" 
+          name="serviceProvider" 
+          value={currentUser?.fullName || ""} 
+          placeholder="Service Provider Name" 
+          readOnly
+          disabled
+        />
+        <button className="globalButton" type="submit">Add Package</button>
+      </form>
+    </div>
   );
 };
 
