@@ -68,21 +68,29 @@ const AdminApproveServiceProviders = () => {
         <ul style={styles.list}>
           {serviceProviders.map((sp) => (
             <li key={sp._id} style={styles.listItem}>
-              <span style={styles.providerInfo}>
-                {sp.fullName} - {sp.email} ({sp.approvalStatus ? "Approved" : "Pending"})
-              </span>
-              <button
-                onClick={() => handleApproval(sp._id, true)}
-                style={styles.approveButton}
-              >
-                Approve
-              </button>
-              <button
-                onClick={() => handleApproval(sp._id, false)}
-                style={styles.rejectButton}
-              >
-                Reject
-              </button>
+              <div style={styles.providerDetails}>
+                <div style={styles.providerName}>{sp.fullName}</div>
+                <div style={styles.providerEmail}>{sp.email}</div>
+                <div style={styles.statusBadge} className={sp.approvalStatus ? 'approved' : 'pending'}>
+                  {sp.approvalStatus ? "Approved" : "Pending"}
+                </div>
+              </div>
+              {!sp.approvalStatus && (
+                <div style={styles.buttonContainer}>
+                  <button
+                    onClick={() => handleApproval(sp._id, true)}
+                    style={styles.approveButton}
+                  >
+                    Approve
+                  </button>
+                  <button
+                    onClick={() => handleApproval(sp._id, false)}
+                    style={styles.rejectButton}
+                  >
+                    Reject
+                  </button>
+                </div>
+              )}
             </li>
           ))}
         </ul>
@@ -127,38 +135,65 @@ const styles = {
     margin: "0",
   },
   listItem: {
-    backgroundColor: "#fff",
-    padding: "15px",
-    margin: "10px 0",
-    borderRadius: "8px",
-    boxShadow: "0 2px 5px rgba(0, 0, 0, 0.1)",
-    display: "flex",
-    justifyContent: "space-between",
-    alignItems: "center",
-    transition: "transform 0.3s, box-shadow 0.3s",
+    backgroundColor: '#fff',
+    padding: '20px',
+    margin: '15px 0',
+    borderRadius: '8px',
+    boxShadow: '0 2px 5px rgba(0, 0, 0, 0.1)',
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center',
   },
-  providerInfo: {
-    fontSize: "16px",
-    color: "#333",
-    fontWeight: "bold",
+  providerDetails: {
+    flex: 1,
+  },
+  providerName: {
+    fontSize: '18px',
+    fontWeight: 'bold',
+    color: '#2c3e50',
+    marginBottom: '5px',
+  },
+  providerEmail: {
+    fontSize: '14px',
+    color: '#7f8c8d',
+    marginBottom: '5px',
+  },
+  statusBadge: {
+    display: 'inline-block',
+    padding: '4px 8px',
+    borderRadius: '4px',
+    fontSize: '12px',
+    fontWeight: 'bold',
+  },
+  buttonContainer: {
+    display: 'flex',
+    gap: '10px',
   },
   approveButton: {
-    backgroundColor: "#2ecc71",
-    color: "#fff",
-    padding: "10px 15px",
-    border: "none",
-    borderRadius: "5px",
-    cursor: "pointer",
-    transition: "background-color 0.3s, transform 0.3s",
+    backgroundColor: '#2ecc71',
+    color: '#fff',
+    padding: '8px 16px',
+    border: 'none',
+    borderRadius: '4px',
+    cursor: 'pointer',
+    fontWeight: 'bold',
+    transition: 'background-color 0.3s',
+    '&:hover': {
+      backgroundColor: '#27ae60',
+    },
   },
   rejectButton: {
-    backgroundColor: "#e74c3c",
-    color: "#fff",
-    padding: "10px 15px",
-    border: "none",
-    borderRadius: "5px",
-    cursor: "pointer",
-    transition: "background-color 0.3s, transform 0.3s",
+    backgroundColor: '#e74c3c',
+    color: '#fff',
+    padding: '8px 16px',
+    border: 'none',
+    borderRadius: '4px',
+    cursor: 'pointer',
+    fontWeight: 'bold',
+    transition: 'background-color 0.3s',
+    '&:hover': {
+      backgroundColor: '#c0392b',
+    },
   },
 };
 

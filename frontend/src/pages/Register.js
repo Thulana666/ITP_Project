@@ -81,6 +81,8 @@ const Register = () => {
       
       <form className='regform' onSubmit={handleSubmit}>
         <h2>Registration</h2>
+        {error && <p className="error-message">{error}</p>}
+        {message && <p className="success-message">{message}</p>}
         <div>
           <label>Full Name</label>
           <input type="text" value={fullName} onChange={(e) => setFullName(e.target.value)} required />
@@ -135,9 +137,6 @@ const Register = () => {
 
         <button type="submit">Register</button>
       </form>
-
-      {error && <p style={{ color: 'red' }}>{error}</p>}
-      {message && <p style={{ color: 'green' }}>{message}</p>}
     </div>
   );
 };

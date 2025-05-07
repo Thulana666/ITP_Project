@@ -75,15 +75,22 @@ button:hover {
 }
 
 /* Error & Success Messages */
-p {
+.error-message, .success-message {
+  text-align: center;
+  padding: 10px;
+  margin: 10px 0;
+  border-radius: 5px;
   font-size: 14px;
-  margin-top: 10px;
 }
 
-p[style*="color: red"] {
-  color: red;
+.error-message {
+  background-color: #ffebee;
+  color: #c62828;
+  border: 1px solid #ffcdd2;
 }
 
-p[style*="color: green"] {
-  color: green;
+.success-message {
+  background-color: #e8f5e9;
+  color: #2e7d32;
+  border: 1px solid #c8e6c9;
 }
