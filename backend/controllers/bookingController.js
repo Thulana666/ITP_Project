@@ -62,7 +62,10 @@ const getUserBookings = async (req, res) => {
     const bookings = await Booking.find({ userId });
 
     res.json(bookings);
-    console.log("User bookings:", bookings[0].id);
+    // Only log if bookings exist and have items
+    if (bookings && bookings.length > 0) {
+      console.log("User bookings:", bookings[0].id);
+    }
   } catch (error) {
     console.error("Error fetching user bookings:", error);
     res.status(500).json({ error: "Server error. Please try again." });
