@@ -19,14 +19,47 @@ const PaymentPage = () => {
     selectedPackages: bookingData.selectedPackages || [] // Store selected packages
   });
 
+  const [errors, setErrors] = useState({
+    firstName: "",
+    lastName: "",
+    email: "",
+    phone: "",
+  });
+
   const [fileError, setFileError] = useState("");
   const [dragActive, setDragActive] = useState(false);
   const [fileName, setFileName] = useState("");
   const [formError, setFormError] = useState("");
 
+  const formatFieldName = (name) => {
+    switch(name) {
+      case 'firstName':
+        return 'First name';
+      case 'lastName':
+        return 'Last name';
+      default:
+        return name;
+    }
+  };
+
+  const validateField = (name, value) => {
+    switch (name) {
+      case 'firstName':
+      case 'lastName':
+        return value.trim() === '' ? `${formatFieldName(name)} is required` : '';
+      case 'email':
+        return !value.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/) ? 'Invalid email format' : '';
+      case 'phone':
+        return !value.match(/^[0-9]{10}$/) ? 'Phone number must be 10 digits' : '';
+      default:
+        return '';
+    }
+  };
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setPaymentData({ ...paymentData, [name]: value });
+    setErrors({ ...errors, [name]: validateField(name, value) });
   };
 
   const handleFileChange = (e) => {
@@ -128,10 +161,12 @@ const PaymentPage = () => {
           <div>
             <label>First Name</label>
             <input type="text" name="firstName" value={paymentData.firstName} onChange={handleChange} required />
+            {errors.firstName && <p style={{ color: 'red', fontSize: '12px', marginTop: '5px' }}>{errors.firstName}</p>}
           </div>
           <div>
             <label>Last Name</label>
             <input type="text" name="lastName" value={paymentData.lastName} onChange={handleChange} required />
+            {errors.lastName && <p style={{ color: 'red', fontSize: '12px', marginTop: '5px' }}>{errors.lastName}</p>}
           </div>
         </div>
 
@@ -139,6 +174,7 @@ const PaymentPage = () => {
           <div>
             <label>E-mail address</label>
             <input type="email" name="email" value={paymentData.email} onChange={handleChange} required />
+            {errors.email && <p style={{ color: 'red', fontSize: '12px', marginTop: '5px' }}>{errors.email}</p>}
           </div>
           <div>
             <label>Phone number</label>
@@ -151,6 +187,7 @@ const PaymentPage = () => {
               title="Phone number must be exactly 10 digits"
               required 
             />
+            {errors.phone && <p style={{ color: 'red', fontSize: '12px', marginTop: '5px' }}>{errors.phone}</p>}
           </div>
         </div>
 
