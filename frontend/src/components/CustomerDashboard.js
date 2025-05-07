@@ -145,7 +145,7 @@ const CustomerDashboard = () => {
     <div style={dashboardStyle}>
       {/* Sidebar */}
       <div style={sidebarStyle}>
-        <h2>Dashboard</h2>
+        <h2 style={{color: "#fda92d"}}>Dashboard</h2>
         <button
           style={activeSection === "profile" ? activeButtonStyle : buttonStyle}
           onClick={() => setActiveSection("profile")}

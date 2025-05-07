@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 const AdminSidebar = () => {
   return (
     <div className="admin-sidebar">
-      <h2>Admin Dashboard</h2>
+      <h2 style={{color: "#fda92d"}}>Admin Dashboard</h2>
       <ul>
         <li><Link to="/admin/view-users">View & Search Users</Link></li>
         <li><Link to="/admin/approve-service-providers">Approve Service Providers</Link></li>
