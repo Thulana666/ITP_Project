@@ -137,7 +137,7 @@ router.post('/generate-report', async (req, res) => {
         
         // Check if discount should be applied (packages from 3 different categories)
         const categories = new Set(selectedPackages.map(pkg => pkg.serviceProvider));
-        const discountApplied = categories.size >= 3;
+        const discountApplied = selectedPackages.length >=3;
         
         if (discountApplied) {
             totalPrice *= 0.9; // Apply 10% discount

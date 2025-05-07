@@ -59,7 +59,7 @@ const ServiceSelectionPage = () => {
     });
 
     // Apply 10% discount if one service from each category is selected
-    const discount = selectedCount === 3 ? sum * 0.1 : 0;
+    const discount = selectedCount >=3 ? sum * 0.1 : 0;
     setDiscountApplied(discount > 0);
 
     setTotalPrice(sum - discount);
@@ -310,7 +310,7 @@ Event Details:
 
           {discountApplied && (
             <div className="discount-notice">
-              <p>10% discount applied for selecting all three service types!</p>
+              <p>10% discount applied for selecting three service types!</p>
             </div>
           )}
 
