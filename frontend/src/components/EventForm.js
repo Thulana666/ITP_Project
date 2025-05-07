@@ -59,27 +59,34 @@ const EventForm = ({ selectedDate, booking, setBooking }) => {
     if (setBooking) setBooking(updatedData);
   };
 
-  // Form validation function
+  // Simplify the validation function
   const validateForm = () => {
-    let newErrors = {}; 
-
-    if (!formData.eventType) newErrors.eventType = "Event Type is required";
-    if (!formData.expectedCrowd) newErrors.expectedCrowd = "Crowd size is required";
-    if (formData.salonServices.length === 0) newErrors.salonServices = "Select at least one service";
+    const newErrors = {};
+    
+    if (!formData.eventType) {
+      newErrors.eventType = "Select an event type";
+    }
+    if (!formData.expectedCrowd) {
+      newErrors.expectedCrowd = "Select expected crowd";
+    }
+    if (formData.salonServices.length === 0) {
+      newErrors.salonServices = "Select at least one service";
+    }
     if (!selectedDate || selectedDate.toDateString() === new Date().toDateString()) {
-      newErrors.selectedDate = "Please select a date";
+      newErrors.selectedDate = "Select a date";
     }
     
-    setErrors(newErrors); 
-
+    setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
 
-  // Handle form submission
+  // Simplify handleSubmit
   const handleSubmit = async (e) => {
-    e.preventDefault(); 
-    if (!validateForm()) return; 
-
+    e.preventDefault();
+    if (!validateForm()) {
+      return;
+    }
+    
     setLoading(true); 
 
     const localDate = new Date(selectedDate);
@@ -116,7 +123,11 @@ const EventForm = ({ selectedDate, booking, setBooking }) => {
     <form onSubmit={handleSubmit} className="booking-form-container">
       {/* Event Type Selection */}
       <label>Event Type:</label>
-      <select name="eventType" value={formData.eventType} onChange={handleChange} required>
+      <select 
+        name="eventType" 
+        value={formData.eventType} 
+        onChange={handleChange}
+      >
         <option value="">Select Event Type</option>
         <option value="Wedding">Wedding</option>
         <option value="Graduation">Graduation</option>
@@ -124,11 +135,15 @@ const EventForm = ({ selectedDate, booking, setBooking }) => {
         <option value="Corporate Event">Corporate Event</option>
         <option value="Other">Other</option>
       </select>
-      {errors.eventType && <p className="error-message">{errors.eventType}</p>} {/* Show error message if validation fails */}
+      {errors.eventType && <span className="error-text">{errors.eventType}</span>}
 
       {/* Expected Crowd Selection */}
       <label>Expected Crowd:</label>
-      <select name="expectedCrowd" value={formData.expectedCrowd} onChange={handleChange} required>
+      <select 
+        name="expectedCrowd" 
+        value={formData.expectedCrowd} 
+        onChange={handleChange}
+      >
         <option value="">Select Crowd Size</option>
         <option value="0-50">0 - 50</option>
         <option value="50-100">50 - 100</option>
@@ -136,33 +151,48 @@ const EventForm = ({ selectedDate, booking, setBooking }) => {
         <option value="500-1000">500 - 1000</option>
         <option value="More than 1000">More than 1000</option>
       </select>
-      {errors.expectedCrowd && <p className="error-message">{errors.expectedCrowd}</p>} {/* Show error message if validation fails */}
+      {errors.expectedCrowd && <span className="error-text">{errors.expectedCrowd}</span>}
 
       {/* Salon Services Selection */}
       <label>Salon Services:</label>
       <div className="checkbox-group">
         <label>
-          <input type="checkbox" value="Hair Styling" onChange={handleCheckboxChange} checked={formData.salonServices.includes("Hair Styling")} />
+          <input 
+            type="checkbox" 
+            value="Hair Styling" 
+            onChange={handleCheckboxChange} 
+            checked={formData.salonServices.includes("Hair Styling")} 
+          />
           Hair Styling - Rs. 5 000
         </label>
         <label>
-          <input type="checkbox" value="Makeup" onChange={handleCheckboxChange} checked={formData.salonServices.includes("Makeup")} />
+          <input 
+            type="checkbox" 
+            value="Makeup" 
+            onChange={handleCheckboxChange} 
+            checked={formData.salonServices.includes("Makeup")} 
+          />
           Makeup - Rs. 3 500
         </label>
         <label>
-          <input type="checkbox" value="Dressing" onChange={handleCheckboxChange} checked={formData.salonServices.includes("Dressing")} />
+          <input 
+            type="checkbox" 
+            value="Dressing" 
+            onChange={handleCheckboxChange} 
+            checked={formData.salonServices.includes("Dressing")} 
+          />
           Dressing - Rs 6 500
         </label>
       </div>
-      {errors.salonServices && <p className="error-message">{errors.salonServices}</p>} {/* Show error message if no service is selected */}
+      {errors.salonServices && <span className="error-text">{errors.salonServices}</span>}
 
       {/* Event Date Validation */}
-      {errors.selectedDate && <p className="error-message">{errors.selectedDate}</p>} {/* Show error message if no date is selected */}
+      {errors.selectedDate && <span className="error-text">{errors.selectedDate}</span>}
 
       {/* Submit Button */}
       {!booking && (
         <button type="submit" className="booking-button" disabled={loading}>
-          {loading ? "Booking..." : "Book Now"} {/* Show "Booking..." text while loading */}
+          {loading ? "Booking..." : "Book Now"}
         </button>
       )}
     </form>
