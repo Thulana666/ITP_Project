@@ -106,11 +106,27 @@ const AdminDashboard = () => {
     textAlign: "center",
   };
 
+  const welcomeStyle = {
+    textAlign: "center",
+    padding: "50px 20px",
+    color: "#2c3e50",
+  };
+
+  const WelcomeMessage = () => (
+    <div style={welcomeStyle}>
+      <div style={{ fontSize: "48px", marginBottom: "20px" }}>Welcome, Administrator!</div>
+      <p style={{ fontSize: "24px", color: "#7f8c8d" }}>
+        Manage your customers, service providers and generate reports. All from this central dashboard.
+      </p>
+    </div>
+  );
+
   return (
     <div style={adminDashboardStyle}>
       <AdminSidebar />
       <div style={adminContentStyle}>
         <h2 style={pageHeadingStyle}>Admin Dashboard</h2>
+        <WelcomeMessage />
         <Routes>
           <Route path="view-users" element={<AdminViewUsers />} />
           <Route path="approve-service-providers" element={<AdminApproveServiceProviders />} />
