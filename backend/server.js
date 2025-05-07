@@ -24,17 +24,25 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-// Configure static file serving - Add this before your routes
-app.use(express.static('public'));
-app.use('/uploads', express.static(path.join(__dirname, 'public/uploads')));
+// Configure static file serving - consolidate uploads directories
+app.use('/uploads', [
+    express.static(path.join(__dirname, 'uploads')),
+    express.static(path.join(__dirname, 'public/uploads'))
+]);
 
 // Ensure uploads directory exists
-const uploadsDir = path.join(__dirname, 'public/uploads');
+const uploadsDir = path.join(__dirname, 'uploads');
+const publicUploadsDir = path.join(__dirname, 'public/uploads');
+
+// Create both directories if they don't exist
+if (!fs.existsSync(uploadsDir)) {
+    fs.mkdirSync(uploadsDir, { recursive: true });
+}
 if (!fs.existsSync(path.join(__dirname, 'public'))) {
     fs.mkdirSync(path.join(__dirname, 'public'));
 }
-if (!fs.existsSync(uploadsDir)) {
-    fs.mkdirSync(uploadsDir);
+if (!fs.existsSync(publicUploadsDir)) {
+    fs.mkdirSync(publicUploadsDir);
 }
 
 // Connect to the database
