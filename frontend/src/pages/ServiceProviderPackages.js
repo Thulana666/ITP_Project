@@ -10,6 +10,44 @@ const ServiceProviderPackages = () => {
   const [editingPackage, setEditingPackage] = useState(null);
   const [showAddForm, setShowAddForm] = useState(false);
   const [error, setError] = useState(null);
+  const [fieldErrors, setFieldErrors] = useState({
+    packageName: "",
+    description: "",
+    price: "",
+  });
+
+  const validateField = (name, value) => {
+    switch (name) {
+      case "packageName":
+        return !value.trim() ? "Package name is required" :
+               value.length < 3 ? "Package name must be at least 3 characters" : "";
+      case "description":
+        return !value.trim() ? "Description is required" :
+               value.length < 10 ? "Description must be at least 10 characters" : "";
+      case "price":
+        return !value ? "Price is required" :
+               value <= 0 ? "Price must be greater than 0" : "";
+      default:
+        return "";
+    }
+  };
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setEditingPackage(prev => ({ ...prev, [name]: value }));
+    setFieldErrors(prevErrors => ({
+      ...prevErrors,
+      [name]: validateField(name, value)
+    }));
+  };
+
+  const clearAllErrors = () => {
+    setFieldErrors({
+      packageName: "",
+      description: "",
+      price: "",
+    });
+  };
 
   useEffect(() => {
     fetchProviderPackages();
@@ -56,6 +94,17 @@ const ServiceProviderPackages = () => {
   };
 
   const handleUpdate = async (id, updatedData) => {
+    const errors = {
+      packageName: validateField("packageName", updatedData.packageName),
+      description: validateField("description", updatedData.description),
+      price: validateField("price", String(updatedData.price))
+    };
+
+    setFieldErrors(errors);
+
+    if (Object.values(errors).some(error => error)) {
+      return;
+    }
     const token = localStorage.getItem('token');
     if (!token) {
       setError("Please login first");
@@ -76,6 +125,7 @@ const ServiceProviderPackages = () => {
         pkg._id === id ? response.data : pkg
       ));
       setEditingPackage(null);
+      clearAllErrors();
     } catch (error) {
       console.error("Error updating package:", error);
       setError(error.response?.data?.message || "Error updating package");
@@ -95,38 +145,48 @@ const ServiceProviderPackages = () => {
         <div className="packages-edit-form-overlay">
           <div className="packages-edit-form">
             <h2>Edit Package</h2>
+            {error && <div className="error-message">{error}</div>}
             <form onSubmit={(e) => {
               e.preventDefault();
               handleUpdate(editingPackage._id, {
-                packageName: e.target.packageName.value,
-                description: e.target.description.value,
-                price: Number(e.target.price.value)
+                packageName: editingPackage.packageName,
+                description: editingPackage.description,
+                price: Number(editingPackage.price)
               });
             }}>
               <input
                 name="packageName"
-                defaultValue={editingPackage.packageName}
+                value={editingPackage.packageName}
                 placeholder="Package Name"
+                onChange={handleInputChange}
               />
+              {fieldErrors.packageName && <div className="error-message">{fieldErrors.packageName}</div>}
               <textarea
                 name="description"
-                defaultValue={editingPackage.description}
+                value={editingPackage.description}
                 placeholder="Description"
+                onChange={handleInputChange}
               />
+              {fieldErrors.description && <div className="error-message">{fieldErrors.description}</div>}
               <input
                 name="price"
                 type="number"
-                defaultValue={editingPackage.price}
+                value={editingPackage.price}
                 placeholder="Price"
+                onChange={handleInputChange}
               />
+              {fieldErrors.price && <div className="error-message">{fieldErrors.price}</div>}
               <input
                 name="serviceProvider"
                 value={currentUser.serviceType}
                 disabled
                 readOnly
               />
-              <button type="submit" className="globalButton">Save Changes</button>
-              <button type="button" className="globalButton" onClick={() => setEditingPackage(null)}>
+              <button type="submit" className="globalButton" disabled={Object.values(fieldErrors).some(error => error)}>Save Changes</button>
+              <button type="button" className="globalButton" onClick={() => {
+                setEditingPackage(null);
+                clearAllErrors();
+              }}>
                 Cancel
               </button>
             </form>
