@@ -13,6 +13,7 @@ const ReviewListPage = () => {
     const [editingReview, setEditingReview] = useState(null);
     const [showEditModal, setShowEditModal] = useState(false);
     const [editForm, setEditForm] = useState({
+        title: '',
         comment: '',
         rating: 1
     });
@@ -46,11 +47,13 @@ const ReviewListPage = () => {
 
     const canModifyReview = (review) => {
         if (!userId) return false;
-        return isAdmin || (userRole === 'customer' && review.userId === userId);
+        return review.userId === userId;  // Only allow if it's the user's own review
     };
 
     const handleDelete = async(id) => {
-        if (!isAdmin && !canModifyReview(reviews.find(review => review._id === id))) return;
+        if (!canModifyReview(reviews.find(review => review._id === id))) {
+            return;
+        }
         
         try {
             const token = localStorage.getItem('token');
@@ -66,9 +69,10 @@ const ReviewListPage = () => {
     };
 
     const handleEdit = (review) => {
-        if (!isAdmin && !canModifyReview(review)) return;
+        if (!canModifyReview(review)) return;
         setEditingReview(review);
         setEditForm({
+            title: review.title || '',
             comment: review.comment,
             rating: review.rating
         });
@@ -127,6 +131,13 @@ const ReviewListPage = () => {
                 <div className="modal">
                     <div className="modal-content">
                         <h3>Edit Review</h3>
+                        <input
+                            type="text"
+                            value={editForm.title}
+                            onChange={(e) => setEditForm({...editForm, title: e.target.value})}
+                            placeholder="Review Title"
+                            className="edit-title-input"
+                        />
                         <textarea
                             value={editForm.comment}
                             onChange={(e) => setEditForm({...editForm, comment: e.target.value})}
@@ -155,6 +166,9 @@ const ReviewListPage = () => {
                             <FaUserCircle className="profile-icon" />
                             <h3>{review.userName}</h3>
                         </div>
+                        {review.title && (
+                            <h4 className="review-title">{review.title}</h4>
+                        )}
                         {review.images && review.images[0] && (
                             <img 
                                 src={getImageUrl(review.images[0])}

@@ -224,3 +224,19 @@ button {
 .review-date {
     font-style: italic;
 }
+
+.review-title {
+    font-size: 1.1em;
+    font-weight: 600;
+    margin: 10px 0;
+    color: #2c3e50;
+}
+
+.edit-title-input {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 1em;
+}

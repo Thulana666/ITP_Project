@@ -6,7 +6,7 @@ const ReviewPage = () => {
     // Use a valid MongoDB ObjectId format for serviceId 
     // (24 hex characters - this is just a placeholder)
     const [formData, setFormData] = useState({
-        name: "",
+        title: "",
         description: "",
         image: null,
         rating: 0,
@@ -52,6 +52,7 @@ const ReviewPage = () => {
     
         try {
             const formDataToSend = new FormData();
+            formDataToSend.append('title', formData.title);
             formDataToSend.append('serviceId', formData.serviceId);
             formDataToSend.append('comment', formData.description);
             formDataToSend.append('rating', String(formData.rating));
@@ -101,9 +102,9 @@ const ReviewPage = () => {
             <form onSubmit={handleSubmit} className="review-form">
                 <input
                     type="text"
-                    name="name"
+                    name="title"
                     placeholder="Title"
-                    value={formData.name}
+                    value={formData.title}
                     onChange={handleChange}
                 />
                 <textarea

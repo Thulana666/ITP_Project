@@ -58,12 +58,19 @@ exports.createReview = async(req, res) => {
             console.log("File:", req.file); // Add this for debugging
             console.log("Body:", req.body); // Add this for debugging
 
-            const { serviceId, comment, eventDate } = req.body;
+            const { serviceId, comment, eventDate, title } = req.body;
             const rating = Number(req.body.rating); // Convert rating to number explicitly
 
             // Check for required fields
-            if (!serviceId || !comment || !rating || !eventDate) {
-                return res.status(400).json({ message: "Service ID, comment, rating, and event date are required." });
+            if (!serviceId || !comment || !rating || !eventDate || !title) {
+                return res.status(400).json({ message: "Service ID, title, comment, rating, and event date are required." });
+            }
+
+            // Validate title length
+            if (title.length < 3 || title.length > 100) {
+                return res.status(400).json({ 
+                    message: "Title must be between 3 and 100 characters long." 
+                });
             }
 
             // Validate eventDate
@@ -115,6 +122,7 @@ exports.createReview = async(req, res) => {
                 serviceId,
                 userId: req.user.id,
                 userName,
+                title,      // Add title field
                 comment,
                 rating, // This is now guaranteed to be a number
                 eventDate: new Date(eventDate),
@@ -185,7 +193,7 @@ exports.getReviews = async(req, res) => {
 // **4. Update a Review**
 exports.updateReview = async(req, res) => {
     try {
-        const { comment, rating, images } = req.body;
+        const { comment, rating, images, title } = req.body;
         const { reviewId } = req.params;
 
         // Ensure reviewId is valid
@@ -199,6 +207,17 @@ exports.updateReview = async(req, res) => {
         // Ensure user is authorized to update
         if (review.userId.toString() !== req.user.id) {
             return res.status(403).json({ message: "Unauthorized action" });
+        }
+
+        // Validate title if it's being updated
+        if (title) {
+            if (title.length < 3) {
+                return res.status(400).json({ message: "Title must be at least 3 characters long." });
+            }
+            if (title.length > 100) {
+                return res.status(400).json({ message: "Title cannot exceed 100 characters." });
+            }
+            review.title = title;
         }
 
         // Validate comment if it's being updated
