@@ -10,7 +10,9 @@ const EditBookingForm = () => {
   const navigate = useNavigate();
   const [booking, setBooking] = useState(null);
   const [selectedDate, setSelectedDate] = useState(new Date());
-//fetching booking details
+  const [errors, setErrors] = useState({});
+
+  //fetching booking details
   useEffect(() => {
     const fetchBooking = async () => {
       const data = await getBookingById(id);
@@ -19,9 +21,34 @@ const EditBookingForm = () => {
     };
     fetchBooking();
   }, [id]);
-//booking updating
+
+  // Validate form data before submitting
+  const validateForm = () => {
+    const newErrors = {};
+
+    if (!booking.eventType) {
+      newErrors.eventType = "Select an event type";
+    }
+    if (!booking.expectedCrowd) {
+      newErrors.expectedCrowd = "Select expected crowd";
+    }
+    if (!booking.salonServices || booking.salonServices.length === 0) {
+      newErrors.salonServices = "Select at least one service";
+    }
+    if (!selectedDate || selectedDate.toDateString() === new Date().toDateString()) {
+      newErrors.selectedDate = "Select a date";
+    }
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
+  //booking updating
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (!validateForm()) {
+      return;
+    }
     await updateBooking(id, { ...booking, eventDate: selectedDate });
     alert("Booking updated!");
     navigate("/manage-bookings");
@@ -38,7 +65,7 @@ const EditBookingForm = () => {
             selectedDate={selectedDate}
             onDateChange={setSelectedDate}
           />
-          <EventForm booking={booking} setBooking={setBooking} />
+          <EventForm booking={booking} setBooking={setBooking} errors={errors} />
           <button className="submitButton" type="submit">
             Update Booking
           </button>

@@ -4,7 +4,7 @@ import { submitBooking } from "../services/bookingService";
 import { jwtDecode } from "jwt-decode";
 import { useNavigate } from "react-router-dom"; 
 
-const EventForm = ({ selectedDate, booking, setBooking }) => {
+const EventForm = ({ selectedDate, booking, setBooking, errors: propErrors }) => {
   const [formData, setFormData] = useState(
     booking || {
       eventType: "",
@@ -135,7 +135,9 @@ const EventForm = ({ selectedDate, booking, setBooking }) => {
         <option value="Corporate Event">Corporate Event</option>
         <option value="Other">Other</option>
       </select>
-      {errors.eventType && <span className="error-text">{errors.eventType}</span>}
+      {(propErrors?.eventType || errors.eventType) && (
+        <span className="error-text">{propErrors?.eventType || errors.eventType}</span>
+      )}
 
       {/* Expected Crowd Selection */}
       <label>Expected Crowd:</label>
@@ -151,7 +153,9 @@ const EventForm = ({ selectedDate, booking, setBooking }) => {
         <option value="500-1000">500 - 1000</option>
         <option value="More than 1000">More than 1000</option>
       </select>
-      {errors.expectedCrowd && <span className="error-text">{errors.expectedCrowd}</span>}
+      {(propErrors?.expectedCrowd || errors.expectedCrowd) && (
+        <span className="error-text">{propErrors?.expectedCrowd || errors.expectedCrowd}</span>
+      )}
 
       {/* Salon Services Selection */}
       <label>Salon Services:</label>
@@ -184,10 +188,14 @@ const EventForm = ({ selectedDate, booking, setBooking }) => {
           Dressing - Rs 6 500
         </label>
       </div>
-      {errors.salonServices && <span className="error-text">{errors.salonServices}</span>}
+      {(propErrors?.salonServices || errors.salonServices) && (
+        <span className="error-text">{propErrors?.salonServices || errors.salonServices}</span>
+      )}
 
       {/* Event Date Validation */}
-      {errors.selectedDate && <span className="error-text">{errors.selectedDate}</span>}
+      {(propErrors?.selectedDate || errors.selectedDate) && (
+        <span className="error-text">{propErrors?.selectedDate || errors.selectedDate}</span>
+      )}
 
       {/* Submit Button */}
       {!booking && (
