@@ -17,34 +17,14 @@ const ServiceProviderDashboard = () => {
       
       <div className="content">
       
-        {/* Add this button before viewProfile */}
-        <button 
-          onClick={() => navigate('/service-provider/notifications')}
-          style={{
-            backgroundColor: '#2C3F50',
-            color: 'white',
-            padding: '12px 20px',
-            border: 'none',
-            borderRadius: '5px',
-            cursor: 'pointer',
-            marginBottom: '10px',
-            width: '400px'
-          }}
-        >
-          Notifications
-        </button>
+        
         
         {/* Dynamically render the views based on the current view */}
         
-        {view === 'viewProfile' && <ProfileView />}
+        {view === 'viewProfile' && <ProfileView /> }
         {view === 'updateProfile' && <ProfileUpdate />}
         {view === 'deleteAccount' && <DeleteAccount />}
-        <button onClick={() => navigate('/add-package')} id='add-manage-package-button'>
-          Add Package
-        </button>
-        <button onClick={() => navigate('/service-provider/packages')} id='add-manage-package-button'>
-          Manage Packages
-        </button>
+        
         
       </div>
     </div>
