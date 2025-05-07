@@ -5,6 +5,8 @@ import axios from 'axios';
 const BookingReportPage = () => {
   const [bookings, setBookings] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [searchTerm, setSearchTerm] = useState('');
+  const [searchCategory, setSearchCategory] = useState('eventType');
 
   useEffect(() => {
     fetchBookings();
@@ -84,6 +86,28 @@ const BookingReportPage = () => {
     doc.save(`bookings-${new Date().toISOString().split('T')[0]}.pdf`);
   };
 
+  const filteredBookings = bookings.filter(booking => {
+    if (!searchTerm) return true;
+    
+    switch (searchCategory) {
+      case 'eventType':
+        return booking.eventType.toLowerCase().includes(searchTerm.toLowerCase());
+      case 'date':
+        return new Date(booking.eventDate).toLocaleDateString().includes(searchTerm);
+      case 'crowd':
+        return booking.expectedCrowd.toString().includes(searchTerm);
+      case 'packages':
+        return booking.packages?.some(pkg => 
+          pkg.packageName.toLowerCase().includes(searchTerm.toLowerCase()) ||
+          pkg.serviceType.toLowerCase().includes(searchTerm.toLowerCase())
+        );
+      case 'price':
+        return booking.totalPrice?.toString().includes(searchTerm);
+      default:
+        return true;
+    }
+  });
+
   if (loading) {
     return <div>Loading...</div>;
   }
@@ -91,12 +115,40 @@ const BookingReportPage = () => {
   return (
     <div className="container mt-4">
       <h2>Booking Report</h2>
-      <button 
-        onClick={generatePDF}
-        className="btn btn-primary mb-3"
-      >
-        Generate PDF Report
-      </button>
+      
+      <div className="row mb-3">
+        <div className="col-md-6">
+          <div className="input-group">
+            <select 
+              className="form-select" 
+              value={searchCategory}
+              onChange={(e) => setSearchCategory(e.target.value)}
+              style={{ maxWidth: '200px' }}
+            >
+              <option value="eventType">Event Type</option>
+              <option value="date">Date</option>
+              <option value="crowd">Crowd Size</option>
+              <option value="packages">Packages</option>
+              <option value="price">Price</option>
+            </select>
+            <input
+              type="text"
+              className="form-control"
+              placeholder="Search bookings..."
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+            />
+          </div>
+        </div>
+        <div className="col-md-6">
+          <button 
+            onClick={generatePDF}
+            className="btn btn-primary"
+          >
+            Generate PDF Report
+          </button>
+        </div>
+      </div>
 
       <table className="table">
         <thead>
@@ -109,7 +161,7 @@ const BookingReportPage = () => {
           </tr>
         </thead>
         <tbody>
-          {bookings.map((booking) => (
+          {filteredBookings.map((booking) => (
             <tr key={booking._id}>
               <td>{booking.eventType}</td>
               <td>{new Date(booking.eventDate).toLocaleDateString()}</td>
