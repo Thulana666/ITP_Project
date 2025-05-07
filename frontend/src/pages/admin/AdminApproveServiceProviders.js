@@ -41,13 +41,25 @@ const AdminApproveServiceProviders = () => {
         return;
       }
 
+      // Update the UI immediately for reject action
+      if (!status) {
+        setServiceProviders(prevProviders =>
+          prevProviders.map(sp =>
+            sp._id === id ? { ...sp, approvalStatus: 'rejected' } : sp
+          )
+        );
+      }
+
       await axios.put(
         `http://localhost:5000/api/admin/approve-service-provider/${id}`,
         { approvalStatus: status },
         { headers: { Authorization: `Bearer ${token}` } }
       );
 
-      fetchServiceProviders();
+      if (status) {
+        // Only refetch if it's an approval action
+        fetchServiceProviders();
+      }
     } catch (error) {
       setError("Error updating approval status.");
       console.error("Error updating approval status:", error);
@@ -71,8 +83,8 @@ const AdminApproveServiceProviders = () => {
               <div style={styles.providerDetails}>
                 <div style={styles.providerName}>{sp.fullName}</div>
                 <div style={styles.providerEmail}>{sp.email}</div>
-                <div style={styles.statusBadge} className={sp.approvalStatus ? 'approved' : 'pending'}>
-                  {sp.approvalStatus ? "Approved" : "Pending"}
+                <div style={styles.statusBadge} className={sp.approvalStatus === 'rejected' ? 'rejected' : sp.approvalStatus ? 'approved' : 'pending'}>
+                  {sp.approvalStatus === 'rejected' ? "Rejected" : sp.approvalStatus ? "Approved" : "Pending"}
                 </div>
               </div>
               {!sp.approvalStatus && (
