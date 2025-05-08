@@ -47,11 +47,17 @@ const ReviewListPage = () => {
 
     const canModifyReview = (review) => {
         if (!userId) return false;
-        return review.userId === userId;  // Only allow if it's the user's own review
+        return review.userId === userId;  // Only allow editing if it's the user's own review
+    };
+
+    const canDeleteReview = (review) => {
+        if (!userId) return false;
+        return isAdmin || review.userId === userId;  // Allow deletion for admins or review owner
     };
 
     const handleDelete = async(id) => {
-        if (!canModifyReview(reviews.find(review => review._id === id))) {
+        const review = reviews.find(review => review._id === id);
+        if (!canDeleteReview(review)) {
             return;
         }
         
@@ -192,20 +198,24 @@ const ReviewListPage = () => {
                                 Posted on: {new Date(review.createdAt).toLocaleDateString()}
                             </p>
                         </div>
-                        {canModifyReview(review) && (
+                        {(canModifyReview(review) || canDeleteReview(review)) && (
                             <div className="review-actions">
-                                <button 
-                                    className="edit-btn"
-                                    onClick={() => handleEdit(review)}
-                                >
-                                    Edit
-                                </button>
-                                <button 
-                                    className="delete-btn"
-                                    onClick={() => handleDelete(review._id)}
-                                >
-                                    Delete
-                                </button>
+                                {canModifyReview(review) && (
+                                    <button 
+                                        className="edit-btn"
+                                        onClick={() => handleEdit(review)}
+                                    >
+                                        Edit
+                                    </button>
+                                )}
+                                {canDeleteReview(review) && (
+                                    <button 
+                                        className="delete-btn"
+                                        onClick={() => handleDelete(review._id)}
+                                    >
+                                        Delete
+                                    </button>
+                                )}
                             </div>
                         )}
                     </div>
