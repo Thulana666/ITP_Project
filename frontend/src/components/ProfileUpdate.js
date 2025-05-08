@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import '../styles/ProfileUpdate.css'; // Add this import
 
 const ProfileUpdate = () => {
   // Initialize form data state with password field
@@ -74,67 +75,69 @@ const ProfileUpdate = () => {
   
 
   return (
-    <div>
-      <h2>Update Profile</h2>
-      <form onSubmit={handleSubmit}>
-        <div>
-          <label>Full Name</label>
-          <input
-            type="text"
-            name="fullName"
-            value={formData.fullName}
-            onChange={handleChange}
-            placeholder="Full Name"
-          />
-        </div>
+    <div className="profile-update-container">
+      <div className="profile-update-content">
+        <h2>Update Profile</h2>
+        <form onSubmit={handleSubmit} className="profile-form">
+          <div className="form-group">
+            <label>Full Name</label>
+            <input
+              type="text"
+              name="fullName"
+              value={formData.fullName}
+              onChange={handleChange}
+              placeholder="Full Name"
+            />
+          </div>
 
-        <div>
-          <label>Email</label>
-          <input
-            type="email"
-            name="email"
-            value={formData.email}
-            onChange={handleChange}
-            placeholder="Email"
-            disabled // Disable since email should not be changed
-          />
-        </div>
+          <div className="form-group">
+            <label>Email</label>
+            <input
+              type="email"
+              name="email"
+              value={formData.email}
+              onChange={handleChange}
+              placeholder="Email"
+              disabled // Disable since email should not be changed
+            />
+          </div>
 
-        <div>
-          <label>Phone Number</label>
-          <input
-            type="text"
-            name="phoneNumber"
-            value={formData.phoneNumber}
-            onChange={handleChange}
-            placeholder="Phone Number"
-          />
-        </div>
+          <div className="form-group">
+            <label>Phone Number</label>
+            <input
+              type="text"
+              name="phoneNumber"
+              value={formData.phoneNumber}
+              onChange={handleChange}
+              placeholder="Phone Number"
+            />
+          </div>
 
-        <div>
-          <label>Service Type</label>
-          <input
-            type="text"
-            name="serviceType"
-            value={formData.serviceType}
-            onChange={handleChange}
-            placeholder="Service Type"
-          />
-        </div>
+          <div className="form-group">
+            <label>Service Type</label>
+            <input
+              type="text"
+              name="serviceType"
+              value={formData.serviceType}
+              onChange={handleChange}
+              placeholder="Service Type"
+            />
+          </div>
 
-        <div>
-          <label>Password</label>
-          <input
-            type="password"
-            name="password"
-            value={formData.password}
-            onChange={handleChange}
-            placeholder="New Password (leave blank if not changing)"
-          />
-        </div>
+          <div className="form-group">
+            <label>Password</label>
+            <input
+              type="password"
+              name="password"
+              value={formData.password}
+              onChange={handleChange}
+              placeholder="New Password (leave blank if not changing)"
+            />
+          </div>
 
-        <button type="submit">Save Changes</button>
-      </form>
+          <button type="submit" className="submit-button">Save Changes</button>
+        </form>
+      </div>
     </div>
   );
 };
