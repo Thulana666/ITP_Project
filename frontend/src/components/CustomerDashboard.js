@@ -129,7 +129,7 @@ const CustomerDashboard = () => {
     padding: "12px",
     margin: "10px 0",
     fontSize: "16px",
-    backgroundColor: "#34495e",
+    backgroundColor: "#1c1c25",
     color: "#fff",
     border: "none",
     borderRadius: "5px",
@@ -138,14 +138,14 @@ const CustomerDashboard = () => {
 
   const activeButtonStyle = {
     ...buttonStyle,
-    backgroundColor: "#16a085",
+    backgroundColor: "#1c1c25",
   };
 
   return (
     <div style={dashboardStyle}>
       {/* Sidebar */}
       <div style={sidebarStyle}>
-        <h2 style={{color: "#fda92d"}}>Dashboard</h2>
+        <h2 style={{color: "#FFFFFF"}}>Dashboard</h2>
         <button
           style={activeSection === "profile" ? activeButtonStyle : buttonStyle}
           onClick={() => setActiveSection("profile")}
@@ -173,7 +173,7 @@ const CustomerDashboard = () => {
         <button
           style={{
             ...buttonStyle,
-            backgroundColor: activeSection === "manageBookings" ? "#2ecc71" : "#27ae60",
+            backgroundColor: activeSection === "manageBookings" ? "#1c1c25" : "#1c1c25",
             color: "white",
             fontWeight: "bold",
             boxShadow: "0 2px 4px rgba(0,0,0,0.2)"

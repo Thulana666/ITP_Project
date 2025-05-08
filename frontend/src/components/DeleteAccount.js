@@ -56,7 +56,7 @@ const DeleteAccount = () => {
     <div>
       <h2>Delete Account</h2>
       <p>Are you sure you want to delete your account? This action cannot be undone.</p>
-      <button onClick={handleDelete}>Delete Account</button>
+      <button onClick={handleDelete} style={{ backgroundColor: 'red' }}>Delete Account</button>
     </div>
   );
 };
